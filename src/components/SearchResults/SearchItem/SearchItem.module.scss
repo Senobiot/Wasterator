@@ -1,0 +1,110 @@
+.previewRow {
+    display: flex;
+    padding: 5px;
+    border: 1px solid;
+    margin-bottom: 5px;
+    text-align: left;
+    background-color:rgba(29, 29, 25, 0.75);
+    cursor: pointer;
+}
+
+.searchResults {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #c6d4df;
+    font-size: 12px;
+    padding: 0;
+    margin: 0;
+    max-width: 686px;
+    display: flex;
+
+    &__item {
+        background-color: #1b2838;
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: #c6d4df;
+        font-family: "Motiva Sans", Sans-serif;
+        font-weight: 300;
+        border: 1px solid rgba( 139, 185, 224, 0 );
+        height: 55px;
+        overflow: hidden;
+        padding: 10px 5px;
+        transition: background-color 0.375s ease-in; 
+
+        &:hover {
+            border: 1px solid rgba(139, 185, 224, 0.2);
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        &_poster {
+            border: 1px solid rgba( 139, 185, 224, 0.2 );
+            background: rgba( 0, 0, 0, 0.4 );
+            background-color: rgba(0, 0, 0, 0.2);
+            transition: background-color 1s ease-in;
+            padding: 5px;
+            margin-right: 20px;
+
+            img {
+                -webkit-user-drag: none;
+                height: 40px;
+                width: 40px;
+            }
+        }
+
+        &_content {
+            width: 50%;
+            text-align: left;
+            .title {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                color: #c7d5e0;
+            }
+
+            .platform {
+                width: 20px;
+                height: 20px;
+                display: inline-block;
+                margin-right: 5px;
+
+                &.pc {
+                    background: url('/public/win.png');
+                }
+                &.xbox {
+                    background: 50% /contain url('/public/xbox.png') #fff;  
+                }
+                &.mac, &.iphone, &.ios, &.ipad {
+                    background: url('/public/mac.png');  
+                }
+                &.playstation {
+                    background: 50% /contain url('/public/ps.png') #fff;  
+                }
+                &.dreamcast {
+                    background: 50% /contain url('/public/sega.png') #fff;  
+                }
+                &.nintendo, &.game {
+                    background: 50% /contain url('/public/nin.png') #fff ;  
+                }
+                &.android {
+                    background: 50% /contain url('/public/android.png') #fff ;  
+                }
+            }
+        }
+
+        &_released {
+            margin-right: 20px;
+            font-family: "Motiva Sans", Sans-serif;
+            font-weight: 300;
+            height: 45px;
+            display: inline-block;
+            vertical-align: top;
+            width: 120px;
+            color: #4c6c8c;
+            font-size: 12px;
+            line-height: 45px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            text-align: left;
+        }
+    }
+}
