@@ -16,6 +16,7 @@
 body {
   /* radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(9,9,121,0.5) 35%, rgba(0,212,255,1) 100%), */
   background:  50% 0% / cover url('./assets/gamer-ninja.webp') no-repeat;
+  background-attachment: fixed;
 }
 
 a {

@@ -2,9 +2,8 @@ import { styled } from "styled-components";
 import { useRef } from "react";
 import { fecthGamesByTitle } from "../../api/api";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GAMES } from "../../constants/ActionTypes/AtcionTypes";
-
 
 const SearchStyled = styled.input`
   visibility: visible;
@@ -91,34 +90,41 @@ const SearchImage = styled.img`
 `;
 
 export default function SearchBar() {
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const addCurrentGameList = (data) => {
     dispatch({ type: GAMES.ADD_SEARCH_LIST, payload: data });
   };
 
   const inputRef = useRef(null);
-  const handleKeyDown = (event) => {
-    if (event.keyCode == 13) handleSubmit();
-  };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (useKeyboard) => {
     const searchItem = inputRef.current.value;
     inputRef.current.value = '';
 
     if (!searchItem) return;
+
+    if (useKeyboard) {
+        navigate("/results");
+    }
     if (searchItem in localStorage) {
       const result = JSON.parse(localStorage.getItem(searchItem));
 
       return addCurrentGameList(result);
     }
 
-    console.log(inputRef.current.value)
     inputRef.current.disabled = true;
-
     const fetchedResults = await fecthGamesByTitle(searchItem);
+    console.log(fetchedResults)
     addCurrentGameList(fetchedResults);
-    localStorage.setItem(searchItem, JSON.stringify(fetchedResults));
+    if (fetchedResults.length)  {
+    localStorage.setItem(searchItem, JSON.stringify(fetchedResults));      
+    }
     inputRef.current.disabled = false;
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.keyCode == 13) handleSubmit(true);
   };
 
   return (

@@ -106,5 +106,13 @@
             text-overflow: ellipsis;
             text-align: left;
         }
+
+        &_collection {
+            margin-left: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 5px #fff;
+            color:chocolate
+        }
     }
 }
+

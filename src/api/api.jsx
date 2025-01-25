@@ -13,12 +13,12 @@ const importantFields = [
   ];
 
 export const fecthGamesByTitle = async (title) => {
-  console.log(`FETCH getGamesByTitle`);
   const response = await fetch(
     `${api.URL}${api.REQUEST.search}?api_key=${api.KEY}&format=${api.FORMAT.json}&query=${title}&resources=game`
   );
   const data = await response.json();
-  return fieldsFilter(data.results, importantFields);
+  console.log(data);
+  return data.results.map(e => fieldsFilter(e, importantFields));
 };
 
 export const fetchGameDetail = async (url) => {

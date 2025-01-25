@@ -60,6 +60,9 @@ export default function SearchItem({ data }) {
         <div className={classes.searchResults__item_type}>
           {data.resource_type.toUpperCase()}
         </div>
+        <div className={classes.searchResults__item_collection}>
+          {data.isInCollection ? 'In Collection': '' }
+        </div>
       </div>
     </Link>
   );
