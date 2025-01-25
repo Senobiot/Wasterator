@@ -6,29 +6,37 @@ import { fetchGameDetail } from "../../api/api";
 import Button from "../Button/Button";
 import classes from './DetailedGameCard.module.scss';
 import { GAMES } from "../../constants/ActionTypes/AtcionTypes";
+import { fieldsFilter } from "../../utils/utils";
+import { collectionFields} from '../../constants/constants';
 
 export default function Card() {
   const dispatch = useDispatch();
+  const updateCurrent = (item) => {
+    dispatch({ type: GAMES.ADD_DETAILS, payload: item});
+  }
   const gameDetails = useSelector(getGameDetail);
 
   const addGameToCollection = () => {
     const newCollectionItem = {...gameDetails, isInCollection: true };
-    dispatch({ type: GAMES.ADD_DETAILS, payload: newCollectionItem});
     dispatch({ type: GAMES.ADD_TO_COLLECTION, payload: newCollectionItem});
+    updateCurrent(newCollectionItem);
 
   };
 
   const deleteGameFromCollection = () => {
-    dispatch({ type: GAMES.ADD_DETAILS, payload: {...gameDetails, isInCollection: false }});
     dispatch({ type: GAMES.DELETE_FROM_COLLECTION, payload: gameDetails.id });
+    updateCurrent({...gameDetails, isInCollection: false });
 
   }
 
   useEffect(() => {
     const query = async () => {
-
-      // const details = await fetchGameDetail(gameDetails);
-      // addGameDetail(details);
+      const url = gameDetails.api_detail_url;
+      if (url) {
+        const details = await fetchGameDetail(url);
+        const filteredDetails = fieldsFilter(details, collectionFields);
+        updateCurrent({...gameDetails, ...filteredDetails});
+      }
     };
 
     query();

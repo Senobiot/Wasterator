@@ -103,14 +103,16 @@ export default function SearchBar() {
 
   const handleSubmit = async (e) => {
     const searchItem = inputRef.current.value;
+    inputRef.current.value = '';
+
     if (!searchItem) return;
     if (searchItem in localStorage) {
       const result = JSON.parse(localStorage.getItem(searchItem));
-      console.log(result);
 
       return addCurrentGameList(result);
     }
 
+    console.log(inputRef.current.value)
     inputRef.current.disabled = true;
 
     const fetchedResults = await fecthGamesByTitle(searchItem);

@@ -5,7 +5,7 @@ import { getSearchList, getGameCollection } from "../../selectors/selectors";
 export const SearchResults = () => {
   const results = useSelector(getSearchList);
   const collection = useSelector(getGameCollection);
-  console.log(collection)
+  console.log(results)
   const modifiedResults = results?.map( game =>{
     const isInCollection = !!collection.find(e => e.id === game.id);
     return {...game, isInCollection: isInCollection};

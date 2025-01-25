@@ -24,9 +24,8 @@ console.log(collection)
                 style={{ display: "flex", width: "25%" }}
               >
                 <GameTile
+                  data={game}
                   key={game.name}
-                  image={game.image.medium_url}
-                  title={game.name}
                 ></GameTile>
               </Link>
             );

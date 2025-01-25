@@ -1,17 +1,6 @@
 import { GAMES } from "../constants/ActionTypes/AtcionTypes";
 import { fieldsFilter } from "../utils/utils";
 
-const collectionFields = [
-  "api_detail_url",
-  "deck",
-  "expected_release_year",
-  "image",
-  "name",
-  "original_release_date",
-  "themes",
-  'id',
-];
-
 const savedCollection = JSON.parse(localStorage.getItem("collection")) || [];
 
 const collection = (state = savedCollection, action) => {
