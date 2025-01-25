@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import { useRef } from "react";
-import { getGamesByTitle } from "../../api/api";
+import { fecthGamesByTitle } from "../../api/api";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { GAMES } from "../../constants/ActionTypes/AtcionTypes";
@@ -113,7 +113,7 @@ export default function SearchBar() {
 
     inputRef.current.disabled = true;
 
-    const fetchedResults = await getGamesByTitle(searchItem);
+    const fetchedResults = await fecthGamesByTitle(searchItem);
     addCurrentGameList(fetchedResults);
     localStorage.setItem(searchItem, JSON.stringify(fetchedResults));
     inputRef.current.disabled = false;

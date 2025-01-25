@@ -1,5 +1,5 @@
 import { GAMES } from "../constants/ActionTypes/AtcionTypes";
-import fieldsFilter from "../utils/fieldsFilter";
+import { fieldsFilter } from "../utils/utils";
 
 const collectionFields = [
   "api_detail_url",
@@ -28,23 +28,11 @@ const collection = (state = savedCollection, action) => {
       return newCollection; 
     }
     case GAMES.ADD_TO_COLLECTION: {
-      if (!("collection" in localStorage))
-        localStorage.setItem("collection", JSON.stringify([]));
-      const newCollection = JSON.parse(localStorage.getItem("collection"))
-      console.log(newCollection)
-      newCollection.push(action.payload);
-      localStorage.setItem("collection", JSON.stringify(newCollection))
-      return newCollection; 
-      // console.log(action.payload)
-      // const gameName = action.payload.name;
-      // const filteredGameInfo = fieldsFilter(action.payload, collectionFields);
-      // console.log(filteredGameInfo)
-      // const newCollection = {
-      //   ...collection,
-      //   [gameName]: fieldsFilter(action.payload, collectionFields)[0],
-      // };
-      // localStorage.setItem("collection", JSON.stringify(newCollection));
-      // return { ...state, collection: newCollection };
+      const collection = ("collection" in localStorage) ? JSON.parse(localStorage.getItem("collection")) : [];
+      const newItem = action.payload;
+      collection.push(newItem);
+      localStorage.setItem("collection", JSON.stringify(collection));
+      return collection; 
     }
     default:
       return state;

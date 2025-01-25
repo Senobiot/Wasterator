@@ -33,7 +33,10 @@
     }
     .description_wrapper {
         text-align: left;
-        padding: 10px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
     }
 
     .description {
@@ -43,9 +46,11 @@
         text-shadow: 2px 2px 1px #000;
         text-justify: auto;
         margin-bottom: 20px;
+        height: 3em;
     }
 
     .genres {
+        height: 1.5em;
         margin-bottom: 20px;
         color: #030a13;
         font-size: 20px;

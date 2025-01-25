@@ -1,11 +1,17 @@
 import SearchItem from "./SearchItem/SearchItem";
 import { useSelector } from "react-redux";
-import { getSearchList } from "../../selectors/selectors";
+import { getSearchList, getGameCollection } from "../../selectors/selectors";
 
 export const SearchResults = () => {
-  const results = useSelector(getSearchList).current;
+  const results = useSelector(getSearchList);
+  const collection = useSelector(getGameCollection);
+  console.log(collection)
+  const modifiedResults = results?.map( game =>{
+    const isInCollection = !!collection.find(e => e.id === game.id);
+    return {...game, isInCollection: isInCollection};
+  } )
 
   return results && results.length
-    ? results.map((e, i) => <SearchItem key={e.id} index={i + 1} data={e} />)
+    ? modifiedResults.map((e, i) => <SearchItem key={e.id} index={i + 1} data={e}/>)
     : "No such game found...(";
 };

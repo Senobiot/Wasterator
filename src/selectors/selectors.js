@@ -14,4 +14,4 @@ console.log(id)
 
 };
 export const getGameCollection = (state) => state.collection;
-export const getGameDetail = (state) => state.gameDetails.current;
+export const getGameDetail = (state) => state.gameDetails;

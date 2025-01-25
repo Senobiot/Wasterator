@@ -9,15 +9,11 @@ console.log(collection)
   return (
     <div
       className="my-games-wrapper"
-      style={{ display: "flex", flexWrap: "wrap", justifyContent: 'space-around' }}
+      style={{ display: "flex", flexWrap: "wrap", justifyContent: 'left' }}
     >
       {!collection.length
         ? "Your collection is still empty... ("
         : collection.map((game) => {
-            // const gameTitle = game[0];
-            // const gameInfo = game[1];
-            // const image = gameInfo.image.medium_url;
-            // console.log(gameInfo.id);
             return (
               <Link
                 key={game.id}

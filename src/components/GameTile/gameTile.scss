@@ -1,4 +1,4 @@
-@import "../../constants/colors.scss";
+@use "../../constants/colors.scss";
 
 .game {
   &-tile {
@@ -8,18 +8,18 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
     margin: 20px;
-    background-color: $main-bg;
+    background-color: colors.$main-bg;
     height: 400px;
-    width: 100%;
-  }
+    width: 200px;
 
-  &:hover {
-    transform: scale(1.05);
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 
   &-image {
     width: 100%;
-    height: 60%;
+    min-height: 240px;
   }
 
   &-title {

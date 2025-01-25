@@ -1,50 +1,66 @@
-import classes from './SearchItem.module.scss';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import classes from "./SearchItem.module.scss";
+import { Link } from "react-router-dom";
+import { GAMES } from "../../../constants/ActionTypes/AtcionTypes";
 
-export default function SearchItem({ data }){
-    if (!data) return;
+export default function SearchItem({ data }) {
+  if (!data) return;
+  const dispatch = useDispatch();
+  const handleClick = () =>
+    dispatch({ type: GAMES.ADD_DETAILS, payload: data });
 
-    const platformClass = data.platforms?.map(e => e.name.replace(/ .*/,'').toLowerCase());
-    const releaseToLocale = _ => {
-        if (!data.original_release_date) {
-            if (!data.expected_release_year) {
-                return 'In Development'; 
-            }
+  //refactor this
+  const platformClass = data.platforms?.map((e) =>
+    e.name.replace(/ .*/, "").toLowerCase()
+  );
+  const releaseToLocale = (_) => {
+    if (!data.original_release_date) {
+      if (!data.expected_release_year) {
+        return "In Development";
+      }
 
-            return data.expected_release_year;
-        }
-
-        const release = new Date(data.original_release_date);
-        const options = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-        };
-
-        return release.toLocaleDateString('ru-RU', options);
+      return data.expected_release_year;
     }
 
-    const release = releaseToLocale();
-    
-    return(
-        <Link to={{
-            pathname: '/card',
-            search: `?id=${data.id}`,
-          }}>
-            <div className={classes.searchResults__item}>
-                <div className={classes.searchResults__item_poster}>
-                    <img src={data.image.icon_url} alt="" />
-                </div>
-                <div className={classes.searchResults__item_content}>
-                    <div className={classes.title}>
-                        {data.name} 
-                    </div>
-                    {platformClass?.map((e,i) => {
-                        return <span key={i} className={`${classes.platform} ${classes[e]}`}></span>})}
-                </div>
-                <div className={classes.searchResults__item_released}>{release}</div>
-                <div className={classes.searchResults__item_type}>{data.resource_type.toUpperCase()}</div>
-            </div>
-        </Link>
-    )
+    const release = new Date(data.original_release_date);
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+
+    return release.toLocaleDateString("ru-RU", options);
+  };
+
+  const release = releaseToLocale();
+
+  return (
+    <Link
+      to={{
+        pathname: "/card",
+        search: `?id=${data.id}`,
+      }}
+    >
+      <div onClick={handleClick} className={classes.searchResults__item}>
+        <div className={classes.searchResults__item_poster}>
+          <img src={data.image.icon_url} alt="" />
+        </div>
+        <div className={classes.searchResults__item_content}>
+          <div className={classes.title}>{data.name}</div>
+          {platformClass?.map((e, i) => {
+            return (
+              <span
+                key={i}
+                className={`${classes.platform} ${classes[e]}`}
+              ></span>
+            );
+          })}
+        </div>
+        <div className={classes.searchResults__item_released}>{release}</div>
+        <div className={classes.searchResults__item_type}>
+          {data.resource_type.toUpperCase()}
+        </div>
+      </div>
+    </Link>
+  );
 }
