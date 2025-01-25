@@ -1,5 +1,5 @@
     import * as api from '../constants/api/giantbomb';
-    import fieldsFilter from '../services/fieldsFilter';
+    import fieldsFilter from '../utils/fieldsFilter';
 
     export const getGamesByTitle = async ( title ) => {
         const response = await fetch(`${api.URL}${api.REQUEST.search}?api_key=${api.KEY}&format=${api.FORMAT.json}&query=${title}&resources=game`);

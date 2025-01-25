@@ -1,0 +1,42 @@
+@import "../../constants/colors.scss";
+
+.game {
+  &-tile {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    margin: 20px;
+    background-color: $main-bg;
+    height: 400px;
+    width: 100%;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &-image {
+    width: 100%;
+    height: 60%;
+  }
+
+  &-title {
+    font-size: 1.25rem;
+    margin: 0;
+    height: 3em;
+    padding: 10px;
+  }
+
+  &-played-time {
+    color: #000000;
+    text-shadow: 1px 1px 2px #fff;
+    margin: 5px 0;
+  }
+  &-played-year {
+    color: #888;
+    font-size: 0.9em;
+    margin: 5px;
+  }
+}

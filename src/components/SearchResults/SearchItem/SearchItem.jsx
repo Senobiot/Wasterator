@@ -39,8 +39,8 @@ export default function SearchItem({ data }){
                     <div className={classes.title}>
                         {data.name} 
                     </div>
-                    {platformClass?.map(e => {
-                        return <span className={`${classes.platform} ${classes[e]}`}></span>})}
+                    {platformClass?.map((e,i) => {
+                        return <span key={i} className={`${classes.platform} ${classes[e]}`}></span>})}
                 </div>
                 <div className={classes.searchResults__item_released}>{release}</div>
                 <div className={classes.searchResults__item_type}>{data.resource_type.toUpperCase()}</div>
