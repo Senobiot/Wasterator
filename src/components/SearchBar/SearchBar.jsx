@@ -1,96 +1,19 @@
 import { styled } from "styled-components";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { fecthGamesByTitle } from "../../api/api";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { GAMES } from "../../constants/ActionTypes/AtcionTypes";
-
-const SearchStyled = styled.input`
-  visibility: visible;
-  padding: 0;
-  margin: 0;
-  border: none;
-  background-color: transparent;
-  margin-left: 8px;
-  width: calc(100% - 25px - 8px);
-  outline: none;
-  line-height: 26px;
-  font-size: 14px;
-  margin-top: 1px;
-  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.1);
-  font-family: "Motiva Sans", Sans-serif;
-  font-weight: 300;
-
-  &::placeholder {
-    color: white;
-    font-style: italic;
-  }
-
-  &::-webkit-search-cancel-button {
-    display: none;
-  }
-`;
-const SearchBox = styled.div`
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
-  visibility: visible;
-  margin: 0;
-  width: auto;
-  position: relative;
-  z-index: 150;
-  cursor: text;
-  background-image: none;
-  background-color: #316282;
-  border-radius: 3px;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  box-shadow: 1px 1px 0px rgba(255, 255, 255, 0.2);
-  color: #fff;
-  margin-bottom: 0px;
-  outline: none;
-  height: 27px;
-  padding: 0px 6px;
-
-  &:hover {
-    border: 1px solid #4c9acc;
-    box-shadow: 1px 1px 0px rgba(255, 255, 255, 0);
-  }
-`;
-const SearchLense = styled.span`
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
-  visibility: visible;
-  padding: 0;
-  margin: 0;
-  text-decoration: none;
-  color: #ffffff;
-  position: absolute;
-  right: 2px;
-  top: 0;
-  cursor: pointer;
-
-  &:active {
-    transform: translate(2px, 2px);
-  }
-`;
-const SearchImage = styled.img`
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
-  visibility: visible;
-  color: #ffffff;
-  padding: 0;
-  margin: 0;
-  border: none;
-  -webkit-user-drag: none;
-  width: 25px;
-  height: 25px;
-  position: absolute;
-  top: 1px;
-  right: -1px;
-  background: 50% / contain url("/public/lense.png") no-repeat;
-`;
+import { GAMES, SEARCH_TYPE } from "../../constants/ActionTypes/AtcionTypes";
+import { getSeacrhType } from "../../selectors/selectors";
+import classes from "./SearchBar.module.scss";
+import { SearchTypes } from "../../constants/constants";
 
 export default function SearchBar() {
-  const navigate = useNavigate()
+  const searchType = useSelector(getSeacrhType);
+  const [searchBoxClass, setSearchBoxClass] = useState("");
+  console.log("render SEARCH BAR");
+
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const addCurrentGameList = (data) => {
     dispatch({ type: GAMES.ADD_SEARCH_LIST, payload: data });
@@ -100,12 +23,12 @@ export default function SearchBar() {
 
   const handleSubmit = async (useKeyboard) => {
     const searchItem = inputRef.current.value;
-    inputRef.current.value = '';
+    inputRef.current.value = "";
 
     if (!searchItem) return;
 
     if (useKeyboard) {
-        navigate("/results");
+      navigate("/results");
     }
     if (searchItem in localStorage) {
       const result = JSON.parse(localStorage.getItem(searchItem));
@@ -115,32 +38,58 @@ export default function SearchBar() {
 
     inputRef.current.disabled = true;
     const fetchedResults = await fecthGamesByTitle(searchItem);
-    console.log(fetchedResults)
+
     addCurrentGameList(fetchedResults);
-    if (fetchedResults.length)  {
-    localStorage.setItem(searchItem, JSON.stringify(fetchedResults));      
+    if (fetchedResults.length) {
+      localStorage.setItem(searchItem, JSON.stringify(fetchedResults));
     }
     inputRef.current.disabled = false;
   };
 
   const handleKeyDown = (event) => {
+    setSearchBoxClass("");
     if (event.keyCode == 13) handleSubmit(true);
   };
 
+  const handleFocus = () => {
+    setSearchBoxClass(classes.focused);
+  };
+
+  const handleType = (actionType) => {
+    dispatch({ type: actionType });
+    setSearchBoxClass("");
+  };
+
   return (
-    <SearchBox>
-      <SearchStyled
+    <div className={classes.search_wrapper}>
+      <input
+        className={classes.search_input}
         onKeyDown={handleKeyDown}
+        onFocus={handleFocus}
         ref={inputRef}
         type="search"
         id="gamesSearch"
-        placeholder="Search the game"
+        placeholder={SearchTypes[searchType]}
       />
       <Link to="/results">
-        <SearchLense onClick={handleSubmit}>
-          <SearchImage />
-        </SearchLense>
+        <span className={classes.search_lense} onClick={handleSubmit}>
+          <img className={classes.search_image} />
+        </span>
       </Link>
-    </SearchBox>
+      <div className={`${classes.types} ${searchBoxClass}`}>
+        <div
+          onClick={() => handleType(SEARCH_TYPE.GAMES)}
+          className={`${classes.types_games} ${SEARCH_TYPE.GAMES === searchType ? classes.active : ''}`}
+        >
+          {SearchTypes.GAMES}
+        </div>
+        <div
+          onClick={() => handleType(SEARCH_TYPE.FILMS)}
+          className={`${classes.types_films} ${SEARCH_TYPE.FILMS === searchType ? classes.active : ''}`}
+        >
+          {SearchTypes.FILMS}
+        </div>
+      </div>
+    </div>
   );
 }

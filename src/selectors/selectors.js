@@ -16,3 +16,4 @@ export const getSearchList = (state) => state.gamesSearchList;
 export const getGameCollection = (state) => state.collection;
 //export const getItemfromCollection = (state, id) => state.collection.find(e => e.id === id);
 export const getGameDetail = (state) => state.gameDetails;
+export const getSeacrhType = (state) => state.seacrhType;
