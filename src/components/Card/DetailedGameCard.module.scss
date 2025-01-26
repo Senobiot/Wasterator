@@ -66,22 +66,50 @@
     }
     .developers {
         color: beige;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
+    }
+
+    .time {
+        color: rgb(255, 56, 56);
+        font-size: 18px;
+        padding: 10px 0;
+        font-weight: bold;
+        p:first-child{
+            color: aliceblue;
+            text-decoration: underline;
+        }
+        p {
+            margin: 0;
+        }
+        span {
+            color: #f8f521;
+            text-shadow: 2px 2px 3px #000;
+        }
     }
 
     .button {
-        width: 65px;
+        // width: 65px;
         padding: 10px 20px;
         background: linear-gradient(90deg, rgba(62, 103, 150, 0.919) 11.38%, rgba(58, 120, 177, 0.8) 25.23%, rgb(15, 33, 110) 100%);
         box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
         border-radius: 5px;
         text-shadow: 5px 3px 5px #000;
         margin-right: 20px;
+        transition: box-shadow 0.375s ease;
+        user-select: none;
+
+        &:hover {
+            box-shadow: 0 0 5px #fff;
+        }
 
         &.red {
             background: none;
             background-color: rgb(155, 33, 33);
+        }
 
+        &.yellow {
+            background: none;
+            background-color: rgb(164, 140, 31);
         }
 
         &.disabled {

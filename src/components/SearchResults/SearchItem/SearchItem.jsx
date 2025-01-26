@@ -2,12 +2,19 @@ import { useDispatch, useSelector } from "react-redux";
 import classes from "./SearchItem.module.scss";
 import { Link } from "react-router-dom";
 import { GAMES } from "../../../constants/ActionTypes/AtcionTypes";
+import { getGameCollection } from "../../../selectors/selectors";
 
 export default function SearchItem({ data }) {
   if (!data) return;
+  const collection = useSelector(getGameCollection);
   const dispatch = useDispatch();
-  const handleClick = () =>
-    dispatch({ type: GAMES.ADD_DETAILS, payload: data });
+  const handleClick = () => {
+    if (data.isInCollection) {
+      const collectionData = collection.find(e => e.id === data.id);
+      return dispatch({ type: GAMES.ADD_DETAILS, payload: collectionData });   
+    } 
+    dispatch({ type: GAMES.ADD_DETAILS, payload: data });    
+  }
 
   //refactor this
   const platformClass = data.platforms?.map((e) =>
@@ -36,10 +43,7 @@ export default function SearchItem({ data }) {
 
   return (
     <Link
-      to={{
-        pathname: "/card",
-        search: `?id=${data.id}`,
-      }}
+      to='/card'
     >
       <div onClick={handleClick} className={classes.searchResults__item}>
         <div className={classes.searchResults__item_poster}>

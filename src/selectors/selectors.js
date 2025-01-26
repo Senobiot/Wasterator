@@ -14,4 +14,5 @@ console.log(id)
 
 };
 export const getGameCollection = (state) => state.collection;
+export const getItemfromCollection = (state, id) => state.collection.find(e => e.id === id);
 export const getGameDetail = (state) => state.gameDetails;

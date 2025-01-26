@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 
 
 const GameTile = ({data}) => {
-  const { name, image, releaseDate } = data;
+  const { name, image, original_release_date, playedTime } = data;
   const dispatch = useDispatch();
     const handleClick = () =>
       dispatch({ type: GAMES.ADD_DETAILS, payload: data });
@@ -14,8 +14,8 @@ const GameTile = ({data}) => {
       <img src={image.medium_url} alt={name} className="game-image" />
       <div className="game-info">
         <h2 className="game-title">{name}</h2>
-        <p className="game-played-time">Total Played: </p>
-        <p className="game-played-year">Last played{releaseDate}</p>
+        <p className="game-played-time">Total Played: {playedTime || '-'} </p>
+        <p className="game-played-year">Last played {original_release_date}</p>
       </div>
     </div>
   );
