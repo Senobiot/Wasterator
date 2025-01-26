@@ -32,12 +32,16 @@ export default function Card() {
     const playedTime = prompt("Сколько наиграли?");
     if (playedTime || playedTime === 0) {
       console.log(playedTime);
-      dispatch({ type: GAMES.UPDATE_PLAYED_TIME, payload: { id: gameDetails.id, playedTime: +playedTime }});
+      dispatch({
+        type: GAMES.UPDATE_PLAYED_TIME,
+        payload: { id: gameDetails.id, playedTime: +playedTime },
+      });
       updateCurrent({ ...gameDetails, playedTime: +playedTime });
     }
   };
 
   useEffect(() => {
+    if (gameDetails.isInCollection) return;
     const query = async () => {
       const url = gameDetails.api_detail_url;
       if (url) {

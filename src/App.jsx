@@ -4,7 +4,7 @@ import Home from './components/Home/Home'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DetailedGameCard from './components/Card/DetailedGameCard'
 import { SearchResults } from './components/SearchResults/SearchResults';
-import StatisticPage from './components/StatsPages.jsx/StatisticPage';
+import StatisticsPage from './components/StatisticsPage.jsx/StatisticsPage';
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
     <Menu />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/stats" element={<StatisticPage />} />
+        <Route path="/stats" element={<StatisticsPage />} />
         <Route path="/results" element={<SearchResults />} />
         <Route path="/card" element={<DetailedGameCard />} />
       </Routes>

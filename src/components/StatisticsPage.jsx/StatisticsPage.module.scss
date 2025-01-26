@@ -1,0 +1,45 @@
+@use "../../constants/colors";
+.header, .game, .footer {
+    background-color: colors.$main-bg;
+    margin-bottom: 5px;
+    text-align: left;
+    display: flex;
+    padding: 2px 20px;
+
+    &_position {
+        // padding-right: 20px;
+        width: 40px;
+    }
+
+    &_title {
+        width: 70%;
+    }
+}
+.header {
+    font-weight: 700;
+    color: coral;
+
+    &_title, &_time {
+        cursor: pointer;
+    }
+
+    &_time {
+        flex-grow: 1;
+    }
+
+}
+
+.header, .footer {
+    &_title {
+        width: calc(70% + 40px);
+        user-select: none;
+    }
+}
+
+.footer {
+    font-weight: 900;
+    font-size: 20px;
+    color:brown;
+}
+
+
