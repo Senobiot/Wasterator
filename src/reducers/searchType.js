@@ -9,6 +9,7 @@ const seacrhType = (state = initialState, action) => {
         return SEARCH_TYPE.GAMES;
     }
     case SEARCH_TYPE.FILMS: {
+      console.log(action);
         return SEARCH_TYPE.FILMS;
     }
     default:

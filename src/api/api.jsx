@@ -1,4 +1,4 @@
-import * as api from "../constants/api/giantbomb";
+import * as API from "../constants/api";
 import { fieldsFilter } from "../utils/utils";
 
 const importantFields = [
@@ -12,9 +12,36 @@ const importantFields = [
   "resource_type",
 ];
 
+const filmsImportantFields = [
+  "name",
+  "enName",
+  "countries",
+  "description",
+  "id",
+  "logo",
+  "rating",
+  "releaseYears",
+  "type",
+  "genres",
+];
+
+export const fecthFilmsByTitle = async (title) => {
+  const response = await fetch(API.FILMS.URL + title, {
+    method: "GET",
+    withCredentials: true,
+    headers: {
+      "X-API-KEY": API.FILMS.KEY,
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+
+  return data.docs.map((e) => fieldsFilter(e, filmsImportantFields));
+};
+
 export const fecthGamesByTitle = async (title) => {
   const response = await fetch(
-    `${api.URL}${api.REQUEST.search}?api_key=${api.KEY}&format=${api.FORMAT.json}&query=${title}&resources=game`
+    `${API.GAMES.URL}${API.GAMES.REQUEST.search}?api_key=${API.GAMES.KEY}&format=${API.GAMES.FORMAT}&query=${title}&resources=game`
   );
   const data = await response.json();
 
@@ -24,7 +51,7 @@ export const fecthGamesByTitle = async (title) => {
 export const fetchGameDetail = async (url) => {
   console.log(`FETCH fetchGameDetail`);
   const response = await fetch(
-    `${url}?api_key=${api.KEY}&format=${api.FORMAT.json}`
+    `${url}?api_key=${API.GAMES.KEY}&format=${API.GAMES.FORMAT}`
   );
   const data = await response.json();
 

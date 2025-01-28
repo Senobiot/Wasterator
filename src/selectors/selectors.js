@@ -1,4 +1,4 @@
-export const getSearchList = (state) => state.gamesSearchList;
+export const getCurrentSearchList = (state) => state.currentSearchList;
 // export const getGameById = (state, id) => {
 //     // const gameDeatil = state.gameDetails.current;
 //     // console.log(gameDeatil)

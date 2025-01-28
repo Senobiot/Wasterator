@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import { useRef, useState } from "react";
-import { fecthGamesByTitle } from "../../api/api";
+import { fecthFilmsByTitle, fecthGamesByTitle } from "../../api/api";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { GAMES, SEARCH_TYPE } from "../../constants/ActionTypes/AtcionTypes";
@@ -34,6 +34,13 @@ export default function SearchBar() {
       const result = JSON.parse(localStorage.getItem(searchItem));
 
       return addCurrentGameList(result);
+    }
+
+    if (searchType === SEARCH_TYPE.FILMS) {
+
+      const fetchedFilms = await fecthFilmsByTitle(searchItem);
+      return 
+      //addCurrentFilmsList(fetchedFilms);
     }
 
     inputRef.current.disabled = true;
@@ -79,13 +86,13 @@ export default function SearchBar() {
       <div className={`${classes.types} ${searchBoxClass}`}>
         <div
           onClick={() => handleType(SEARCH_TYPE.GAMES)}
-          className={`${classes.types_games} ${SEARCH_TYPE.GAMES === searchType ? classes.active : ''}`}
+          className={`${classes.types_games} ${SEARCH_TYPE.GAMES === searchType ? classes.active : ""}`}
         >
           {SearchTypes.GAMES}
         </div>
         <div
           onClick={() => handleType(SEARCH_TYPE.FILMS)}
-          className={`${classes.types_films} ${SEARCH_TYPE.FILMS === searchType ? classes.active : ''}`}
+          className={`${classes.types_films} ${SEARCH_TYPE.FILMS === searchType ? classes.active : ""}`}
         >
           {SearchTypes.FILMS}
         </div>

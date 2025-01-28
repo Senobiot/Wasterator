@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import gameDetails from './gameDetails';
-import gamesSearchList from './gamesSearchList';
+import currentSearchList from './currentSearchList';
 import collection from './collection';
 import seacrhType from './searchType';
 
 const rootReducer = combineReducers({
-  gameDetails, gamesSearchList, collection, seacrhType
+  gameDetails, currentSearchList, collection, seacrhType
   });
   
   export default rootReducer;

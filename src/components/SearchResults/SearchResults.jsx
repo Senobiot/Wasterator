@@ -1,9 +1,9 @@
 import SearchItem from "./SearchItem/SearchItem";
 import { useSelector } from "react-redux";
-import { getSearchList, getGameCollection } from "../../selectors/selectors";
+import { getCurrentSearchList, getGameCollection } from "../../selectors/selectors";
 
 export const SearchResults = () => {
-  const results = useSelector(getSearchList);
+  const results = useSelector(getCurrentSearchList);
   const collection = useSelector(getGameCollection);
   console.log(collection)
   if (!results.length) {

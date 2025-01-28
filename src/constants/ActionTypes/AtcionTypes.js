@@ -12,3 +12,7 @@ export const SEARCH_TYPE = {
     GAMES: 'GAMES',
     FILMS: 'FILMS',
 }
+
+export const SEARCH_LIST = {
+    ADD: 'ADD_SEARCH_LIST',
+}
