@@ -14,6 +14,11 @@ const searchResultReducer = (state = initialStore, action) => {
       setStorageItem(SEARCH.STORAGE_GAME__HISTORY_KEY, newSearchGameList);
       return {...state, games: newSearchGameList, currentSearch: action.payload};
     }
+    case SEARCH.STORE_FILM_LIST: {
+      const newSearchFilmsList = { ...state.films, ...action.payload };
+      setStorageItem(SEARCH.STORAGE_FILMS_HISTORY_KEY, newSearchFilmsList);
+      return {...state, films: newSearchFilmsList, currentSearch: action.payload};
+    }
     default:
       return state;
   }

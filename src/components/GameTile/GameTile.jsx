@@ -11,7 +11,7 @@ const GameTile = ({data}) => {
       dispatch({ type: GAMES.ADD_DETAILS, payload: data });
   return (
     <div onClick={handleClick} className="game-tile">
-      <img src={image.medium_url} alt={name} className="game-image" />
+      <img src={image?.medium_url} alt={name} className="game-image" />
       <div className="game-info">
         <h2 className="game-title">{name}</h2>
         <p className="game-played-time">Total Played: {playedTime || '-'} </p>

@@ -42,3 +42,33 @@ export function objectSort(field, sortDirection = 1) {
     return 0;
   };
 }
+
+export const releaseToLocale = (data) => {
+  if (!data.original_release_date) {
+    if (!data.expected_release_year) {
+      return "In Development";
+    }
+
+    return data.expected_release_year;
+  }
+
+  const release = new Date(data.original_release_date);
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+
+  return release.toLocaleDateString("ru-RU", options);
+};
+
+export const unifyFields = data => {
+  return {
+    year: data.year || data.original_release_date || data.expected_release_year,
+    enName: data.eName,
+    description: data.description || data.deck,
+    logo: data.logo?.url || data.poster?.previewUrl || data.poster?.url || data.image?.icon_url,
+    name: data.name,
+    genres: data.genres?.map(e => e.name)
+  }
+}

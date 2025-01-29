@@ -1,3 +1,5 @@
+import { SEARCH_TYPE } from "../constants"
+
 export const GAMES = {
     ADD_SEARCH_LIST: 'ADD_SEARCH_LIST',
     ADD_TO_COLLECTION: 'ADD_TO_COLLECTION',
@@ -18,14 +20,11 @@ export const FILMS = {
     UPDATE_PLAYED_TIME: 'UPDATE_PLAYED_TIME',
 }
 
-export const SEARCH_TYPE = {
-
-}
 
 export const SEARCH = {
     TYPE: {
-        GAMES: 'GAMES',
-        FILMS: 'FILMS',
+        GAMES: SEARCH_TYPE.GAMES,
+        FILMS: SEARCH_TYPE.FILMS,
     },
     STORE_GAME_LIST: 'STORE_GAME_LIST',
     STORE_FILM_LIST: 'STORE_FILM_LIST',

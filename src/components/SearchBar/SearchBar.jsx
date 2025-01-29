@@ -4,21 +4,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { SEARCH } from "../../constants/ActionTypes/AtcionTypes";
 import {
-  selectSeacrhType,
+  selectSearchType,
   selectGamesSearchHistory,
+  selectFilmsSearchHistory
 } from "../../selectors/selectors";
 import classes from "./SearchBar.module.scss";
 import { SearchTypes } from "../../constants/constants";
 
 export default function SearchBar() {
-  const searchType = useSelector(selectSeacrhType);
+  const searchType = useSelector(selectSearchType);
   const gamesSearchHistory = useSelector(selectGamesSearchHistory);
+  const filmsSearchHistory = useSelector(selectFilmsSearchHistory);
   const [searchBoxClass, setSearchBoxClass] = useState("");
   const inputRef = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const addCurrentGameList = (data) => {
     dispatch({ type: SEARCH.STORE_GAME_LIST, payload: data });
+  };
+  const addCurrentFilmsList = (data) => {
+    dispatch({ type: SEARCH.STORE_FILM_LIST, payload: data });
   };
 
   const handleSubmit = async (useKeyboard) => {
@@ -31,23 +36,21 @@ export default function SearchBar() {
       navigate("/results");
     }
 
+    if (searchType === SEARCH.TYPE.FILMS) {
+      if (searchItem in filmsSearchHistory) {
+        return addCurrentFilmsList({
+          [searchItem]: filmsSearchHistory[searchItem],
+        });
+      }
+
+      const fetchedFilms = await fecthFilmsByTitle(searchItem);
+      return addCurrentFilmsList({ [searchItem]: fetchedFilms })
+    }
+
     if (searchItem in gamesSearchHistory) {
       return addCurrentGameList({
         [searchItem]: gamesSearchHistory[searchItem],
       });
-    }
-
-    if (searchType === SEARCH.TYPE.FILMS) {
-      // const fetchedFilms = await fecthFilmsByTitle(searchItem);
-      // return
-      //addCurrentFilmsList(fetchedFilms);
-    }
-
-    if (searchType === SEARCH_TYPE.FILMS) {
-
-      const fetchedFilms = await fecthFilmsByTitle(searchItem);
-      return 
-      //addCurrentFilmsList(fetchedFilms);
     }
 
     inputRef.current.disabled = true;

@@ -17,12 +17,15 @@ const filmsImportantFields = [
   "enName",
   "countries",
   "description",
+  "shortDescription",
   "id",
   "logo",
+  "poster",
   "rating",
-  "releaseYears",
+  "year",
   "type",
   "genres",
+  "isSeries",
 ];
 
 export const fecthFilmsByTitle = async (title) => {

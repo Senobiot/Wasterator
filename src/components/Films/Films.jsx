@@ -1,6 +1,6 @@
 import GameTile from "../GameTile/GameTile";
 import { useSelector } from "react-redux";
-import { getGameCollection } from "../../selectors/selectors";
+import {  } from "../../selectors/selectors";
 import { Link } from "react-router-dom";
 
 export default function Films() {

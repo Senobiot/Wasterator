@@ -2,8 +2,9 @@ import { GAMES, FILMS } from "../constants/ActionTypes/AtcionTypes";
 import { COLLECTION_TYPES } from "../constants/constants";
 import { getStorageItem, setStorageItem } from "../utils/utils";
 
-const savedCollection = getStorageItem(COLLECTION_TYPES.GAMES);
-const initialState = { games: savedCollection };
+const savedGamesCollection = getStorageItem(COLLECTION_TYPES.GAMES);
+const savedFilmsCollection = getStorageItem(COLLECTION_TYPES.FILMS);
+const initialState = { games: savedGamesCollection, films: savedFilmsCollection };
 
 const collectionReducer = (state = initialState, action) => {
   switch (action.type) {
