@@ -1,9 +1,8 @@
 import { GAMES } from "../constants/ActionTypes/AtcionTypes";
 
-const gameDetails = (state = {}, action) => {
+const detailsReducer = (state = {}, action) => {
   switch (action.type) {
     case GAMES.ADD_DETAILS: {
-      console.log( action.payload)
         return action.payload;
     }
     default:
@@ -11,4 +10,4 @@ const gameDetails = (state = {}, action) => {
   }
 }
 
-export default gameDetails;
+export default detailsReducer;
