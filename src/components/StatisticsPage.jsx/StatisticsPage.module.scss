@@ -15,6 +15,12 @@
         width: 70%;
     }
 }
+.game {
+    border: 1px solid transparent;
+    &:hover {
+        border-color: white;
+    }
+}
 .header {
     font-weight: 700;
     color: coral;
@@ -40,6 +46,5 @@
     font-weight: 900;
     font-size: 20px;
     color:brown;
+    user-select: none;
 }
-
-

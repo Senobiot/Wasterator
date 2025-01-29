@@ -2,11 +2,11 @@ import { useDispatch, useSelector } from "react-redux";
 import classes from "./SearchItem.module.scss";
 import { Link } from "react-router-dom";
 import { GAMES } from "../../../constants/ActionTypes/AtcionTypes";
-import { getGameCollection } from "../../../selectors/selectors";
+import { selectGamesCollection } from "../../../selectors/selectors";
 
 export default function SearchItem({ data }) {
   if (!data) return;
-  const collection = useSelector(getGameCollection);
+  const collection = useSelector(selectGamesCollection);
   const dispatch = useDispatch();
   const handleClick = () => {
     if (data.isInCollection) {

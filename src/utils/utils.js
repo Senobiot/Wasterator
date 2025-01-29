@@ -13,12 +13,12 @@ export function spacesToNumbers(value) {
   return parts.join(".");
 }
 
-export function getStorageCollection() {
-  return JSON.parse(localStorage.getItem("collection")) || [];
+export function getStorageItem(item) {
+  return JSON.parse(localStorage.getItem(item)) || [];
 }
 
-export function setStorageCollection(collection) {
-  localStorage.setItem("collection", JSON.stringify(collection));
+export function setStorageItem(item, value) {
+  localStorage.setItem(item, JSON.stringify(value));
 }
 
 export function descendingCompare(a, b) {

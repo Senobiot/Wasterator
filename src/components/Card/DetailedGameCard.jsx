@@ -1,7 +1,7 @@
 // import './Card.css';
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getGameDetail } from "../../selectors/selectors";
+import { selectDetails } from "../../selectors/selectors";
 import { fetchGameDetail } from "../../api/api";
 import Button from "../Button/Button";
 import classes from "./DetailedGameCard.module.scss";
@@ -15,7 +15,7 @@ export default function Card() {
   const updateCurrent = (item) => {
     dispatch({ type: GAMES.ADD_DETAILS, payload: item });
   };
-  const gameDetails = useSelector(getGameDetail);
+  const gameDetails = useSelector(selectDetails);
 
   const addGameToCollection = () => {
     const newCollectionItem = { ...gameDetails, isInCollection: true };

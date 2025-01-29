@@ -1,19 +1,5 @@
-export const getCurrentSearchList = (state) => state.currentSearchList;
-// export const getGameById = (state, id) => {
-//     // const gameDeatil = state.gameDetails.current;
-//     // console.log(gameDeatil)
-//     const fromSearch = state.gamesSearchList.current;
-//     if (fromSearch) {
-//         const result = fromSearch.find(e => e.id === +id);
-//         if (result) return result;
-//     }
-//     const res = state.collection.find(e => e.id === +id);
-// console.log(state.collection)
-// console.log(id)
-//     return res;
-
-// };
-export const getGameCollection = (state) => state.collection;
-//export const getItemfromCollection = (state, id) => state.collection.find(e => e.id === id);
-export const getGameDetail = (state) => state.gameDetails;
-export const getSeacrhType = (state) => state.seacrhType;
+export const selectSearchResult = (state) => state.searchResult.currentSearch;
+export const selectGamesSearchHistory = (state) => state.searchResult.games;
+export const selectGamesCollection = (state) => state.collection.games;
+export const selectDetails = (state) => state.details;
+export const selectSeacrhType = (state) => state.seacrhType;

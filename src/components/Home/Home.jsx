@@ -1,11 +1,11 @@
 import GameTile from "../GameTile/GameTile";
 import { useSelector } from "react-redux";
-import { getGameCollection } from "../../selectors/selectors";
+import { selectGamesCollection } from "../../selectors/selectors";
 import { Link } from "react-router-dom";
 
 export default function Home() {
-  const collection = useSelector(getGameCollection);
-console.log(collection)
+  const collection = useSelector(selectGamesCollection);
+  
   return (
     <div
       className="my-games-wrapper"

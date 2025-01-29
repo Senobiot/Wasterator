@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { getGameCollection } from "../../selectors/selectors";
+import { selectGamesCollection } from "../../selectors/selectors";
 import { objectSort, spacesToNumbers } from "../../utils/utils";
 import classes from "./StatisticsPage.module.scss";
 import { useState } from "react";
@@ -10,7 +10,7 @@ import { GAMES } from "../../constants/ActionTypes/AtcionTypes";
 export default function StatisticsPage() {
 const dispatch = useDispatch();
   const [collection, setCollection] = useState([
-    ...useSelector(getGameCollection),
+    ...useSelector(selectGamesCollection),
   ]);
 
   const handleClick = (data) =>
