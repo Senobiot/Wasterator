@@ -39,6 +39,15 @@ const collectionReducer = (state = initialState, action) => {
       return { ...state, games: newCollection };
     }
 
+    // case FILMS.ADD_TO_COLLECTION: {
+    //   console.log(state.films)
+    //   console.log(action.payload);
+    //   const newCollection = [...state.films, action.payload];
+    //   setStorageItem(COLLECTION_TYPES.FILMS, newCollection);
+
+    //   return { ...state, films: newCollection };
+    // }
+
     case GAMES.DELETE_FROM_COLLECTION: {
       const newCollection = state.games.filter((e) => e.id !== action.payload);
       setStorageItem(COLLECTION_TYPES.GAMES, newCollection);

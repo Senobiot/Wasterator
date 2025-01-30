@@ -12,19 +12,13 @@ import classes from "./SearchBar.module.scss";
 import { SearchTypes } from "../../constants/constants";
 
 export default function SearchBar() {
-  const searchType = useSelector(selectSearchType);
   const gamesSearchHistory = useSelector(selectGamesSearchHistory);
   const filmsSearchHistory = useSelector(selectFilmsSearchHistory);
   const [searchBoxClass, setSearchBoxClass] = useState("");
+  const [searchType, setSearchType] = useState(SEARCH.TYPE.GAMES);
   const inputRef = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const addCurrentGameList = (data) => {
-    dispatch({ type: SEARCH.STORE_GAME_LIST, payload: data });
-  };
-  const addCurrentFilmsList = (data) => {
-    dispatch({ type: SEARCH.STORE_FILM_LIST, payload: data });
-  };
 
   const handleSubmit = async (useKeyboard) => {
     const searchItem = inputRef.current.value;
@@ -35,27 +29,28 @@ export default function SearchBar() {
     if (useKeyboard) {
       navigate("/results");
     }
-
+    inputRef.current.disabled = true;
+  
     if (searchType === SEARCH.TYPE.FILMS) {
       if (searchItem in filmsSearchHistory) {
-        return addCurrentFilmsList({
-          [searchItem]: filmsSearchHistory[searchItem],
-        });
+        const payload = { [searchItem]: filmsSearchHistory[searchItem] };
+        inputRef.current.disabled = false;
+        return dispatch({ type: SEARCH.STORE_FILM_LIST, payload: payload });
       }
 
       const fetchedFilms = await fecthFilmsByTitle(searchItem);
-      return addCurrentFilmsList({ [searchItem]: fetchedFilms })
+      inputRef.current.disabled = false;
+      return dispatch({type: SEARCH.STORE_FILM_LIST, payload: { [searchItem]: fetchedFilms }})
     }
 
     if (searchItem in gamesSearchHistory) {
-      return addCurrentGameList({
-        [searchItem]: gamesSearchHistory[searchItem],
-      });
+      const payload = { [searchItem]: gamesSearchHistory[searchItem] };
+      inputRef.current.disabled = false;
+      return dispatch({ type: SEARCH.STORE_GAME_LIST, payload: payload });
     }
 
-    inputRef.current.disabled = true;
-    const fetchedResults = await fecthGamesByTitle(searchItem);
-    addCurrentGameList({ [searchItem]: fetchedResults });
+    const fetchedGames = await fecthGamesByTitle(searchItem);
+      dispatch({ type: SEARCH.STORE_GAME_LIST, payload:  { [searchItem]: fetchedGames }});
     inputRef.current.disabled = false;
   };
 
@@ -68,8 +63,8 @@ export default function SearchBar() {
     setSearchBoxClass(classes.focused);
   };
 
-  const handleType = (actionType) => {
-    dispatch({ type: actionType });
+  const handleType = (type) => {
+    setSearchType(type);
     setSearchBoxClass("");
   };
 

@@ -18,7 +18,7 @@ export default function Card() {
   const gameDetails = useSelector(selectDetails);
 
   const addGameToCollection = () => {
-    const newCollectionItem = { ...gameDetails, isInCollection: true };
+    const newCollectionItem = { ...gameDetails, isInCollection: true, playedTime: 0 };
     dispatch({ type: GAMES.ADD_TO_COLLECTION, payload: newCollectionItem });
     updateCurrent(newCollectionItem);
   };

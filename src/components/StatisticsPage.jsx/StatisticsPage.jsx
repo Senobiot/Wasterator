@@ -31,8 +31,9 @@ const dispatch = useDispatch();
     setSortDirection(-sortDirection);
     setCollection(sortedCollection);
   };
+  console.log(collection);
   const totalPlayedTime = collection.reduce((acc, e) => acc + e.playedTime, 0);
-
+  console.log(totalPlayedTime);
   if (!collection.length) {
     return <>{"StatisticPage... Your Collection still empty"}</>;
   }

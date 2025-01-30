@@ -1,5 +1,7 @@
 import * as API from "../constants/api";
-import { fieldsFilter } from "../utils/utils";
+import { NUMBER_OF_SEARCH_ITEMS } from "../constants/constants";
+NUMBER_OF_SEARCH_ITEMS
+import { fieldsFilter, objectSort } from "../utils/utils";
 
 const importantFields = [
   "api_detail_url",
@@ -15,6 +17,7 @@ const importantFields = [
 const filmsImportantFields = [
   "name",
   "enName",
+  "alternativeName",
   "countries",
   "description",
   "shortDescription",
@@ -26,6 +29,7 @@ const filmsImportantFields = [
   "type",
   "genres",
   "isSeries",
+  "votes",
 ];
 
 export const fecthFilmsByTitle = async (title) => {
@@ -39,7 +43,8 @@ export const fecthFilmsByTitle = async (title) => {
   });
   const data = await response.json();
 
-  return data.docs.map((e) => fieldsFilter(e, filmsImportantFields));
+  const filteredData = data.docs.map((e) => fieldsFilter(e, filmsImportantFields));
+  return (filteredData.sort(objectSort(['votes', 'kp']))).splice(0, NUMBER_OF_SEARCH_ITEMS.FILMS);
 };
 
 export const fecthGamesByTitle = async (title) => {

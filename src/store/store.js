@@ -9,7 +9,7 @@ const store = configureStore({
         details: detailsReducer,
         searchResult: searchResultReducer,
         collection: collectionReducer,
-        seacrhType: seacrhTypeReducer,
+        // seacrhType: seacrhTypeReducer,
     }
   })
 

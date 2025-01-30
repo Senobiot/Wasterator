@@ -1,4 +1,5 @@
 import { SEARCH } from "../constants/ActionTypes/AtcionTypes";
+import { SEARCH_TYPE } from "../constants/constants";
 import { getStorageItem, setStorageItem } from "../utils/utils";
 
 const initialStore = {
@@ -12,7 +13,8 @@ const searchResultReducer = (state = initialStore, action) => {
     case SEARCH.STORE_GAME_LIST: {
       const newSearchGameList = { ...state.games, ...action.payload };
       setStorageItem(SEARCH.STORAGE_GAME__HISTORY_KEY, newSearchGameList);
-      return {...state, games: newSearchGameList, currentSearch: action.payload};
+      console.log(action.payload);
+      return {...state, games: newSearchGameList, currentSearch: {...action.payload, type: SEARCH_TYPE.GAMES}};
     }
     case SEARCH.STORE_FILM_LIST: {
       const newSearchFilmsList = { ...state.films, ...action.payload };
