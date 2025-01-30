@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectDetails } from "../../selectors/selectors";
-import { fetchGameDetail } from "../../api/api";
+import { fetchGameDetail, fecthFilmById } from "../../api/api";
 import Button from "../Button/Button";
 import classes from "./DetailedGameCard.module.scss";
 import { GAMES } from "../../constants/ActionTypes/AtcionTypes";
@@ -15,17 +15,17 @@ export default function Card() {
   const updateCurrent = (item) => {
     dispatch({ type: GAMES.ADD_DETAILS, payload: item });
   };
-  const gameDetails = useSelector(selectDetails);
-
+  const details = useSelector(selectDetails);
+console.log(details);
   const addGameToCollection = () => {
-    const newCollectionItem = { ...gameDetails, isInCollection: true, playedTime: 0 };
+    const newCollectionItem = { ...details, isInCollection: true, playedTime: 0 };
     dispatch({ type: GAMES.ADD_TO_COLLECTION, payload: newCollectionItem });
     updateCurrent(newCollectionItem);
   };
 
   const deleteGameFromCollection = () => {
-    dispatch({ type: GAMES.DELETE_FROM_COLLECTION, payload: gameDetails.id });
-    updateCurrent({ ...gameDetails, isInCollection: false });
+    dispatch({ type: GAMES.DELETE_FROM_COLLECTION, payload: details.id });
+    updateCurrent({ ...details, isInCollection: false });
   };
 
   const updatePlayedTime = () => {
@@ -34,63 +34,67 @@ export default function Card() {
       console.log(playedTime);
       dispatch({
         type: GAMES.UPDATE_PLAYED_TIME,
-        payload: { id: gameDetails.id, playedTime: +playedTime },
+        payload: { id: details.id, playedTime: +playedTime },
       });
-      updateCurrent({ ...gameDetails, playedTime: +playedTime });
+      updateCurrent({ ...details, playedTime: +playedTime });
     }
   };
 
   useEffect(() => {
-    if (gameDetails.isInCollection) return;
+    if (details.isInCollection) return;
     const query = async () => {
-      const url = gameDetails.api_detail_url;
+      if (details.itemType) {
+        const res = await fecthFilmById(details.id);
+        console.log(res);
+      }
+      const url = details.api_detail_url;
       if (url) {
         const details = await fetchGameDetail(url);
         const filteredDetails = fieldsFilter(details, collectionFields);
-        updateCurrent({ ...gameDetails, ...filteredDetails });
+        updateCurrent({ ...details, ...filteredDetails });
       }
     };
 
     query();
   }, []);
 
-  return !gameDetails.name ? (
+  return !details.name ? (
     "No details...("
   ) : (
     <div className={classes.card}>
-      <div className={classes.title}>{gameDetails.name}</div>
+      <div className={classes.title}>{details.name}</div>
       <div className={classes.card_content}>
         <div className={classes.image_wrapper}>
-          <img src={gameDetails?.image?.medium_url} alt="" />
+          <img src={details?.image?.medium_url} alt="" />
         </div>
         <div className={classes.description_wrapper}>
-          <div className={classes.description}>{gameDetails.deck}</div>
+          <div className={classes.description}>{details.deck}</div>
           <div className={classes.genres}>
-            {gameDetails.themes?.map((e) => (
+            {details.themes?.map((e) => (
               <span key={e.name}>{e.name + " / "}</span>
             ))}
           </div>
           <div className={classes.release}>
             Release:{" "}
-            {gameDetails.original_release_date ||
-              gameDetails.expected_release_year}
+            {details.original_release_date ||
+              details.expected_release_year}
           </div>
           <div className={classes.developers}>
             Developers: <br></br>
-            {gameDetails.developers?.map((e) => (
+            {details.developers?.map((e) => (
               <span key={e.name}>{e.name}</span>
             ))}
           </div>
-          {gameDetails.playedTime ? (
+          {details.playedTime ? (
             <PlayedTime
               className={classes.time}
-              time={gameDetails.playedTime}
+              time={details.playedTime}
             />
           ) : (
             ""
           )}
           <div className={classes.button_wrapper}>
-            {!gameDetails.isInCollection ? (
+            {!details.isInCollection ? (
               <Button
                 onClick={addGameToCollection}
                 title="Добавить"
@@ -99,7 +103,7 @@ export default function Card() {
             ) : (
               ""
             )}
-            {gameDetails.isInCollection ? (
+            {details.isInCollection ? (
               <Button
                 onClick={deleteGameFromCollection}
                 title="Удалить"
@@ -108,7 +112,7 @@ export default function Card() {
             ) : (
               ""
             )}
-            {gameDetails.isInCollection ? (
+            {details.isInCollection ? (
               <Button
                 onClick={updatePlayedTime}
                 title="Наиграно"

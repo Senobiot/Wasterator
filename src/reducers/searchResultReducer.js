@@ -19,7 +19,7 @@ const searchResultReducer = (state = initialStore, action) => {
     case SEARCH.STORE_FILM_LIST: {
       const newSearchFilmsList = { ...state.films, ...action.payload };
       setStorageItem(SEARCH.STORAGE_FILMS_HISTORY_KEY, newSearchFilmsList);
-      return {...state, films: newSearchFilmsList, currentSearch: action.payload};
+      return {...state, films: newSearchFilmsList, currentSearch: {...action.payload, type: SEARCH_TYPE.FILMS}};
     }
     default:
       return state;

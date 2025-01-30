@@ -14,6 +14,7 @@ const SearchResultsTable = () => {
   const currentSearch = Object.values(useSelector(selectSearchResult));
   const results = currentSearch[0] || [];
   const resultsType = currentSearch[1];
+  console.log(currentSearch);
   const collection = resultsType === SEARCH_TYPE.GAMES
       ? useSelector(selectGamesCollection)
       : useSelector(selectFilmsCollection);

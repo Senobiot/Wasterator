@@ -30,7 +30,7 @@ export default function SearchItem({data}) {
   }
 
   return (
-    <Link to="/card">
+    <Link to={itemType === SEARCH_TYPE.GAMES ? '/game' : '/movie'}>
       <div onClick={handleClick} className={classes.searchResults__item}>
         <div className={classes.searchResults__item_poster}>
           <img src={logo} alt="" />
@@ -49,7 +49,7 @@ export default function SearchItem({data}) {
             );
           })}
         </div>
-        {rating ? <div className={classes.searchResults__item_rating}>{rating}</div> : ''}
+        {<div className={classes.searchResults__item_rating}>{rating || ''}</div>}
         <div className={classes.searchResults__item_released}>
           {year || "In Development"}
         </div>

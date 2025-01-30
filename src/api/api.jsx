@@ -33,12 +33,12 @@ const filmsImportantFields = [
 ];
 
 export const fecthFilmsByTitle = async (title) => {
-  const response = await fetch(API.FILMS.URL + title, {
+  const response = await fetch(API.FILMS.SEARCH_BY_NAME + title, {
     method: "GET",
     withCredentials: true,
     headers: {
       "X-API-KEY": API.FILMS.KEY,
-      "Content-Type": "application/json",
+      "Content-Type": API.FILMS.CONTENT_TYPE,
     },
   });
   const data = await response.json();
@@ -46,6 +46,21 @@ export const fecthFilmsByTitle = async (title) => {
   const filteredData = data.docs.map((e) => fieldsFilter(e, filmsImportantFields));
   return (filteredData.sort(objectSort(['votes', 'kp']))).splice(0, NUMBER_OF_SEARCH_ITEMS.FILMS);
 };
+
+export const fecthFilmById = async (title) => {
+  const response = await fetch(API.FILMS.SEARCH_BY_ID + title, {
+    method: "GET",
+    withCredentials: true,
+    headers: {
+      "X-API-KEY": API.FILMS.KEY,
+      "Content-Type": API.FILMS.CONTENT_TYPE,
+    },
+  });
+  const data = await response.json();
+  return data;
+};
+
+
 
 export const fecthGamesByTitle = async (title) => {
   const response = await fetch(

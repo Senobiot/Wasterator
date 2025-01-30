@@ -6,6 +6,7 @@ import DetailedGameCard from './components/Card/DetailedGameCard'
 import SearchResultsTable from './components/SearchResults/SearchResultsTable';
 import StatisticsPage from './components/StatisticsPage.jsx/StatisticsPage';
 import Films from './components/Films/Films';
+import MovieCard from './components/Card/MovieCard';
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
         <Route path="/films" element={<Films />} />
         <Route path="/stats" element={<StatisticsPage />} />
         <Route path="/results" element={<SearchResultsTable />} />
-        <Route path="/card" element={<DetailedGameCard />} />
+        <Route path="/game" element={<DetailedGameCard />} />
+        <Route path="/movie" element={<MovieCard />} />
       </Routes>
     </BrowserRouter>
     </>

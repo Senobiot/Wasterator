@@ -18,7 +18,7 @@ export default function Home() {
               <Link
                 key={game.id}
                 to={{
-                  pathname: "/card",
+                  pathname: "/game",
                   search: `?id=${game.id}`,
                 }}
                 style={{ display: "flex", width: "25%" }}

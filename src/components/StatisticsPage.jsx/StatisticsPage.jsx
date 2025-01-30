@@ -48,7 +48,7 @@ const dispatch = useDispatch();
         </div>
       </div>
       {collection.map((e, i) => (
-        <Link to="/card" onClick={() => handleClick(e)} key={e.name}>
+        <Link to="/game" onClick={() => handleClick(e)} key={e.name}>
           <div className={classes.game}>
             <div className={classes.game_position}>{i + 1} </div>
             <div className={classes.game_title}>{e.name} </div>
