@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectDetails } from "../../selectors/selectors";
 import { fecthFilmById } from "../../api/api";
-import { GAMES } from "../../constants/ActionTypes/AtcionTypes";
+import { GAMES, FILMS } from "../../constants/ActionTypes/AtcionTypes";
 import { collectionFields } from "../../constants/constants";
 
 const Card = styled.div`
@@ -16,11 +16,10 @@ const Card = styled.div`
   flex-wrap: wrap;
   text-align: left;
 `;
-
 const InfoBlock = styled.div`
   width: 65%;
+  margin-bottom: 20px;
 `;
-
 const Title = styled.div`
   color: rgb(175, 175, 175);
   font-size: 26px;
@@ -36,7 +35,6 @@ const Title = styled.div`
     box-shadow: 0px 0px 10px #fff inset;
     padding: 10px;
 `;
-
 const Actors = styled.div`
   color: white;
   font-size: 18px;
@@ -48,15 +46,14 @@ const Actors = styled.div`
   -webkit-box-orient: vertical;
   margin-bottom: 20px;
 `;
-
 const Image = styled.img`
   width: 270px;
   height: 400px;
   border: 1px white solid;
   padding: 5px;
   margin-right: 20px;
+  position: relative;
 `;
-
 const Description = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
@@ -64,13 +61,11 @@ const Description = styled.div`
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   text-align: justify;
-  text-align: justify;
   font-weight: 500;
   font-size: 24px;
   text-shadow: 2px 2px 1px #000;
   margin-bottom: 20px;
 `;
-
 const Genres = styled.div`
   margin-bottom: 20px;
   color: #030a13;
@@ -78,7 +73,6 @@ const Genres = styled.div`
   font-weight: 500;
   text-shadow: 1px 1px 7px #fff;
 `;
-
 const Regular = styled.div`
   color: rgb(184, 184, 141);
   font-weight: 500;
@@ -106,7 +100,9 @@ const Button = styled.button`
         box-shadow: 0 0 8px #fff;
     }
 `;
-
+const ButtonRed = styled(Button)`
+  background: red;
+`
 const SpanYellow = styled.span`
     color: #d5d58a;
     font-size: 18px;
@@ -114,33 +110,40 @@ const SpanYellow = styled.span`
 `
 
 const MovieCard = () => {
-  const id = useSelector(selectDetails).id;
-  const [details, setDetails] = useState({});
+  const details = useSelector(selectDetails);
+  
+  const [isImageLoaded, setIsImageLoaded] = useState(null);
+  const [fullDetails, setFullDetails] = useState({});
   const dispatch = useDispatch();
   const updateCurrent = (item) => {
-    dispatch({ type: GAMES.ADD_DETAILS, payload: item });
+    dispatch({ type: FILMS.ADD_DETAILS, payload: item });
   };
-
+  console.log(details);
   const addToCollection = () => {
-    // const newCollectionItem = {
-    //   ...details,
-    //   isInCollection: true,
-    //   playedTime: 0,
-    // };
-    // dispatch({ type: GAMES.ADD_TO_COLLECTION, payload: newCollectionItem });
-    // updateCurrent(newCollectionItem);
+    const newCollectionItem = {
+      ...fullDetails,
+      isInCollection: true,
+    };
+    console.log(newCollectionItem);
+    dispatch({ type: FILMS.ADD_TO_COLLECTION, payload: newCollectionItem });
+    setFullDetails(newCollectionItem);
+    updateCurrent(newCollectionItem);
   };
 
   const deleteFromCollection = () => {
-    // dispatch({ type: GAMES.DELETE_FROM_COLLECTION, payload: details.id });
-    // updateCurrent({ ...details, isInCollection: false });
+    dispatch({ type: FILMS.DELETE_FROM_COLLECTION, payload: details.id });
+    updateCurrent({ ...fullDetails, isInCollection: false });
   };
 
   useEffect(() => {
-    if (details.isInCollection) return;
+    if (!details.id) return;
+    if (details.isInCollection) {
+      return setFullDetails(details);
+    }
     (async () => {
-      const result = await fecthFilmById(id);
-      setDetails(result);
+      const result = await fecthFilmById(details.id);
+      setFullDetails(result);
+      updateCurrent(result);
       console.log(result);
     })();
   }, []);
@@ -150,34 +153,35 @@ const MovieCard = () => {
   ) : (
     <Card>
       <Title>{details.name}<SpanYellow>{details.enName || details.alternativeName}</SpanYellow></Title>
-      <Image src={details.poster.url}></Image>
+      <Image className={''} src={details.poster?.url}></Image>
       <InfoBlock>
-        <Description>{details.description}</Description>
-        <Actors>В ролях: {details.persons.map((e) => e.name + ", ")}</Actors>
+        <Description >{details.description}</Description>
+        <Actors>В ролях: {details.persons?.map((e) => e.name + ", ")}</Actors>
         <Genres>
           ЖАНР:
-          {details.genres.map((e) => (
+          {details.genres?.map((e) => (
             <span key={e.name}> {e.name + ","}</span>
           ))}
         </Genres>
         <Regular>Год: {details.year}</Regular>
         <Regular>
-          Рейтинг КП: <RedSpan>{details.rating.kp}</RedSpan>
+          Рейтинг КП: <RedSpan>{details.rating?.kp}</RedSpan>
         </Regular>
         <Regular>
-          Страны: <br></br>
-          {details.countries.map((e) => (
-            <span key={e.name}>{e.name}</span>
+          <SpanYellow>Страны:<br></br></SpanYellow>
+          {details.countries?.map((e) => (
+            <span key={e.name}>{e.name} / </span>
           ))}
         </Regular>
         <div>
           {!details.isInCollection ? (
             <Button onClick={addToCollection}>Смотрел</Button>
           ) : (
-            <Button onClick={deleteFromCollection}>Не смотрел</Button>
+            <ButtonRed onClick={deleteFromCollection}>Не смотрел</ButtonRed>
           )}
         </div>
       </InfoBlock>
+      {details.videos?.trailers?.map( video => <iframe src={video.url}/>)}
     </Card>
   );
 };

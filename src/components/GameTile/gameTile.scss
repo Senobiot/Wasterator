@@ -18,7 +18,6 @@
   }
 
   &-image {
-    width: 100%;
     min-height: 240px;
     height: 240px;
   }
@@ -28,6 +27,11 @@
     margin: 0;
     height: 3em;
     padding: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 
   &-played-time {
@@ -39,5 +43,10 @@
     color: #888;
     font-size: 0.9em;
     margin: 5px;
+  }
+
+  &-played-time, &-played-year {
+    text-align: left;
+    padding: 0 20px;
   }
 }

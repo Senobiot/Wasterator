@@ -1,5 +1,5 @@
 // import './Card.css';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectDetails } from "../../selectors/selectors";
 import { fetchGameDetail, fecthFilmById } from "../../api/api";
@@ -12,11 +12,13 @@ import PlayedTime from "./PlayedTime/PlayedTime";
 
 export default function Card() {
   const dispatch = useDispatch();
+  const [loadedImg, setLoadedImg] = useState('ghostloader');
+  const [loadedText, setLoadedText] = useState('ghostloader');
   const updateCurrent = (item) => {
     dispatch({ type: GAMES.ADD_DETAILS, payload: item });
   };
   const details = useSelector(selectDetails);
-console.log(details);
+
   const addGameToCollection = () => {
     const newCollectionItem = { ...details, isInCollection: true, playedTime: 0 };
     dispatch({ type: GAMES.ADD_TO_COLLECTION, payload: newCollectionItem });
@@ -41,17 +43,20 @@ console.log(details);
   };
 
   useEffect(() => {
-    if (details.isInCollection) return;
+    if (details.isInCollection) {
+      return setLoadedText('');
+    }
     const query = async () => {
-      if (details.itemType) {
-        const res = await fecthFilmById(details.id);
-        console.log(res);
-      }
+      // if (details.itemType) {
+      //   const res = await fecthFilmById(details.id);
+      //   console.log(res);
+      // }
       const url = details.api_detail_url;
       if (url) {
         const details = await fetchGameDetail(url);
         const filteredDetails = fieldsFilter(details, collectionFields);
         updateCurrent({ ...details, ...filteredDetails });
+        setLoadedText('');
       }
     };
 
@@ -64,11 +69,11 @@ console.log(details);
     <div className={classes.card}>
       <div className={classes.title}>{details.name}</div>
       <div className={classes.card_content}>
-        <div className={classes.image_wrapper}>
-          <img src={details?.image?.medium_url} alt="" />
+        <div className={`${classes.image_wrapper} ${loadedImg}`}>
+          <img src={details?.image?.medium_url} onLoad={() => setLoadedImg('')} alt="" />
         </div>
         <div className={classes.description_wrapper}>
-          <div className={classes.description}>{details.deck}</div>
+          <div className={`${classes.description} ${loadedText}`}>{details.deck}</div>
           <div className={classes.genres}>
             {details.themes?.map((e) => (
               <span key={e.name}>{e.name + " / "}</span>
@@ -80,9 +85,8 @@ console.log(details);
               details.expected_release_year}
           </div>
           <div className={classes.developers}>
-            Developers: <br></br>
-            {details.developers?.map((e) => (
-              <span key={e.name}>{e.name}</span>
+            Developers:  {details.developers?.map((e) => (
+              <div key={e.name}>{e.name}</div>
             ))}
           </div>
           {details.playedTime ? (

@@ -4,6 +4,21 @@
   text-align: center;
 }
 
+.ghostloader {
+  background-image: linear-gradient(
+    -80deg,
+    #516470 20%,
+    #28343d 50%,
+    #516470 80%
+  );
+  color: rgba(0, 0, 0, 0);
+  border-color: rgba(0, 0, 0, 0);
+  background-size: 600% 100%;
+  animation: ghostloaderAnimation 1.6s infinite;
+  animation-timing-function: ease-in-out;
+  pointer-events: none;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -38,4 +53,10 @@
 
 .read-the-docs {
   color: #888;
+}
+
+@keyframes ghostloaderAnimation {
+  0% {
+    background-position: right;
+  }
 }

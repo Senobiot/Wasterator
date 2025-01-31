@@ -39,19 +39,24 @@ const collectionReducer = (state = initialState, action) => {
       return { ...state, games: newCollection };
     }
 
-    // case FILMS.ADD_TO_COLLECTION: {
-    //   console.log(state.films)
-    //   console.log(action.payload);
-    //   const newCollection = [...state.films, action.payload];
-    //   setStorageItem(COLLECTION_TYPES.FILMS, newCollection);
+    case FILMS.ADD_TO_COLLECTION: {
+      const newCollection = [...state.films, action.payload];
+      setStorageItem(COLLECTION_TYPES.FILMS, newCollection);
 
-    //   return { ...state, films: newCollection };
-    // }
+      return { ...state, films: newCollection };
+    }
 
     case GAMES.DELETE_FROM_COLLECTION: {
       const newCollection = state.games.filter((e) => e.id !== action.payload);
       setStorageItem(COLLECTION_TYPES.GAMES, newCollection);
       return { ...state, games: newCollection };
+    }
+
+    case FILMS.DELETE_FROM_COLLECTION: {
+      console.log(action.payload);
+      const newCollection = state.films.filter((e) => e.id !== action.payload);
+      setStorageItem(COLLECTION_TYPES.FILMS, newCollection);
+      return { ...state, films: newCollection };
     }
 
     default:

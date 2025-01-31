@@ -1,11 +1,11 @@
 import GameTile from "../GameTile/GameTile";
 import { useSelector } from "react-redux";
-import {  } from "../../selectors/selectors";
+import { selectFilmsCollection } from "../../selectors/selectors";
 import { Link } from "react-router-dom";
+import { SEARCH_TYPE } from "../../constants/constants";
 
 export default function Films() {
-  const collection = [];
-//   useSelector(null);
+ const collection = useSelector(selectFilmsCollection);
 console.log(collection)
   return (
     <div
@@ -14,19 +14,20 @@ console.log(collection)
     >
       {!collection.length
         ? "Your collection is still empty... ("
-        : collection.map((game) => {
+        : collection.map((movie) => {
             return (
               <Link
-                key={game.id}
+                key={movie.id}
                 to={{
-                  pathname: "/card",
-                  search: `?id=${game.id}`,
+                  pathname: "/movie",
+                  search: `?id=${movie.id}`,
                 }}
                 style={{ display: "flex", width: "25%" }}
               >
                 <GameTile
-                  data={game}
-                  key={game.name}
+                  data={movie}
+                  key={movie.name}
+                  type={SEARCH_TYPE.FILMS}
                 ></GameTile>
               </Link>
             );
