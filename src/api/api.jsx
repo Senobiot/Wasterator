@@ -34,6 +34,7 @@ const filmsImportantFields = [
 ];
 
 export const fecthFilmsByTitle = async (title) => {
+  console.log('===  FETCH FILM BY TITLE ===');
   const response = await fetch(API.FILMS.SEARCH_BY_NAME + title, {
     method: "GET",
     withCredentials: true,
@@ -53,6 +54,7 @@ export const fecthFilmsByTitle = async (title) => {
 };
 
 export const fecthFilmById = async (title) => {
+  console.log('===  FETCH FILM BY ID ===');
   const response = await fetch(API.FILMS.SEARCH_BY_ID + title, {
     method: "GET",
     withCredentials: true,
@@ -66,6 +68,7 @@ export const fecthFilmById = async (title) => {
 };
 
 export const fecthGamesByTitle = async (title) => {
+  console.log('===  FETCH GAMES BY TITLE ===');
   const response = await fetch(
     `${API.GAMES.URL}${API.GAMES.REQUEST.search}?api_key=${gamesApiKey}&format=${API.GAMES.FORMAT}&query=${title}&resources=game`
   );
@@ -75,7 +78,7 @@ export const fecthGamesByTitle = async (title) => {
 };
 
 export const fetchGameDetail = async (url) => {
-  console.log(`FETCH fetchGameDetail`);
+  console.log('===  FETCH GAME DETAILS ===');
   const response = await fetch(
     `${url}?api_key=${gamesApiKey}&format=${API.GAMES.FORMAT}`
   );

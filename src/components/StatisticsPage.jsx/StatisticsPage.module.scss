@@ -48,3 +48,45 @@
     color:brown;
     user-select: none;
 }
+
+.category {
+    display: flex;
+        font-size: 20px;
+        color: rgb(255, 255, 255);
+        background-color: rgba(#0a3044, 0.85);
+        // text-shadow: 1px 1px 3px #ffffff;
+        padding: 5px;
+
+    .title {
+        width: 90%;
+    }
+
+    .collapse {
+        width: 10%;
+        cursor: pointer;
+        user-select: none;
+        padding-top: 2px;
+        &:after {
+            content: '';
+            border: solid rgb(255, 255, 255);
+            border-width: 0 3px 3px 0;
+            transition: 0.3s;
+            transform: rotate(-135deg);
+                display: inline-block;
+                padding: 6px;
+        }
+        &.collapsed:after {
+            transform: rotate(45deg);
+        }
+    }
+}
+
+.collection {
+    transition: 0.15s;
+    transform-origin: top;
+
+    &.collapsed{
+        max-height: 1px;
+        transform: scaleY(0);
+    }
+}

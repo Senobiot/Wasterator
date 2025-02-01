@@ -111,20 +111,17 @@ const SpanYellow = styled.span`
 
 const MovieCard = () => {
   const details = useSelector(selectDetails);
-  
-  const [isImageLoaded, setIsImageLoaded] = useState(null);
+  // const [isImageLoaded, setIsImageLoaded] = useState(null);
   const [fullDetails, setFullDetails] = useState({});
   const dispatch = useDispatch();
   const updateCurrent = (item) => {
     dispatch({ type: FILMS.ADD_DETAILS, payload: item });
   };
-  console.log(details);
   const addToCollection = () => {
     const newCollectionItem = {
       ...fullDetails,
       isInCollection: true,
     };
-    console.log(newCollectionItem);
     dispatch({ type: FILMS.ADD_TO_COLLECTION, payload: newCollectionItem });
     setFullDetails(newCollectionItem);
     updateCurrent(newCollectionItem);
@@ -144,7 +141,6 @@ const MovieCard = () => {
       const result = await fecthFilmById(details.id);
       setFullDetails(result);
       updateCurrent(result);
-      console.log(result);
     })();
   }, []);
 

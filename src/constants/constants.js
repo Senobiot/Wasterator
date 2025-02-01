@@ -36,5 +36,31 @@ export const INSCRIPTIONS_KEYS = {
       FILMS: 'Время:',
       GAMES: 'Наиграно',
     },
+  },
+  STATISTIC_PAGE: {
+    COLLECTION_NAMES: {
+      GAMES: 'Игры',
+      FILMS: 'Фильмы',
+      SERIALS: 'Сериалы',
+    },
+    TOTAL_TIME: 'Всего потрачено времени',
+    HEADER_SORT_TILES: {
+      BY_TITLE: 'Сортировать по названию',
+      BY_TIME: 'Сортировать по времени',
+    }
   }
 }
+
+export const ROUTES = {
+  PAGE: {
+    MY_GAMES: '/',
+    MY_FILMS: '/films',
+    STATISTIC: '/stats',
+    SEARCH_RESULTS: '/results'
+  },
+  CARDS: {
+    FILM: '/movie',
+    GAME: '/game',
+  }
+}
+

@@ -18,7 +18,7 @@ export default function Card() {
     dispatch({ type: GAMES.ADD_DETAILS, payload: item });
   };
   const details = useSelector(selectDetails);
-
+  console.log(details);
   const addGameToCollection = () => {
     const newCollectionItem = { ...details, isInCollection: true, playedTime: 0 };
     dispatch({ type: GAMES.ADD_TO_COLLECTION, payload: newCollectionItem });
