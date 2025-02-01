@@ -1,6 +1,7 @@
-import * as API from "../constants/api";
+const gamesApiKey = import.meta.env.VITE_API_KEY_GAMES;
+const filmsApiKey = import.meta.env.VITE_API_KEY_FILMS;
+import * as API from "../constants/api-config";
 import { NUMBER_OF_SEARCH_ITEMS } from "../constants/constants";
-NUMBER_OF_SEARCH_ITEMS
 import { fieldsFilter, objectSort } from "../utils/utils";
 
 const importantFields = [
@@ -37,14 +38,18 @@ export const fecthFilmsByTitle = async (title) => {
     method: "GET",
     withCredentials: true,
     headers: {
-      "X-API-KEY": API.FILMS.KEY,
+      "X-API-KEY": filmsApiKey,
       "Content-Type": API.FILMS.CONTENT_TYPE,
     },
   });
   const data = await response.json();
 
-  const filteredData = data.docs.map((e) => fieldsFilter(e, filmsImportantFields));
-  return (filteredData.sort(objectSort(['votes', 'kp']))).splice(0, NUMBER_OF_SEARCH_ITEMS.FILMS);
+  const filteredData = data.docs.map((e) =>
+    fieldsFilter(e, filmsImportantFields)
+  );
+  return filteredData
+    .sort(objectSort(["votes", "kp"]))
+    .splice(0, NUMBER_OF_SEARCH_ITEMS.FILMS);
 };
 
 export const fecthFilmById = async (title) => {
@@ -52,7 +57,7 @@ export const fecthFilmById = async (title) => {
     method: "GET",
     withCredentials: true,
     headers: {
-      "X-API-KEY": API.FILMS.KEY,
+      "X-API-KEY": filmsApiKey,
       "Content-Type": API.FILMS.CONTENT_TYPE,
     },
   });
@@ -60,11 +65,9 @@ export const fecthFilmById = async (title) => {
   return data;
 };
 
-
-
 export const fecthGamesByTitle = async (title) => {
   const response = await fetch(
-    `${API.GAMES.URL}${API.GAMES.REQUEST.search}?api_key=${API.GAMES.KEY}&format=${API.GAMES.FORMAT}&query=${title}&resources=game`
+    `${API.GAMES.URL}${API.GAMES.REQUEST.search}?api_key=${gamesApiKey}&format=${API.GAMES.FORMAT}&query=${title}&resources=game`
   );
   const data = await response.json();
 
@@ -74,7 +77,7 @@ export const fecthGamesByTitle = async (title) => {
 export const fetchGameDetail = async (url) => {
   console.log(`FETCH fetchGameDetail`);
   const response = await fetch(
-    `${url}?api_key=${API.GAMES.KEY}&format=${API.GAMES.FORMAT}`
+    `${url}?api_key=${gamesApiKey}&format=${API.GAMES.FORMAT}`
   );
   const data = await response.json();
 
