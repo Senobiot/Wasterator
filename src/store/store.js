@@ -2,8 +2,11 @@ import { configureStore } from '@reduxjs/toolkit'
 import detailsReducer from '../reducers/detailsReducer';
 import searchResultReducer from '../reducers/searchResultReducer';
 import collectionReducer from '../reducers/collectionReducer';
-import seacrhTypeReducer from '../reducers/seacrhTypeReducer';
 import logger from '../middlewares/logger';
+import fetchGames from '../middlewares/fetchGames';
+import fecthFilms from '../middlewares/fecthFilms';
+
+
 const store = configureStore({
     reducer: {
         details: detailsReducer,
@@ -11,7 +14,7 @@ const store = configureStore({
         collection: collectionReducer,
         // seacrhType: seacrhTypeReducer,
     },
-    middleware: () => [logger],
+    middleware: () => [logger, fetchGames, fecthFilms],
   })
 
 console.log(store.getState())

@@ -1,15 +1,14 @@
 import { useRef, useState } from "react";
-import { fecthFilmsByTitle, fecthGamesByTitle } from "../../api/api";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { SEARCH } from "../../constants/ActionTypes/AtcionTypes";
 import {
-  selectSearchType,
   selectGamesSearchHistory,
   selectFilmsSearchHistory
 } from "../../selectors/selectors";
 import classes from "./SearchBar.module.scss";
 import { SearchTypes } from "../../constants/constants";
+import { fetchGamesListbyName, fetchFilmsListbyName } from "../../actions";
 
 export default function SearchBar() {
   const gamesSearchHistory = useSelector(selectGamesSearchHistory);
@@ -38,9 +37,8 @@ export default function SearchBar() {
         return dispatch({ type: SEARCH.STORE_FILM_LIST, payload: payload });
       }
 
-      const fetchedFilms = await fecthFilmsByTitle(searchItem);
       inputRef.current.disabled = false;
-      return dispatch({type: SEARCH.STORE_FILM_LIST, payload: { [searchItem]: fetchedFilms }})
+      return dispatch(fetchFilmsListbyName(searchItem))
     }
 
     if (searchItem in gamesSearchHistory) {
@@ -49,8 +47,7 @@ export default function SearchBar() {
       return dispatch({ type: SEARCH.STORE_GAME_LIST, payload: payload });
     }
 
-    const fetchedGames = await fecthGamesByTitle(searchItem);
-      dispatch({ type: SEARCH.STORE_GAME_LIST, payload:  { [searchItem]: fetchedGames }});
+    dispatch(fetchGamesListbyName(searchItem))
     inputRef.current.disabled = false;
   };
 

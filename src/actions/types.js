@@ -1,4 +1,4 @@
-import { SEARCH_TYPE } from "../constants";
+import { SEARCH_TYPE } from "../constants/constants";
 
 export const GAMES = {
   ADD_TO_COLLECTION: "ADD_GAME_TO_COLLECTION",

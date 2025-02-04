@@ -1,10 +1,8 @@
 import { styled } from "styled-components";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectDetails } from "../../selectors/selectors";
-import { fecthFilmById } from "../../api/api";
-import { GAMES, FILMS } from "../../constants/ActionTypes/AtcionTypes";
-import { collectionFields } from "../../constants/constants";
+import { FILMS, API } from "../../constants/ActionTypes/AtcionTypes";
 
 const Card = styled.div`
   max-width: 1024px;
@@ -112,36 +110,30 @@ const SpanYellow = styled.span`
 const MovieCard = () => {
   const details = useSelector(selectDetails);
   // const [isImageLoaded, setIsImageLoaded] = useState(null);
-  const [fullDetails, setFullDetails] = useState({});
   const dispatch = useDispatch();
   const updateCurrent = (item) => {
     dispatch({ type: FILMS.ADD_DETAILS, payload: item });
   };
+  console.log(details);
   const addToCollection = () => {
+    // переделать
     const newCollectionItem = {
-      ...fullDetails,
+      ...details,
       isInCollection: true,
     };
     dispatch({ type: FILMS.ADD_TO_COLLECTION, payload: newCollectionItem });
-    setFullDetails(newCollectionItem);
     updateCurrent(newCollectionItem);
   };
 
   const deleteFromCollection = () => {
     dispatch({ type: FILMS.DELETE_FROM_COLLECTION, payload: details.id });
-    updateCurrent({ ...fullDetails, isInCollection: false });
+    updateCurrent({ ...details, isInCollection: false });
   };
 
   useEffect(() => {
-    if (!details.id) return;
-    if (details.isInCollection) {
-      return setFullDetails(details);
-    }
-    (async () => {
-      const result = await fecthFilmById(details.id);
-      setFullDetails(result);
-      updateCurrent(result);
-    })();
+    if (!details.id || details.isInCollection) return;
+
+    dispatch({ type: API.FILMS.GET_DETAILED_INFO, payload: details.id });
   }, []);
 
   return !details.name ? (
@@ -177,7 +169,7 @@ const MovieCard = () => {
           )}
         </div>
       </InfoBlock>
-      {details.videos?.trailers?.map( video => <iframe src={video.url}/>)}
+      {details.videos?.trailers?.map( (video, i) => <iframe key={i} src={video.url}/>)}
     </Card>
   );
 };
