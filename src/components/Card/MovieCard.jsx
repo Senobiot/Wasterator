@@ -152,11 +152,11 @@ const MovieCard = () => {
       <Image className={''} src={details.poster?.url}></Image>
       <InfoBlock>
         <Description >{details.description}</Description>
-        <Actors>В ролях: {details.persons?.map((e) => e.name + ", ")}</Actors>
+        <Actors>В ролях: {details.persons?.map((e,i) => <span key={i}>{e.name + ", "}</span>)}</Actors>
         <Genres>
           ЖАНР:
-          {details.genres?.map((e) => (
-            <span key={e.name}> {e.name + ","}</span>
+          {details.genres?.map((e, i) => (
+            <span key={i}> {e.name + ","}</span>
           ))}
         </Genres>
         <Regular>Год: {details.year}</Regular>
