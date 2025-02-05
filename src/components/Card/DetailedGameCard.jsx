@@ -2,25 +2,26 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectDetails } from "../../selectors/selectors";
-import { fetchGameDetail, fecthFilmById } from "../../api/api";
 import Button from "../Button/Button";
 import classes from "./DetailedGameCard.module.scss";
-import { GAMES } from "../../constants/ActionTypes/AtcionTypes";
-import { fieldsFilter } from "../../utils/utils";
-import { collectionFields } from "../../constants/constants";
+import { API, GAMES } from "../../constants/ActionTypes/AtcionTypes";
 import PlayedTime from "./PlayedTime/PlayedTime";
-
+API;
 export default function Card() {
   const dispatch = useDispatch();
-  const [loadedImg, setLoadedImg] = useState('ghostloader');
-  const [loadedText, setLoadedText] = useState('ghostloader');
+  const [loadedImg, setLoadedImg] = useState("ghostloader");
+  const [loadedText, setLoadedText] = useState("ghostloader");
   const updateCurrent = (item) => {
     dispatch({ type: GAMES.ADD_DETAILS, payload: item });
   };
   const details = useSelector(selectDetails);
 
   const addGameToCollection = () => {
-    const newCollectionItem = { ...details, isInCollection: true, playedTime: 0 };
+    const newCollectionItem = {
+      ...details,
+      isInCollection: true,
+      playedTime: 0,
+    };
     dispatch({ type: GAMES.ADD_TO_COLLECTION, payload: newCollectionItem });
     updateCurrent(newCollectionItem);
   };
@@ -44,23 +45,13 @@ export default function Card() {
 
   useEffect(() => {
     if (details.isInCollection) {
-      return setLoadedText('');
+      return setLoadedText("");
     }
-    const query = async () => {
-      // if (details.itemType) {
-      //   const res = await fecthFilmById(details.id);
-      //   console.log(res);
-      // }
-      const url = details.api_detail_url;
-      if (url) {
-        const details = await fetchGameDetail(url);
-        const filteredDetails = fieldsFilter(details, collectionFields);
-        updateCurrent({ ...details, ...filteredDetails });
-        setLoadedText('');
-      }
-    };
-
-    query();
+    if (details.api_detail_url) {
+      // тут надо сделать лоадер пока нет данных
+      setLoadedText("");
+      dispatch({ type: API.GAMES.GET_DETAILED_INFO, payload: details.api_detail_url });
+    }
   }, []);
 
   return !details.name ? (
@@ -70,10 +61,16 @@ export default function Card() {
       <div className={classes.title}>{details.name}</div>
       <div className={classes.card_content}>
         <div className={`${classes.image_wrapper} ${loadedImg}`}>
-          <img src={details?.image?.medium_url} onLoad={() => setLoadedImg('')} alt="" />
+          <img
+            src={details?.image?.medium_url}
+            onLoad={() => setLoadedImg("")}
+            alt=""
+          />
         </div>
         <div className={classes.description_wrapper}>
-          <div className={`${classes.description} ${loadedText}`}>{details.deck}</div>
+          <div className={`${classes.description} ${loadedText}`}>
+            {details.deck}
+          </div>
           <div className={classes.genres}>
             {details.themes?.map((e) => (
               <span key={e.name}>{e.name + " / "}</span>
@@ -81,19 +78,16 @@ export default function Card() {
           </div>
           <div className={classes.release}>
             Release:{" "}
-            {details.original_release_date ||
-              details.expected_release_year}
+            {details.original_release_date || details.expected_release_year}
           </div>
           <div className={classes.developers}>
-            Developers:  {details.developers?.map((e) => (
+            Developers:{" "}
+            {details.developers?.map((e) => (
               <div key={e.name}>{e.name}</div>
             ))}
           </div>
           {details.playedTime ? (
-            <PlayedTime
-              className={classes.time}
-              time={details.playedTime}
-            />
+            <PlayedTime className={classes.time} time={details.playedTime} />
           ) : (
             ""
           )}
