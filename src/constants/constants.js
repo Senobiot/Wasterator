@@ -1,20 +1,3 @@
-export const COLLECTION_FIELDS = [
-  "api_detail_url",
-  "deck",
-  "expected_release_year",
-  "image",
-  "name",
-  "original_release_date",
-  "themes",
-  "id",
-  "developers",
-];
-
-export const SearchTypes = {
-  GAMES: "Search the game",
-  FILMS: "Search the movie",
-};
-
 export const COLLECTION_TYPES = {
   GAMES: "games",
   FILMS: "films",
@@ -49,6 +32,10 @@ export const INSCRIPTIONS_KEYS = {
       BY_TIME: "Сортировать по времени",
     },
   },
+  SEARCH_BOX: {
+    GAMES: "Search the game",
+    FILMS: "Search the movie",
+  }
 };
 
 export const ROUTES = {
@@ -92,3 +79,20 @@ export const FILMS_IMPORTANT_FIELDS = [
   "isSeries",
   "votes",
 ];
+
+export const COLLECTION_FIELDS = [
+  "api_detail_url",
+  "deck",
+  "expected_release_year",
+  "image",
+  "name",
+  "original_release_date",
+  "themes",
+  "id",
+  "developers",
+];
+
+export const LOCAL_STORAGE = {
+  GAME_HISTORY_KEY: "gamesSearchHistory",
+  FILMS_HISTORY_KEY: "filmsSearchHistory",
+}

@@ -3,43 +3,35 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectDetails } from "../../selectors/selectors";
 import Button from "../Button/Button";
-import classes from "./DetailedGameCard.module.scss";
-import { API, GAMES } from "../../constants/ActionTypes/AtcionTypes";
+import classes from "./GameCard.module.scss";
 import PlayedTime from "./PlayedTime/PlayedTime";
-API;
+import { addGameToCollection, deleteGameFromCollection, fetchGameInfo, setItemDetails, updatePlayedTime } from "../../actions";
+
 export default function Card() {
+  const details = useSelector(selectDetails);
   const dispatch = useDispatch();
   const [loadedImg, setLoadedImg] = useState("ghostloader");
   const [loadedText, setLoadedText] = useState("ghostloader");
-  const updateCurrent = (item) => {
-    dispatch({ type: GAMES.ADD_DETAILS, payload: item });
-  };
-  const details = useSelector(selectDetails);
-
-  const addGameToCollection = () => {
+  const handleAdd = () => {
     const newCollectionItem = {
       ...details,
       isInCollection: true,
       playedTime: 0,
     };
-    dispatch({ type: GAMES.ADD_TO_COLLECTION, payload: newCollectionItem });
-    updateCurrent(newCollectionItem);
+    dispatch(addGameToCollection(newCollectionItem));
+    dispatch(setItemDetails(newCollectionItem));
   };
 
-  const deleteGameFromCollection = () => {
-    dispatch({ type: GAMES.DELETE_FROM_COLLECTION, payload: details.id });
-    updateCurrent({ ...details, isInCollection: false });
+  const handleDelete = () => {
+    dispatch(deleteGameFromCollection(details.id));
+    dispatch(setItemDetails({ ...details, isInCollection: false }));
   };
 
-  const updatePlayedTime = () => {
+  const handleUpdate = () => {
     const playedTime = prompt("Сколько наиграли?");
     if (playedTime || playedTime === 0) {
-      console.log(playedTime);
-      dispatch({
-        type: GAMES.UPDATE_PLAYED_TIME,
-        payload: { id: details.id, playedTime: +playedTime },
-      });
-      updateCurrent({ ...details, playedTime: +playedTime });
+      dispatch(updatePlayedTime({ id: details.id, playedTime: +playedTime }));
+      dispatch(setItemDetails({ ...details, playedTime: +playedTime }));
     }
   };
 
@@ -48,9 +40,9 @@ export default function Card() {
       return setLoadedText("");
     }
     if (details.api_detail_url) {
-      // тут надо сделать лоадер пока нет данных
+      // TODO тут надо сделать лоадер пока нет данных
       setLoadedText("");
-      dispatch({ type: API.GAMES.GET_DETAILED_INFO, payload: details.api_detail_url });
+      dispatch(fetchGameInfo(details.api_detail_url));
     }
   }, []);
 
@@ -94,7 +86,7 @@ export default function Card() {
           <div className={classes.button_wrapper}>
             {!details.isInCollection ? (
               <Button
-                onClick={addGameToCollection}
+                onClick={handleAdd}
                 title="Добавить"
                 className={classes.button}
               ></Button>
@@ -103,7 +95,7 @@ export default function Card() {
             )}
             {details.isInCollection ? (
               <Button
-                onClick={deleteGameFromCollection}
+                onClick={handleDelete}
                 title="Удалить"
                 className={`${classes.button} ${classes.red}`}
               ></Button>
@@ -112,7 +104,7 @@ export default function Card() {
             )}
             {details.isInCollection ? (
               <Button
-                onClick={updatePlayedTime}
+                onClick={handleUpdate}
                 title="Наиграно"
                 className={`${classes.button} ${classes.yellow}`}
               ></Button>

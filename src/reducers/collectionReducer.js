@@ -1,4 +1,4 @@
-import { GAMES, FILMS } from "../constants/ActionTypes/AtcionTypes";
+import { GAMES, FILMS } from "../actions/types";
 import { COLLECTION_TYPES } from "../constants/constants";
 import { getStorageItem, setStorageItem } from "../utils/utils";
 
@@ -8,11 +8,11 @@ const initialState = { games: savedGamesCollection, films: savedFilmsCollection 
 
 const collectionReducer = (state = initialState, action) => {
   switch (action.type) {
-    //probably no need?
+    //TODO probably no need?
     case GAMES.GET_COLLECTION: {
       return getStorageItem(COLLECTION_TYPES.GAMES);
     }
-    //probably no need?
+    //TODO probably no need?
     case FILMS.GET_COLLECTION: {
       return getStorageItem(COLLECTION_TYPES.FILMS);
     }
@@ -34,6 +34,7 @@ const collectionReducer = (state = initialState, action) => {
 
     case GAMES.ADD_TO_COLLECTION: {
       const newCollection = [...state.games, action.payload];
+            // TODO перенести в middleware
       setStorageItem(COLLECTION_TYPES.GAMES, newCollection);
 
       return { ...state, games: newCollection };
@@ -41,6 +42,7 @@ const collectionReducer = (state = initialState, action) => {
 
     case FILMS.ADD_TO_COLLECTION: {
       const newCollection = [...state.films, action.payload];
+            // TODO перенести в middleware
       setStorageItem(COLLECTION_TYPES.FILMS, newCollection);
 
       return { ...state, films: newCollection };
@@ -48,13 +50,14 @@ const collectionReducer = (state = initialState, action) => {
 
     case GAMES.DELETE_FROM_COLLECTION: {
       const newCollection = state.games.filter((e) => e.id !== action.payload);
+            // TODO перенести в middleware
       setStorageItem(COLLECTION_TYPES.GAMES, newCollection);
       return { ...state, games: newCollection };
     }
 
     case FILMS.DELETE_FROM_COLLECTION: {
-      console.log(action.payload);
       const newCollection = state.films.filter((e) => e.id !== action.payload);
+            // TODO перенести в middleware
       setStorageItem(COLLECTION_TYPES.FILMS, newCollection);
       return { ...state, films: newCollection };
     }

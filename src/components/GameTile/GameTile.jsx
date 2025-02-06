@@ -1,8 +1,8 @@
 import React from "react";
 import "./GameTile.scss";
-import { GAMES } from "../../constants/ActionTypes/AtcionTypes";
 import { useDispatch } from "react-redux";
 import { INSCRIPTIONS_KEYS, SEARCH_TYPE } from "../../constants/constants";
+import { setItemDetails } from "../../actions";
 
 const GameTile = ({ data, type }) => {
   const inscription =
@@ -12,8 +12,8 @@ const GameTile = ({ data, type }) => {
   const { name, image, original_release_date, playedTime, poster, movieLength, year } = data;
   const time =  type === SEARCH_TYPE.FILMS
   const dispatch = useDispatch();
-  const handleClick = () =>
-    dispatch({ type: GAMES.ADD_DETAILS, payload: data });
+  const handleClick = () => dispatch(setItemDetails(data));
+
   return (
     <div onClick={handleClick} className="game-tile">
       <img

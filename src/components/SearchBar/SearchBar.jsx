@@ -1,20 +1,19 @@
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { SEARCH } from "../../constants/ActionTypes/AtcionTypes";
 import {
   selectGamesSearchHistory,
   selectFilmsSearchHistory
 } from "../../selectors/selectors";
 import classes from "./SearchBar.module.scss";
-import { SearchTypes } from "../../constants/constants";
-import { fetchGamesListbyName, fetchFilmsListbyName } from "../../actions";
+import { INSCRIPTIONS_KEYS, SEARCH_TYPE } from "../../constants/constants";
+import { fetchGamesListbyName, fetchFilmsListbyName, storeFilmSearchList, storeGameSearchList } from "../../actions";
 
 export default function SearchBar() {
   const gamesSearchHistory = useSelector(selectGamesSearchHistory);
   const filmsSearchHistory = useSelector(selectFilmsSearchHistory);
   const [searchBoxClass, setSearchBoxClass] = useState("");
-  const [searchType, setSearchType] = useState(SEARCH.TYPE.GAMES);
+  const [searchType, setSearchType] = useState(SEARCH_TYPE.GAMES);
   const inputRef = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -29,12 +28,12 @@ export default function SearchBar() {
       navigate("/results");
     }
     inputRef.current.disabled = true;
-  
-    if (searchType === SEARCH.TYPE.FILMS) {
+
+    if (searchType === SEARCH_TYPE.FILMS) {
       if (searchItem in filmsSearchHistory) {
-        const payload = { [searchItem]: filmsSearchHistory[searchItem] };
+        const list = { [searchItem]: filmsSearchHistory[searchItem] };
         inputRef.current.disabled = false;
-        return dispatch({ type: SEARCH.STORE_FILM_LIST, payload: payload });
+        return dispatch(storeFilmSearchList(list));
       }
 
       inputRef.current.disabled = false;
@@ -42,9 +41,9 @@ export default function SearchBar() {
     }
 
     if (searchItem in gamesSearchHistory) {
-      const payload = { [searchItem]: gamesSearchHistory[searchItem] };
+      const list = { [searchItem]: gamesSearchHistory[searchItem] };
       inputRef.current.disabled = false;
-      return dispatch({ type: SEARCH.STORE_GAME_LIST, payload: payload });
+      return dispatch(storeGameSearchList(list));
     }
 
     dispatch(fetchGamesListbyName(searchItem))
@@ -74,7 +73,7 @@ export default function SearchBar() {
         ref={inputRef}
         type="search"
         id="gamesSearch"
-        placeholder={SearchTypes[searchType]}
+        placeholder={INSCRIPTIONS_KEYS.SEARCH_BOX[searchType]}
       />
       <Link to="/results">
         <span className={classes.search_lense} onClick={handleSubmit}>
@@ -83,16 +82,16 @@ export default function SearchBar() {
       </Link>
       <div className={`${classes.types} ${searchBoxClass}`}>
         <div
-          onClick={() => handleType(SEARCH.TYPE.GAMES)}
-          className={`${classes.types_games} ${SEARCH.TYPE.GAMES === searchType ? classes.active : ""}`}
+          onClick={() => handleType(SEARCH_TYPE.GAMES)}
+          className={`${classes.types_games} ${SEARCH_TYPE.GAMES === searchType ? classes.active : ""}`}
         >
-          {SearchTypes.GAMES}
+          {INSCRIPTIONS_KEYS.SEARCH_BOX.GAMES}
         </div>
         <div
-          onClick={() => handleType(SEARCH.TYPE.FILMS)}
-          className={`${classes.types_films} ${SEARCH.TYPE.FILMS === searchType ? classes.active : ""}`}
+          onClick={() => handleType(SEARCH_TYPE.FILMS)}
+          className={`${classes.types_films} ${SEARCH_TYPE.FILMS === searchType ? classes.active : ""}`}
         >
-          {SearchTypes.FILMS}
+          {INSCRIPTIONS_KEYS.SEARCH_BOX.FILMS}
         </div>
       </div>
     </div>

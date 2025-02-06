@@ -3,8 +3,8 @@ import { objectSort, spacesToNumbers } from "../../utils/utils";
 import classes from "./StatisticsPage.module.scss";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { GAMES } from "../../constants/ActionTypes/AtcionTypes";
 import { INSCRIPTIONS_KEYS } from "../../constants/constants";
+import { setItemDetails } from "../../actions";
 
 export default function StatisticCollection({
   collectionName,
@@ -16,7 +16,7 @@ export default function StatisticCollection({
   const [collection, setCollection] = useState(storedCollection);
 
   const handleClick = (data) =>
-    dispatch({ type: GAMES.ADD_DETAILS, payload: data });
+    dispatch(setItemDetails(data));
 
   const [sortDirection, setSortDirection] = useState(1);
   const sortByTime = () => {

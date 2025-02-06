@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectDetails } from "../../selectors/selectors";
-import { FILMS, API } from "../../constants/ActionTypes/AtcionTypes";
+import { addFilmToCollection, deleteFilmFromCollection, fetchFilmInfo, setItemDetails } from "../../actions";
 
 const Card = styled.div`
   max-width: 1024px;
@@ -111,29 +111,26 @@ const MovieCard = () => {
   const details = useSelector(selectDetails);
   // const [isImageLoaded, setIsImageLoaded] = useState(null);
   const dispatch = useDispatch();
-  const updateCurrent = (item) => {
-    dispatch({ type: FILMS.ADD_DETAILS, payload: item });
-  };
-  console.log(details);
   const addToCollection = () => {
     // переделать
     const newCollectionItem = {
       ...details,
       isInCollection: true,
     };
-    dispatch({ type: FILMS.ADD_TO_COLLECTION, payload: newCollectionItem });
-    updateCurrent(newCollectionItem);
+    dispatch(addFilmToCollection(newCollectionItem));
+    dispatch(setItemDetails(newCollectionItem));
   };
 
   const deleteFromCollection = () => {
-    dispatch({ type: FILMS.DELETE_FROM_COLLECTION, payload: details.id });
-    updateCurrent({ ...details, isInCollection: false });
+    dispatch(deleteFilmFromCollection(details.id));
+    dispatch(setItemDetails({ ...details, isInCollection: false }));
   };
 
   useEffect(() => {
+    console.log(details.isInCollection);
     if (!details.id || details.isInCollection) return;
 
-    dispatch({ type: API.FILMS.GET_DETAILED_INFO, payload: details.id });
+    dispatch(fetchFilmInfo(details.id));
   }, []);
 
   return !details.name ? (

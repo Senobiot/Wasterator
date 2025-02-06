@@ -1,15 +1,10 @@
-import { GAMES, FILMS } from "../constants/ActionTypes/AtcionTypes";
+import { SET_ITEM_DETAILS } from "../actions/types";
 
 const detailsReducer = (state = {}, action) => {
   switch (action.type) {
-    case GAMES.ADD_DETAILS: {
+    case SET_ITEM_DETAILS: {
       return action.payload;
     }
-
-    case FILMS.ADD_DETAILS: {
-      return action.payload;
-    }
-
     default:
       return state;
   }

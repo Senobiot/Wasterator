@@ -12,7 +12,6 @@ const store = configureStore({
         details: detailsReducer,
         searchResult: searchResultReducer,
         collection: collectionReducer,
-        // seacrhType: seacrhTypeReducer,
     },
     middleware: () => [logger, fetchGames, fecthFilms],
   })

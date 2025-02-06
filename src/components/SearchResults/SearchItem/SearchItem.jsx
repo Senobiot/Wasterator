@@ -1,13 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import classes from "./SearchItem.module.scss";
 import { Link } from "react-router-dom";
-import { GAMES, FILMS } from "../../../constants/ActionTypes/AtcionTypes";
 import {
   selectFilmsCollection,
   selectGamesCollection,
-  selectSearchType,
 } from "../../../selectors/selectors";
 import { SEARCH_TYPE } from "../../../constants/constants";
+import { setItemDetails } from "../../../actions";
 
 export default function SearchItem({ data }) {
   if (!data) return;
@@ -31,12 +30,9 @@ export default function SearchItem({ data }) {
   const handleClick = () => {
     if (isInCollection) {
       const collectionData = collection.find((e) => e.id === data.id);
-      return dispatch({ type: GAMES.ADD_DETAILS, payload: collectionData });
+      return dispatch(setItemDetails(collectionData));
     }
-    dispatch({
-      type: isItemTypeGame ? GAMES.ADD_DETAILS : FILMS.ADD_DETAILS,
-      payload: data,
-    });
+    dispatch(setItemDetails(data));
   };
 
   if (isItemTypeGame) {
