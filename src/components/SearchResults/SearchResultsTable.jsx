@@ -4,17 +4,14 @@ import {
   selectGamesCollection,
   selectFilmsCollection,
   selectSearchResult,
-  selectSearchType,
 } from "../../selectors/selectors";
 import { SEARCH_TYPE } from "../../constants/constants";
 import { unifyFields } from "../../utils/utils";
 
 const SearchResultsTable = () => {
-  // const activeSearchType = useSelector(selectSearchType);
   const currentSearch = Object.values(useSelector(selectSearchResult));
   const results = currentSearch[0] || [];
   const resultsType = currentSearch[1];
-  console.log(currentSearch);
   const collection = resultsType === SEARCH_TYPE.GAMES
       ? useSelector(selectGamesCollection)
       : useSelector(selectFilmsCollection);

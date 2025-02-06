@@ -1,4 +1,5 @@
-import { API as API_ACTION_TYPE, FILMS } from "../constants/ActionTypes/AtcionTypes";
+import { setItemDetails } from "../actions";
+import { API } from "../actions/types";
 import { FILMS as API_CONFIG } from "../constants/api-config";
 import { FILMS_IMPORTANT_FIELDS, NUMBER_OF_SEARCH_ITEMS } from "../constants/constants";
 import { fieldsFilter, objectSort } from "../utils/utils";
@@ -6,7 +7,7 @@ import { fieldsFilter, objectSort } from "../utils/utils";
 const fecthFilms = () => (next) => async (action) => {
   let modifiedData = { ...action };
 
-  if (action.type === API_ACTION_TYPE.FILMS.GET_LIST_BY_NAME) {
+  if (action.type === API.FILMS.GET_LIST_BY_NAME) {
     const response = await fetch(API_CONFIG.getByName + action.payload, API_CONFIG.HEADERS);
     const data = await response.json();
     const filteredData = data.docs.map((e) =>
@@ -20,11 +21,11 @@ const fecthFilms = () => (next) => async (action) => {
     return next(modifiedData);
   }
 
-    if (action.type === API_ACTION_TYPE.FILMS.GET_DETAILED_INFO) {
+    if (action.type === API.FILMS.GET_DETAILED_INFO) {
         const response = await fetch(API_CONFIG.getInfoById + action.payload, API_CONFIG.HEADERS);
         const data = await response.json();
 
-      return next({type: FILMS.ADD_DETAILS, payload: data});
+      return next(setItemDetails(data));
     }
 
   return next(action);
