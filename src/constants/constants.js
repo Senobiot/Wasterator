@@ -96,3 +96,10 @@ export const LOCAL_STORAGE = {
   GAME_HISTORY_KEY: "gamesSearchHistory",
   FILMS_HISTORY_KEY: "filmsSearchHistory",
 }
+
+export const VIEW_TYPES = {
+  VARIANTS: ["x2", "x4", "list"],
+  get DEFAULT () {
+    return this.VARIANTS[1]
+  }
+}

@@ -1,0 +1,125 @@
+@use "../../constants/colors.scss";
+.collection-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.game {
+  &-tile {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: inset 0px 10px 20px 2px rgba(0, 0, 0, 0.75);
+    transition: transform 0.2s;
+    margin-bottom: 20px;
+    background-color: colors.$main-bg;
+    width: 100%;
+    user-select: none;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  &-image {
+    min-height: 240px;
+    height: 240px;
+    max-width: 100%;
+  }
+
+  &-title, &-description {
+    font-size: 1.2rem;
+    height: 3em;
+    padding: 0 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    box-sizing: border-box;
+    text-align: left;
+  }
+
+  &-played-time {
+    color: #000000;
+    text-shadow: 1px 1px 2px #fff;
+    margin: 5px 0;
+  }
+  &-played-year {
+    color: #888;
+    font-size: 0.9em;
+    margin: 5px;
+  }
+
+  &-played-time,
+  &-played-year {
+    text-align: left;
+    padding: 0 5px;
+  }
+}
+
+.x2 {
+  width: 49%;
+  .game {
+    &-tile {
+      display: flex;
+    }
+    &-title {
+      color: antiquewhite;
+    }
+  }
+}
+
+.x4 {
+  width: 23%;
+  .game {
+    &-tile {
+      padding-bottom: 10px;
+    }
+    &-title {
+      text-align: center;
+    }
+    &-description {
+      display: none;
+    }
+
+    &-played-time,
+    &-played-year {
+      text-align: left;
+      padding-left: 20px;
+    }
+  }
+}
+
+.list {
+  width: 99%;
+  .game {
+    &-tile {
+      display: flex;
+    }
+    &-title {
+      -webkit-line-clamp: 1;
+      height: 1.5em;
+      margin: 5px 0;
+    }
+    &-description {
+      font-size: 16px;
+      color: #fff;
+      font-weight: normal;
+      margin: 0;
+    }
+    &-played-time,
+    &-played-year {
+      display: inline;
+      padding-left: 10px;
+      color: #f8ffab;
+    }
+    &-info {
+      text-align: left;
+    }
+    &-image {
+      min-height: initial;
+      height: 120px;
+    }
+  }
+}
