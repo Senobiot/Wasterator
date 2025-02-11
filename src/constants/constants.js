@@ -44,6 +44,8 @@ export const ROUTES = {
     MY_FILMS: "/films",
     STATISTIC: "/stats",
     SEARCH_RESULTS: "/results",
+    LOGIN: "/login",
+    DASHBOARD: "/dashboard",
   },
   CARDS: {
     FILM: "/movie",
@@ -96,3 +98,67 @@ export const LOCAL_STORAGE = {
   GAME_HISTORY_KEY: "gamesSearchHistory",
   FILMS_HISTORY_KEY: "filmsSearchHistory",
 }
+
+export const FORM_INPUTS = {
+    name: {
+      type: 'text',
+      id: 'name',
+      placeholder: 'First Name',
+      validationPattern: /^[a-zA-Z]+$/,
+    },
+
+    email: {
+      type: 'email',
+      id: 'email',
+      placeholder: 'Email Address',
+      validationPattern: /^\S+@\S+\.\S+$/,
+    },
+
+    lastName: {
+      type: 'text',
+      id: 'lastName',
+      placeholder: 'Last Name',
+      validationPattern: /^[a-zA-Z]+$/,
+    },
+  
+    birthday: {
+      type: 'text',
+      id: 'birthday',
+      placeholder: 'Birthday YYYY-MM-DD',
+      validationPattern: /^\d{4}-\d{2}-\d{2}$/,
+    },
+  
+    password: {
+      type: 'password',
+      id: 'password',
+      placeholder: 'Password',
+      validationPattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+    },
+
+    phone: {
+      type: 'tel',
+      id: 'phone',
+      placeholder: 'Phone Number',
+      validationPattern: /\d{9}/,
+    },
+
+    gender: {
+      name: 'gender',
+      type: 'radio',
+      variants: [
+        {
+          id: 'femaleGender',
+          placeholder: 'Female',
+        },
+        {
+          id: 'maleGender',
+          placeholder: 'Male',
+        },
+      ],
+    },
+
+    submit: {
+      type: 'submit',
+      placeholder: 'Send',
+    }
+  }

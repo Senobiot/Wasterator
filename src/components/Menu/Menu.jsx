@@ -7,7 +7,8 @@ const menuButtons = [
     {name: 'Мои игры', link: '/'},
     {name: 'Мои фильмы', link: '/films'},
     {name: 'Статистика', link: '/stats'},
-    {name: 'Добавить игру', link: '/add'}
+    {name: 'Добавить игру', link: '/add'},
+    {name: 'Войти', link: '/login'}
 ];
 
 export default function Menu(){
