@@ -99,6 +99,13 @@ export const LOCAL_STORAGE = {
   FILMS_HISTORY_KEY: "filmsSearchHistory",
 }
 
+export const VIEW_TYPES = {
+  VARIANTS: ["x2", "x4", "list"],
+  get DEFAULT () {
+    return this.VARIANTS[1]
+  }
+}
+
 export const FORM_INPUTS = {
     name: {
       type: 'text',
@@ -162,3 +169,4 @@ export const FORM_INPUTS = {
       placeholder: 'Send',
     }
   }
+
