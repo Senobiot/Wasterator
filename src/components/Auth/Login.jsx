@@ -1,87 +1,73 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Login.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { FORM_INPUTS, ROUTES } from "../../constants/constants";
+import { loginRequest } from "../../reducers/authReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCurrentUser } from "../../selectors/selectors";
 
 const Login = () => {
-  // TODO move to consts
-  const names = {
-    email: "email",
-    password: "password",
-    active: "active",
-  };
+  const logged = useSelector(selectCurrentUser);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [invalid, setInvalid] = useState({});
+  const [credentials, setCredentials] = useState({});
 
-  const REGEX_VALIDATION = {
-    EMAIL: /^\S+@\S+\.\S+$/,
-  }
-
-  const [active, setActive] = useState({
-    [names.email]: "",
-    [names.password]: "",
-    [names.active]: "",
-  });
-  const [valid, setValid] = useState("");
-  const [credentials, setCredentials] = useState({
-    [names.email]: "",
-    [names.password]: "",
-  });
+  useEffect(() => {
+    if (logged) {
+    navigate(ROUTES.PAGE.DASHBOARD);        
+    }
+  }, [logged]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(credentials);
-    const url = 'http://localhost:3000/login';
-    const options = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify({ email: credentials.email, password: credentials.password })
-    }
-console.log(options);
-    const response = await fetch(url, options);
-    console.log(response);
+    if (Object.values(invalid).some(e => e)) return;
+   
+    dispatch(loginRequest(credentials));
   };
 
-  const handleChange = (e) => {
-    const value = e.target.value;
-    if (value.trim()) {
-        setValid(REGEX_VALIDATION.EMAIL.test(value))        
-    } else {
-        setValid("");
+  const validate = (id, value) => {
+    if (!FORM_INPUTS[id]?.validationPattern) return;
+    if (!value.trim()) return setInvalid({ ...invalid, [id]: "" });
+
+    if (FORM_INPUTS[id].validationPattern.test(value)) {
+      return setInvalid({ ...invalid, [id]: false });
     }
+    setInvalid({ ...invalid, [id]: true });
+  };
 
-    
-    setCredentials({ ...credentials, [e.target.type]: value });
-
-    if (e.target.value.trim()) {
-      if (!active[e.target.type]) {
-        return setActive({ ...active, [e.target.type]: names.active });
-      }
-      return;
-    }
-
-    return setActive({ ...active, [names[e.target.type]]: "" });
+  const handleChange = (event) => {
+    const id = event.target.id;
+    const value = event.target.value;
+    validate(id, value);
+    setCredentials({ ...credentials, [id]: value });
   };
 
   return (
     <form className={styles.loginForm} onSubmit={handleSubmit}>
       <div className={styles.inputWrapper}>
         <input
+          style={{ borderColor: invalid[FORM_INPUTS.email.id] ? "red" : "green" }}
           onChange={handleChange}
-          type={names.email}
-          id={names.email}
-          className={`${styles[active.email]} ${styles[valid]}`}
+          type={FORM_INPUTS.email.type}
+          id={FORM_INPUTS.email.id}
+          className={credentials[FORM_INPUTS.email.id] ? styles.active : ""}
         />
-        <label htmlFor={names.email}>Email address</label>
+        <label htmlFor={FORM_INPUTS.email.id}>
+          {FORM_INPUTS.email.placeholder}
+        </label>
       </div>
       <div className={styles.inputWrapper}>
         <input
+          style={{ borderColor: invalid[FORM_INPUTS.password.id] ? "red" : "green"}}
           onChange={handleChange}
-          type={names.password}
-          id={names.password}
-          className={styles[active.password]}
+          type={FORM_INPUTS.password.type}
+          id={FORM_INPUTS.password.id}
+          className={credentials[FORM_INPUTS.password.id] ? styles.active : ""}
         />
-        <label htmlFor={names.password}>Password</label>
+        <label htmlFor={FORM_INPUTS.password.id}>
+          {FORM_INPUTS.password.placeholder}
+        </label>
       </div>
       <div>
         <div>
@@ -105,9 +91,8 @@ console.log(options);
       </button>
       <div>
         <p>
-          Not a member? 
-          <Link to="/registration">Register
-          </Link>
+          Not a member?
+          <Link to="/registration">Register</Link>
           <a href="#"></a>
         </p>
       </div>

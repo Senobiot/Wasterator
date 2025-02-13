@@ -13,6 +13,14 @@ export function spacesToNumbers(value) {
   return parts.join(".");
 }
 
+export function getToken() {
+  return JSON.parse(sessionStorage.getItem('accessToken')) || '';
+}
+
+export function setToken(token = '') {
+  sessionStorage.setItem('accessToken', JSON.stringify(token));
+}
+
 export function getStorageItem(item) {
   return JSON.parse(localStorage.getItem(item)) || [];
 }
