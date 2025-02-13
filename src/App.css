@@ -11,7 +11,7 @@
     #28343d 50%,
     #516470 80%
   );
-  color: rgba(0, 0, 0, 0);
+  /* color: rgba(0, 0, 0, 0); */
   border-color: rgba(0, 0, 0, 0);
   background-size: 600% 100%;
   animation: ghostloaderAnimation 1.6s infinite;

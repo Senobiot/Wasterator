@@ -5,3 +5,5 @@ export const selectGamesCollection = (state) => state.collection.games;
 export const selectFilmsCollection = (state) => state.collection.films;
 export const selectDetails = (state) => state.details;
 export const selectSearchType = (state) => state.seacrhType;
+export const selectCurrentUser = (state) => state.auth.user;
+export const selectLoginStatus = (state) => state.auth.isLoggedIn;

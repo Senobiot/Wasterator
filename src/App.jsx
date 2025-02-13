@@ -7,6 +7,9 @@ import SearchResultsTable from './components/SearchResults/SearchResultsTable';
 import StatisticsPage from './components/StatisticsPage.jsx/StatisticsPage';
 import Films from './components/Films/Films';
 import MovieCard from './components/Card/MovieCard';
+import Login from './components/Auth/Login';
+import Dashboard from './components/Auth/Dashboard';
+import Registration from './components/Auth/Registration';
 
 function App() {
   return (
@@ -20,10 +23,13 @@ function App() {
         <Route path="/results" element={<SearchResultsTable />} />
         <Route path="/game" element={<GameCard />} />
         <Route path="/movie" element={<MovieCard />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/registration" element={<Registration />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
     </>
   )
 }
 
-export default App
+export default App;
