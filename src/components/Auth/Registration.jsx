@@ -1,42 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import styles from "./Registration.module.scss";
-import { FORM_INPUTS } from "../../constants/constants";
+import { FORM_INPUTS, ROUTES } from "../../constants/constants";
 import { useNavigate } from "react-router-dom";
+import { registerRequest, registerReset } from "../../reducers/authReducer";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectAuthError,
+  selectisRegisterSucccess,
+} from "../../selectors/selectors";
 
 const Registration = () => {
+  const { message: requestError } = useSelector(selectAuthError);
+  const isRegisterSucccess = useSelector(selectisRegisterSucccess);
+
+  console.log(requestError);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [regData, setRegData] = useState({});
   const [invalid, setInvalid] = useState({});
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const url = "http://localhost:3000/register";
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(regData),
-    };
-
-    try {
-      const response = await fetch(url, options);
-
-      if (!response.ok) {
-        const errorData = await response.json();
-            throw new Error(errorData)
-      }
-
-      navigate('/login');
-
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(registerReset());
+    dispatch(registerRequest(regData));
   };
 
-  const vaidate = (id, value) => {
+  const validate = (id, value) => {
     if (!FORM_INPUTS[id]?.validationPattern) return;
     if (!value.trim()) return setInvalid({ ...invalid, [id]: "" });
 
@@ -46,13 +35,25 @@ const Registration = () => {
     setInvalid({ ...invalid, [id]: "red" });
   };
 
-  const handleInput = (event) => {
-    const id = event.target.id;
-    const value = event.target.value;
-    vaidate(id, value);
-    setRegData({ ...regData, [id]: value });
-  };
-  // TODO Переделать сделать input - компонент со всеми валидациями и стилями отдельно
+  useEffect(() => {
+    if (isRegisterSucccess) {
+      navigate(ROUTES.PAGE.LOGIN);
+      dispatch(registerReset());
+    }
+  }, [isRegisterSucccess]);
+
+  useEffect(() => () => dispatch(registerReset()), []);
+
+  const handleInput = useCallback(
+    (event) => {
+      const id = event.target.id;
+      const value = event.target.value;
+      validate(id, value);
+      setRegData({ ...regData, [id]: value });
+    },
+    [validate]
+  );
+
   const nameGroup = [
     FORM_INPUTS.name.id,
     FORM_INPUTS.lastName.id,
@@ -69,10 +70,16 @@ const Registration = () => {
     <section className={styles.section}>
       <h2>Registration Form</h2>
       <form onSubmit={handleSubmit}>
+        <div
+          className={`${styles.requestMessage} ${requestError ? styles.red : ""}`}
+        >
+          {requestError}
+        </div>
         <div>
           {nameGroup.map((input) => (
             <div key={input}>
               <input
+              //move to scss
                 style={{ borderColor: invalid[input] }}
                 onChange={handleInput}
                 type={FORM_INPUTS[input].type}
@@ -98,9 +105,10 @@ const Registration = () => {
           ))}
         </div>
         <div>
-        {credentialsGroup.map((input) => (
+          {credentialsGroup.map((input) => (
             <div key={input}>
               <input
+                //move to scss
                 style={{ borderColor: invalid[input] }}
                 onChange={handleInput}
                 type={FORM_INPUTS[input].type}

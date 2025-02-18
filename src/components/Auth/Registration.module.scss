@@ -1,5 +1,28 @@
 .section {
   form {
+    position: relative;
+
+    .requestMessage {
+      position: absolute;
+      background-color: chartreuse;
+      width: 100%;
+      bottom: -3em;
+      height: 2em;
+      opacity: 0;
+
+      &.red {
+        animation: error 4s linear;
+        background-color: red;
+      }
+    }
+  }
+
+  @keyframes error {
+    from {
+      opacity: 1;
+    } to{
+      opacity: 0;
+    } 
   }
 
   background-color: #2e3440;
