@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import styles from "./Registration.module.scss";
 import { FORM_INPUTS, ROUTES } from "../../constants/constants";
 import { useNavigate } from "react-router-dom";
-import { registerRequest, registerReset } from "../../reducers/authReducer";
+import { registerRequest, authStatusReset } from "../../reducers/authReducer";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectAuthError,
@@ -21,7 +21,7 @@ const Registration = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    dispatch(registerReset());
+    dispatch(authStatusReset());
     dispatch(registerRequest(regData));
   };
 
@@ -38,11 +38,10 @@ const Registration = () => {
   useEffect(() => {
     if (isRegisterSucccess) {
       navigate(ROUTES.PAGE.LOGIN);
-      dispatch(registerReset());
     }
   }, [isRegisterSucccess]);
 
-  useEffect(() => () => dispatch(registerReset()), []);
+  useEffect(() => () => dispatch(authStatusReset()), []);
 
   const handleInput = useCallback(
     (event) => {
@@ -79,7 +78,7 @@ const Registration = () => {
           {nameGroup.map((input) => (
             <div key={input}>
               <input
-              //move to scss
+                //TODO move to scss
                 style={{ borderColor: invalid[input] }}
                 onChange={handleInput}
                 type={FORM_INPUTS[input].type}
@@ -108,7 +107,7 @@ const Registration = () => {
           {credentialsGroup.map((input) => (
             <div key={input}>
               <input
-                //move to scss
+                //TODO move to scss
                 style={{ borderColor: invalid[input] }}
                 onChange={handleInput}
                 type={FORM_INPUTS[input].type}

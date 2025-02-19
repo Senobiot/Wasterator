@@ -168,7 +168,14 @@ export const FORM_INPUTS = {
     type: "submit",
     placeholder: "Send",
   },
+
+  stayLogged: {
+    id: "stayLogged",
+    type: "checkbox",
+    placeholder: "Remember me",
+  }
 };
+
 export const SERVER_ENDPOINTS = {
   auth: "http://localhost:3000/auth",
   collections: "",
@@ -181,3 +188,8 @@ export const AUTH_ENDPOINTS = {
   getAllUsers: SERVER_ENDPOINTS.auth + "users", // Probably no need
   refresh: SERVER_ENDPOINTS.auth + "/refresh",
 };
+
+export const TOKEN_NAMES = {
+  access: 'accessToken',
+  refresh: 'refreshToken',
+}

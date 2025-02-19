@@ -17,7 +17,7 @@ export function getToken() {
   return JSON.parse(sessionStorage.getItem('accessToken')) || '';
 }
 
-export function setToken(token = '') {
+export function setSessionToken(token = '') {
   sessionStorage.setItem('accessToken', JSON.stringify(token));
 }
 

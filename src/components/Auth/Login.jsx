@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import styles from "./Login.module.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { FORM_INPUTS, ROUTES } from "../../constants/constants";
-import { loginRequest } from "../../reducers/authReducer";
+import { loginRequest, authStatusReset } from "../../reducers/authReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { selectCurrentUser } from "../../selectors/selectors";
+import { selectCurrentUser, selectAuthError } from "../../selectors/selectors";
 
 const Login = () => {
+  const { message: requestError } = useSelector(selectAuthError);
   const logged = useSelector(selectCurrentUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -15,14 +16,15 @@ const Login = () => {
 
   useEffect(() => {
     if (logged) {
-    navigate(ROUTES.PAGE.DASHBOARD);        
+      navigate(ROUTES.PAGE.DASHBOARD);
     }
   }, [logged]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (Object.values(invalid).some(e => e)) return;
-   
+    if (Object.values(invalid).some((e) => e)) return;
+
+    dispatch(authStatusReset());
     dispatch(loginRequest(credentials));
   };
 
@@ -37,17 +39,31 @@ const Login = () => {
   };
 
   const handleChange = (event) => {
+    console.log();
     const id = event.target.id;
     const value = event.target.value;
+
+    if (id === FORM_INPUTS.stayLogged.id) {
+      const isChecked = event.target.checked;
+      return setCredentials({ ...credentials, [id]: isChecked });
+    }
+
     validate(id, value);
     setCredentials({ ...credentials, [id]: value });
   };
 
   return (
     <form className={styles.loginForm} onSubmit={handleSubmit}>
+      <div
+        className={`${styles.requestMessage} ${requestError ? "redErrorMessage" : ""}`}
+      >
+        {requestError}
+      </div>
       <div className={styles.inputWrapper}>
         <input
-          style={{ borderColor: invalid[FORM_INPUTS.email.id] ? "red" : "green" }}
+          style={{
+            borderColor: invalid[FORM_INPUTS.email.id] ? "red" : "green",
+          }}
           onChange={handleChange}
           type={FORM_INPUTS.email.type}
           id={FORM_INPUTS.email.id}
@@ -59,7 +75,9 @@ const Login = () => {
       </div>
       <div className={styles.inputWrapper}>
         <input
-          style={{ borderColor: invalid[FORM_INPUTS.password.id] ? "red" : "green"}}
+          style={{
+            borderColor: invalid[FORM_INPUTS.password.id] ? "red" : "green",
+          }}
           onChange={handleChange}
           type={FORM_INPUTS.password.type}
           id={FORM_INPUTS.password.id}
@@ -72,8 +90,16 @@ const Login = () => {
       <div>
         <div>
           <div>
-            <input type="checkbox" value="" id="remember" />
-            <label htmlFor="remember"> Remember me </label>
+            <input
+              onChange={handleChange}
+              type={FORM_INPUTS.stayLogged.type}
+              value=""
+              id={FORM_INPUTS.stayLogged.id}
+            />
+            <label htmlFor={FORM_INPUTS.stayLogged.id}>
+              {" "}
+              {FORM_INPUTS.stayLogged.placeholder}
+            </label>
           </div>
         </div>
         <div>
