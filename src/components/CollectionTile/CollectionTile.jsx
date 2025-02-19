@@ -13,7 +13,7 @@ const CollectionTile = ({ data, viewVariant, type, pathname }) => {
       : INSCRIPTIONS_KEYS.TITLE_CARDS.DURATION.GAMES;
   const dispatch = useDispatch();
   const handleClick = () => dispatch(setItemDetails(data));
-console.log(data);
+
   return (
     <Link
     to={{

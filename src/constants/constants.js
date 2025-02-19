@@ -35,7 +35,7 @@ export const INSCRIPTIONS_KEYS = {
   SEARCH_BOX: {
     GAMES: "Search the game",
     FILMS: "Search the movie",
-  }
+  },
 };
 
 export const ROUTES = {
@@ -97,76 +97,99 @@ export const COLLECTION_FIELDS = [
 export const LOCAL_STORAGE = {
   GAME_HISTORY_KEY: "gamesSearchHistory",
   FILMS_HISTORY_KEY: "filmsSearchHistory",
-}
+};
 
 export const VIEW_TYPES = {
   VARIANTS: ["x2", "x4", "list"],
-  get DEFAULT () {
-    return this.VARIANTS[1]
-  }
-}
+  get DEFAULT() {
+    return this.VARIANTS[1];
+  },
+};
 
 export const FORM_INPUTS = {
-    name: {
-      type: 'text',
-      id: 'name',
-      placeholder: 'First Name',
-      validationPattern: /^[a-zA-Z]+$/,
-    },
+  name: {
+    type: "text",
+    id: "name",
+    placeholder: "First Name",
+    validationPattern: /^[a-zA-Z]+$/,
+  },
 
-    email: {
-      type: 'email',
-      id: 'email',
-      placeholder: 'Email Address',
-      validationPattern: /^\S+@\S+\.\S+$/,
-    },
+  email: {
+    type: "email",
+    id: "email",
+    placeholder: "Email Address",
+    validationPattern: /^\S+@\S+\.\S+$/,
+  },
 
-    lastName: {
-      type: 'text',
-      id: 'lastName',
-      placeholder: 'Last Name',
-      validationPattern: /^[a-zA-Z]+$/,
-    },
-  
-    birthday: {
-      type: 'text',
-      id: 'birthday',
-      placeholder: 'Birthday YYYY-MM-DD',
-      validationPattern: /^\d{4}-\d{2}-\d{2}$/,
-    },
-  
-    password: {
-      type: 'password',
-      id: 'password',
-      placeholder: 'Password',
-      validationPattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-    },
+  lastName: {
+    type: "text",
+    id: "lastName",
+    placeholder: "Last Name",
+    validationPattern: /^[a-zA-Z]+$/,
+  },
 
-    phone: {
-      type: 'tel',
-      id: 'phone',
-      placeholder: 'Phone Number',
-      validationPattern: /\d{9}/,
-    },
+  birthday: {
+    type: "text",
+    id: "birthday",
+    placeholder: "Birthday YYYY-MM-DD",
+    validationPattern: /^\d{4}-\d{2}-\d{2}$/,
+  },
 
-    gender: {
-      name: 'gender',
-      type: 'radio',
-      variants: [
-        {
-          id: 'femaleGender',
-          placeholder: 'Female',
-        },
-        {
-          id: 'maleGender',
-          placeholder: 'Male',
-        },
-      ],
-    },
+  password: {
+    type: "password",
+    id: "password",
+    placeholder: "Password",
+    validationPattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+  },
 
-    submit: {
-      type: 'submit',
-      placeholder: 'Send',
-    }
+  phone: {
+    type: "tel",
+    id: "phone",
+    placeholder: "Phone Number",
+    validationPattern: /\d{9}/,
+  },
+
+  gender: {
+    name: "gender",
+    type: "radio",
+    variants: [
+      {
+        id: "femaleGender",
+        placeholder: "Female",
+      },
+      {
+        id: "maleGender",
+        placeholder: "Male",
+      },
+    ],
+  },
+
+  submit: {
+    type: "submit",
+    placeholder: "Send",
+  },
+
+  stayLogged: {
+    id: "stayLogged",
+    type: "checkbox",
+    placeholder: "Remember me",
   }
+};
 
+export const SERVER_ENDPOINTS = {
+  auth: "http://localhost:3000/auth",
+  collections: "",
+};
+
+export const AUTH_ENDPOINTS = {
+  registartion: SERVER_ENDPOINTS.auth + "/registration",
+  login: SERVER_ENDPOINTS.auth + "/login",
+  logot: SERVER_ENDPOINTS.auth + "/logout",
+  getAllUsers: SERVER_ENDPOINTS.auth + "users", // Probably no need
+  refresh: SERVER_ENDPOINTS.auth + "/refresh",
+};
+
+export const TOKEN_NAMES = {
+  access: 'accessToken',
+  refresh: 'refreshToken',
+}

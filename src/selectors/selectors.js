@@ -7,3 +7,5 @@ export const selectDetails = (state) => state.details;
 export const selectSearchType = (state) => state.seacrhType;
 export const selectCurrentUser = (state) => state.auth.user;
 export const selectLoginStatus = (state) => state.auth.isLoggedIn;
+export const selectAuthError = (state) => state.auth.error;
+export const selectisRegisterSucccess = (state) => state.auth.registerSuccess;

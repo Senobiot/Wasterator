@@ -3,38 +3,74 @@ import { selectCurrentUser } from "../../selectors/selectors";
 import Button from "../Button/Button";
 import { logOff, refreshToken } from "../../reducers/authReducer";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { ROUTES } from "../../constants/constants";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const loggedUser = useSelector(selectCurrentUser);
-  const fields = Object.entries( loggedUser || {});
-  const handleClick = () => {
-    dispatch(logOff());
-    navigate("/login");
-  };
+  const fields = Object.entries(loggedUser || {});
 
-  const handleRefresh = () => {
-    dispatch(refreshToken(loggedUser.email));
-  }
-  return (
-    <div
-      style={{
-        margin: "0 50px",
-        lineHeight: "3em",
-        backgroundColor: "grey",
-        textAlign: "left",
-      }}
-    >
-      {fields.map((field) => (
-        <div key={field[0]}>
-          {field[0]}: {field[1]}
-        </div>
-      ))}
-      <Button title="Выйти" color="red" onClick={handleClick}></Button>
-      <Button title="Refresh" color="red" onClick={handleRefresh}></Button>
+  const handleClick = () => dispatch(logOff());
+
+  useEffect(() => {
+    if (!loggedUser) {
+      navigate(ROUTES.PAGE.LOGIN);
+    }
+  }, [loggedUser]);
+
+  return !loggedUser ? (
+    <></>
+  ) : (
+    <div style={styles.container}>
+      <h2 style={styles.title}>Добро пожаловать, {loggedUser.name}!</h2>
+      <div style={styles.fields}>
+        {fields.map(([key, value]) => (
+          <div key={key} style={styles.field}>
+            <strong>{key}:</strong> {value}
+          </div>
+        ))}
+      </div>
+      <button style={styles.button} onClick={handleClick}>
+        Выйти
+      </button>
     </div>
   );
+};
+// TODO Move to css
+const styles = {
+  container: {
+    margin: "20px",
+    padding: "20px",
+    borderRadius: "8px",
+    backgroundColor: "#242429",
+    boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+    textAlign: "center",
+  },
+  title: {
+    marginBottom: "20px",
+    fontSize: "24px",
+    color: "#fff",
+  },
+  fields: {
+    textAlign: "left",
+    lineHeight: "1.5em",
+    marginBottom: "20px",
+  },
+  field: {
+    marginBottom: "10px",
+    fontSize: "18px",
+  },
+  button: {
+    padding: "10px 20px",
+    borderRadius: "5px",
+    backgroundColor: "#ff4d4f",
+    color: "white",
+    border: "none",
+    cursor: "pointer",
+    fontSize: "16px",
+  },
 };
 
 export default Dashboard;

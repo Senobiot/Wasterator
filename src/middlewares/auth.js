@@ -1,32 +1,68 @@
-import { loginSuccess, loginFailure } from "../reducers/authReducer";
-import { getToken, setToken } from "../utils/utils";
+import {
+  AUTH_ENDPOINTS,
+  FORM_INPUTS,
+  TOKEN_NAMES,
+} from "../constants/constants";
+import {
+  loginSuccess,
+  loginFailure,
+  authFailed,
+  loading,
+} from "../reducers/authReducer";
+import { getToken, setSessionToken, setStorageItem } from "../utils/utils";
 
-const url = "http://localhost:3000/";
-const defaultOptions = {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  credentials: "include",
+const setOptions = (body) => {
+  return {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify(body),
+  };
 };
 
 const auth = () => (next) => async (action) => {
-  if (action.type === "auth/loginRequest") {
-    const options = { ...defaultOptions };
-    options.body = JSON.stringify(action.payload);
-
+  if (action.type === "auth/registerRequest") {
+    // TODO Make this everywere
+    next(loading(true));
     try {
-      const response = await fetch(url + "login", options);
+      const response = await fetch(
+        AUTH_ENDPOINTS.registartion,
+        setOptions(action.payload)
+      );
+      const data = await response.json();
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData);
+        return next(authFailed(data));
       }
 
-      const { user, token } = await response.json();
+      return next(action);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      next(loading(false));
+    }
+  }
 
-      setToken(token);
-      console.log(user, token);
+  if (action.type === "auth/loginRequest") {
+    try {
+      const response = await fetch(
+        AUTH_ENDPOINTS.login,
+        setOptions(action.payload)
+      );
+      const data = await response.json();
+
+      if (!response.ok) {
+        return next(authFailed(data));
+      }
+      const { user, accessToken } = data;
+
+      if (action.payload[FORM_INPUTS.stayLogged.id]) {
+        setStorageItem(TOKEN_NAMES.access, accessToken);
+      }
+
+      setSessionToken(TOKEN_NAMES.access, accessToken);
       return next(loginSuccess(user));
     } catch (error) {
       return next(loginFailure(error));
@@ -35,27 +71,40 @@ const auth = () => (next) => async (action) => {
 
   if (action.type === "auth/logOff") {
     sessionStorage.clear();
+    localStorage.removeItem(TOKEN_NAMES.access);
+  }
+
+  if (action.type === "auth/checkIsAuth") {
+    if (localStorage[TOKEN_NAMES.access]) {
+      try {
+        const response = await fetch(AUTH_ENDPOINTS.refresh, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+          return next(action);
+        }
+
+        const { user, accessToken } = data;
+
+        setStorageItem(TOKEN_NAMES.access, accessToken);
+        setSessionToken(TOKEN_NAMES.access, accessToken);
+        return next(loginSuccess(user));
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
   if (action.type === "auth/refreshToken") {
-    const options = { ...defaultOptions };
-
-    options.body = JSON.stringify({ token: getToken(), email: action.payload });
-
     try {
-      const response = await fetch(url + "refresh-token", options);
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData);
-      }
-
-      const newToken = await response.json();
-
-      console.log(newToken.expired);
     } catch (error) {
       console.log(error);
-      return next(loginFailure(error));
     }
   }
 
