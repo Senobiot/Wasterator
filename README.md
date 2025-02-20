@@ -1,1 +1,1 @@
-Application for calculating how much time you spenв playing games/watching movies.
+Application for calculating how much time you spend playing games/watching movies.
