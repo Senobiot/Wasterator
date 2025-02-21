@@ -56,13 +56,14 @@ const auth = () => (next) => async (action) => {
       if (!response.ok) {
         return next(authFailed(data));
       }
+
       const { user, accessToken } = data;
 
       if (action.payload[FORM_INPUTS.stayLogged.id]) {
         setStorageItem(TOKEN_NAMES.access, accessToken);
       }
 
-      setSessionToken(TOKEN_NAMES.access, accessToken);
+      setSessionToken(accessToken);
       return next(loginSuccess(user));
     } catch (error) {
       return next(loginFailure(error));
@@ -70,6 +71,7 @@ const auth = () => (next) => async (action) => {
   }
 
   if (action.type === "auth/logOff") {
+    
     sessionStorage.clear();
     localStorage.removeItem(TOKEN_NAMES.access);
   }
@@ -93,7 +95,7 @@ const auth = () => (next) => async (action) => {
         const { user, accessToken } = data;
 
         setStorageItem(TOKEN_NAMES.access, accessToken);
-        setSessionToken(TOKEN_NAMES.access, accessToken);
+        setSessionToken(accessToken);
         return next(loginSuccess(user));
       } catch (error) {
         console.log(error);

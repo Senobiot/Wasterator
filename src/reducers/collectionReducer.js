@@ -41,11 +41,13 @@ const collectionReducer = (state = initialState, action) => {
     }
 
     case FILMS.ADD_TO_COLLECTION: {
-      const newCollection = [...state.films, action.payload];
-            // TODO перенести в middleware
-      setStorageItem(COLLECTION_TYPES.FILMS, newCollection);
 
-      return { ...state, films: newCollection };
+      // const newCollection = [...state.films, action.payload];
+      //       // TODO перенести в middleware
+      // setStorageItem(COLLECTION_TYPES.FILMS, newCollection);
+
+      // return { ...state, films: newCollection };
+      return state;
     }
 
     case GAMES.DELETE_FROM_COLLECTION: {

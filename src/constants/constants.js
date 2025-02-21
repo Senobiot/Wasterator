@@ -5,8 +5,8 @@ export const COLLECTION_TYPES = {
 };
 
 export const SEARCH_TYPE = {
-  GAMES: "GAMES",
-  FILMS: "FILMS",
+  GAMES: "SEARCH_TYPE_IS_GAMES",
+  FILMS: "SEARCH_TYPE_IS_FILMS",
 };
 
 export const NUMBER_OF_SEARCH_ITEMS = {
@@ -46,6 +46,7 @@ export const ROUTES = {
     SEARCH_RESULTS: "/results",
     LOGIN: "/login",
     DASHBOARD: "/dashboard",
+    REGISTRATION: "/registration",
   },
   CARDS: {
     FILM: "/movie",
@@ -175,10 +176,15 @@ export const FORM_INPUTS = {
     placeholder: "Remember me",
   }
 };
+//TODO Think about separate auth and collectables endpoints
+
+const SERVER_URL = "http://localhost:3000/";
 
 export const SERVER_ENDPOINTS = {
-  auth: "http://localhost:3000/auth",
-  collections: "",
+  auth: SERVER_URL + "auth",
+  collections: SERVER_URL + "collections",
+  games: SERVER_URL + "games",
+  movies: SERVER_URL + "movies",
 };
 
 export const AUTH_ENDPOINTS = {
@@ -187,7 +193,13 @@ export const AUTH_ENDPOINTS = {
   logot: SERVER_ENDPOINTS.auth + "/logout",
   getAllUsers: SERVER_ENDPOINTS.auth + "users", // Probably no need
   refresh: SERVER_ENDPOINTS.auth + "/refresh",
+  addToCollection: SERVER_ENDPOINTS.auth + "/addToCollection",
 };
+
+export const GAMES_ENDPOINTS = {
+  search: SERVER_ENDPOINTS.games + "/searchGame",
+  getDeatails: SERVER_ENDPOINTS.games + "/getGameDetails",
+}
 
 export const TOKEN_NAMES = {
   access: 'accessToken',

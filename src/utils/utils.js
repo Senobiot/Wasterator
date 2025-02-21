@@ -18,7 +18,7 @@ export function getToken() {
 }
 
 export function setSessionToken(token = '') {
-  sessionStorage.setItem('accessToken', JSON.stringify(token));
+  sessionStorage.setItem('accessToken', token);
 }
 
 export function getStorageItem(item) {
@@ -87,3 +87,4 @@ export const unifyFields = data => {
     rating: data.rating?.kp ? Number(data.rating?.kp).toFixed(2) : '',
   }
 }
+ 
