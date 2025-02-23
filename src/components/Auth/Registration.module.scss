@@ -1,6 +1,11 @@
 .section {
   form {
     position: relative;
+        // background-color: #2e3440;
+    // margin: 0 auto;
+    // width: 90%;
+    // padding: 25px;
+  
 
     .requestMessage {
       position: absolute;
@@ -15,52 +20,48 @@
         background-color: red;
       }
     }
-  }
 
-  @keyframes error {
-    from {
-      opacity: 1;
+    @keyframes error {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
     }
-    to {
-      opacity: 0;
+
+    input {
+      margin-bottom: 10px;
+      font-size: 22px;
+      padding: 5px;
+      outline: none;
     }
-  }
+    .gender {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 20px;
 
-  background-color: #2e3440;
-  margin: 0 auto;
-  width: 90%;
-  padding: 25px;
-  input {
-    margin-bottom: 10px;
-    font-size: 22px;
-    padding: 5px;
-    outline: none;
-  }
-  .gender {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-bottom: 20px;
-    font-size: 20px;
+      .subTitle {
+        width: 100%;
+        margin: 10px;
+      }
+    }
 
-    .subTitle {
-      width: 100%;
+    .submit {
+      background-color: #d9991a;
+      border-radius: 5px;
+      padding: 10px;
+      font-weight: bold;
       margin: 10px;
-    }
-  }
+      cursor: pointer;
+      min-width: 120px;
+      transition: opacity 0.375s;
 
-  .submit {
-    background-color: #d9991a;
-    border-radius: 5px;
-    padding: 10px;
-    font-weight: bold;
-    margin: 10px;
-    cursor: pointer;
-    min-width: 120px;
-    transition: opacity 0.375s;
-
-    &:hover {
-      opacity: 0.75;
+      &:hover {
+        opacity: 0.75;
+      }
     }
   }
 }

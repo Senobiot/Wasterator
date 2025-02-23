@@ -1,9 +1,11 @@
 export const selectSearchResult = (state) => state.searchResult.currentSearch;
-export const selectGamesSearchHistory = (state) => state.searchResult.games;
-export const selectFilmsSearchHistory = (state) => state.searchResult.films;
+export const selectSearchResultType = (state) => state.searchResult.type;
+export const selectLoadingStatus = (state) => state.status.loading;
+export const selectDetails = (state) => state.details;
+// export const selectGamesSearchHistory = (state) => state.searchResult.games;
+// export const selectFilmsSearchHistory = (state) => state.searchResult.films;
 export const selectGamesCollection = (state) => state.collection.games;
 export const selectFilmsCollection = (state) => state.collection.films;
-export const selectDetails = (state) => state.details;
 export const selectSearchType = (state) => state.seacrhType;
 export const selectCurrentUser = (state) => state.auth.user;
 export const selectLoginStatus = (state) => state.auth.isLoggedIn;

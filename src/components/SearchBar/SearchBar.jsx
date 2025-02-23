@@ -1,17 +1,18 @@
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  selectGamesSearchHistory,
-  selectFilmsSearchHistory
-} from "../../selectors/selectors";
+// import {
+//   selectGamesSearchHistory,
+//   selectFilmsSearchHistory
+// } from "../../selectors/selectors";
 import classes from "./SearchBar.module.scss";
 import { INSCRIPTIONS_KEYS, SEARCH_TYPE } from "../../constants/constants";
 import { fetchGamesListbyName, fetchFilmsListbyName, storeFilmSearchList, storeGameSearchList } from "../../actions";
+import { getListByName } from "../../reducers/searchReducer";
 
 export default function SearchBar() {
-  const gamesSearchHistory = useSelector(selectGamesSearchHistory);
-  const filmsSearchHistory = useSelector(selectFilmsSearchHistory);
+  // const gamesSearchHistory = useSelector(selectGamesSearchHistory);
+  // const filmsSearchHistory = useSelector(selectFilmsSearchHistory);
   const [searchBoxClass, setSearchBoxClass] = useState("");
   const [searchType, setSearchType] = useState(SEARCH_TYPE.GAMES);
   const inputRef = useRef(null);
@@ -21,7 +22,7 @@ export default function SearchBar() {
   const handleSubmit = async (useKeyboard) => {
     const searchItem = inputRef.current.value;
     if (!searchItem) return;
-
+//TODO Make dependand of API request and store loading state
     inputRef.current.value = "";
 
     if (useKeyboard) {
@@ -29,24 +30,24 @@ export default function SearchBar() {
     }
     inputRef.current.disabled = true;
 
-    if (searchType === SEARCH_TYPE.FILMS) {
-      if (searchItem in filmsSearchHistory) {
-        const list = { [searchItem]: filmsSearchHistory[searchItem] };
-        inputRef.current.disabled = false;
-        return dispatch(storeFilmSearchList(list));
-      }
+    // if (searchType === SEARCH_TYPE.FILMS) {
+    //   if (searchItem in filmsSearchHistory) {
+    //     const list = { [searchItem]: filmsSearchHistory[searchItem] };
+    //     inputRef.current.disabled = false;
+    //     return dispatch(storeFilmSearchList(list));
+    //   }
 
-      inputRef.current.disabled = false;
-      return dispatch(fetchFilmsListbyName(searchItem))
-    }
+    //   inputRef.current.disabled = false;
+    //   return dispatch(fetchFilmsListbyName(searchItem))
+    // }
 
-    if (searchItem in gamesSearchHistory) {
-      const list = { [searchItem]: gamesSearchHistory[searchItem] };
-      inputRef.current.disabled = false;
-      return dispatch(storeGameSearchList(list));
-    }
+    // if (searchItem in gamesSearchHistory) {
+    //   const list = { [searchItem]: gamesSearchHistory[searchItem] };
+    //   inputRef.current.disabled = false;
+    //   return dispatch(storeGameSearchList(list));
+    // }
 
-    dispatch(fetchGamesListbyName(searchItem))
+    dispatch(getListByName(searchItem))
     inputRef.current.disabled = false;
   };
 

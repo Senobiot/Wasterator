@@ -14,11 +14,11 @@ const searchResultReducer = (state = initialStore, action) => {
       return {...state, currentSearch: {...action.payload, type: SEARCH_TYPE.GAMES}};
     }
     case API.GAMES.GET_LIST_BY_NAME: {
-      const newSearchGameList = { ...state.games, ...action.payload };
-      // TODO перенести в middleware
-      setStorageItem(LOCAL_STORAGE.GAME_HISTORY_KEY, newSearchGameList);
-      console.log(action.payload);
-      return {...state, games: newSearchGameList, currentSearch: {...action.payload, type: SEARCH_TYPE.GAMES}};
+      // const newSearchGameList = { ...state.games, ...action.payload };
+      // // TODO перенести в middleware
+      // setStorageItem(LOCAL_STORAGE.GAME_HISTORY_KEY, newSearchGameList);
+      // console.log(action.payload);
+      // return {...state, games: newSearchGameList, currentSearch: {...action.payload, type: SEARCH_TYPE.GAMES}};
     }
     case SEARCH.STORE_FILM_LIST: {
       return {...state, currentSearch: {...action.payload, type: SEARCH_TYPE.FILMS}};

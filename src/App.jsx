@@ -13,6 +13,7 @@ import Registration from "./components/Auth/Registration";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { checkIsAuth } from "./reducers/authReducer";
+import { ROUTES } from "./constants/constants";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,15 +26,15 @@ function App() {
       <BrowserRouter>
         <Menu />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/films" element={<Films />} />
-          <Route path="/stats" element={<StatisticsPage />} />
-          <Route path="/results" element={<SearchResultsTable />} />
-          <Route path="/game" element={<GameCard />} />
-          <Route path="/movie" element={<MovieCard />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/registration" element={<Registration />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path={ROUTES.PAGE.MY_GAMES} element={<Home />} />
+          <Route path={ROUTES.PAGE.MY_FILMS} element={<Films />} />
+          <Route path={ROUTES.PAGE.STATISTIC} element={<StatisticsPage />} />
+          <Route path={ROUTES.PAGE.SEARCH_RESULTS} element={<SearchResultsTable />} />
+          <Route path={ROUTES.CARDS.GAME} element={<GameCard />} />
+          <Route path={ROUTES.CARDS.FILM} element={<MovieCard />} />
+          <Route path={ROUTES.PAGE.LOGIN} element={<Login />} />
+          <Route path={ROUTES.PAGE.REGISTRATION} element={<Registration />} />
+          <Route path={ROUTES.PAGE.DASHBOARD} element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
     </>

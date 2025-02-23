@@ -18,7 +18,7 @@ export function getToken() {
 }
 
 export function setSessionToken(token = '') {
-  sessionStorage.setItem('accessToken', JSON.stringify(token));
+  sessionStorage.setItem('accessToken', token);
 }
 
 export function getStorageItem(item) {
@@ -87,3 +87,16 @@ export const unifyFields = data => {
     rating: data.rating?.kp ? Number(data.rating?.kp).toFixed(2) : '',
   }
 }
+ 
+export const setRequestOptions = (body) => {
+
+  return {
+    method: body ? "POST" : "GET",
+    headers: {
+      Authorization: `Bearer ${sessionStorage.accessToken}`,
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify(body),
+  };
+};

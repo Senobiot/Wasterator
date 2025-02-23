@@ -8,9 +8,9 @@ import { useEffect, useState } from "react";
 import { ROUTES } from "../../constants/constants";
 
 const menuButtons = [
-  { name: "Мои игры", link: ROUTES.PAGE.MY_GAMES },
-  { name: "Мои фильмы", link: ROUTES.PAGE.MY_FILMS },
-  { name: "Статистика", link: ROUTES.PAGE.STATISTIC },
+  { name: "Мои игры", link: ROUTES.PAGE.MY_GAMES, authRequird: true },
+  { name: "Мои фильмы", link: ROUTES.PAGE.MY_FILMS, authRequird: true  },
+  { name: "Статистика", link: ROUTES.PAGE.STATISTIC, authRequird: true  },
   { name: "Войти", link: ROUTES.PAGE.LOGIN },
 ];
 
@@ -30,7 +30,7 @@ export default function Menu() {
           <SearchBar />
           {menuButtons.map((button) => {
             const navButtonData = { ...button };
-
+            if (button.authRequird && !loggedUser) return;
             if (loggedUser && button.link === ROUTES.PAGE.LOGIN) {
               navButtonData.link = ROUTES.PAGE.DASHBOARD;
               navButtonData.name = loggedUser.name;

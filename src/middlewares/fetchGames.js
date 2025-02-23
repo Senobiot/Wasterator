@@ -1,27 +1,48 @@
-import { setItemDetails } from "../actions";
-import { API } from "../actions/types";
-import { GAMES as API_CONFIG } from "../constants/api-config";
-import { COLLECTION_FIELDS, GAMES_IPORTANT_FIELDS } from "../constants/constants";
-import { fieldsFilter } from "../utils/utils";
+import {
+  GAMES_ENDPOINTS,
+  SEARCH_TYPE,
+} from "../constants/constants";
+import { getDetails } from "../reducers/detailsReducer";
+import { getListByName, type } from "../reducers/searchReducer";
+import { setLoading } from "../reducers/statusReducer";
+import { setRequestOptions } from "../utils/utils";
 
 const fetchGames = () => (next) => async (action) => {
-  let modifiedData = { ...action };
-  if (action.type === API.GAMES.GET_LIST_BY_NAME) {
-    const response = await fetch(API_CONFIG.getByName + action.payload);
-    const data = await response.json();
-    const filteredData = data.results.map((e) =>
-      fieldsFilter(e, GAMES_IPORTANT_FIELDS)
-    );
-    modifiedData.payload = { [action.payload]: filteredData };
-    return next(modifiedData);
+  if (action.type === getListByName.type) {
+    next(setLoading(true));
+    try {
+      const response = await fetch(
+        GAMES_ENDPOINTS.search + action.payload,
+        setRequestOptions()
+      );
+
+      const result = await response.json();
+
+      next(type(SEARCH_TYPE.GAMES));
+      return next(getListByName(result));
+    } catch (error) {
+      console.log(error);
+    } finally{
+      next(setLoading(false));
+    }
   }
 
-  if (action.type === API.GAMES.GET_DETAILED_INFO) {
-      const response = await fetch(action.payload + API_CONFIG.getInfoById);
-      const data = await response.json();
-      const filteredData = fieldsFilter(data.results, COLLECTION_FIELDS);
+  if (action.type === getDetails.type) {
+    next(setLoading(true));
 
-      return next(setItemDetails(filteredData));
+    try {
+      const response = await fetch(
+        GAMES_ENDPOINTS.getDeatails + action.payload,
+        setRequestOptions()
+      );
+      const details = await response.json();
+      action.payload = details;
+      return next(getDetails(details));
+    } catch (error) {
+
+    } finally {
+      next(setLoading(false));
+    }
   }
 
   return next(action);

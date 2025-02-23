@@ -2,7 +2,7 @@ import CollectionTile from "../CollectionTile/CollectionTile";
 import { useSelector } from "react-redux";
 import { selectGamesCollection } from "../../selectors/selectors";
 import ViewSwitcher from "../ViewSwitcher/ViewSwitcher";
-import { COLLECTION_TYPES, VIEW_TYPES } from "../../constants/constants";
+import { COLLECTION_TYPES, ROUTES, VIEW_TYPES } from "../../constants/constants";
 import { useState } from "react";
 
 export default function Home() {
@@ -24,7 +24,7 @@ export default function Home() {
               <CollectionTile
                 data={game}
                 key={game.name}
-                pathname="/game"
+                pathname={ROUTES.CARDS.GAME}
                 type={COLLECTION_TYPES.GAMES}
                 viewVariant={currentViewVariant}
               ></CollectionTile>
