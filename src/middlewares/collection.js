@@ -19,7 +19,6 @@ const setOptions = (body) => {
 
 
 const collectionMW = () => (next) => async (action) => {
-  console.log(action.payload);
   const dto = new MovieDto(action.payload);
 
   if (action.type === FILMS.ADD_TO_COLLECTION) {
@@ -29,7 +28,6 @@ const collectionMW = () => (next) => async (action) => {
         setOptions({data: dto})
       );
       const data = await response.json();
-      console.log(data);
 
     } catch (error) {
       console.log(error);

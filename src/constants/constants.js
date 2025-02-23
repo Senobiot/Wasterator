@@ -197,8 +197,8 @@ export const AUTH_ENDPOINTS = {
 };
 
 export const GAMES_ENDPOINTS = {
-  search: SERVER_ENDPOINTS.games + "/searchGame",
-  getDeatails: SERVER_ENDPOINTS.games + "/getGameDetails",
+  search: SERVER_ENDPOINTS.games + "/searchGame?name=",
+  getDeatails: SERVER_ENDPOINTS.games + "/getGameDetails?url=",
 }
 
 export const TOKEN_NAMES = {

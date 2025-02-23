@@ -5,10 +5,32 @@ import { selectDetails } from "../../selectors/selectors";
 import Button from "../Button/Button";
 import classes from "./GameCard.module.scss";
 import PlayedTime from "./PlayedTime/PlayedTime";
-import { addGameToCollection, deleteGameFromCollection, fetchGameInfo, setItemDetails, updatePlayedTime } from "../../actions";
+import {
+  addGameToCollection,
+  deleteGameFromCollection,
+  fetchGameInfo,
+  setItemDetails,
+  updatePlayedTime,
+} from "../../actions";
+import { getDetails } from "../../reducers/detailsReducer";
 
 export default function Card() {
   const details = useSelector(selectDetails);
+  const {
+    detailUrl,
+    inCollection,
+    developers,
+    genres,
+    imageUrl,
+    name,
+    platforms,
+    release,
+    description,
+    publishers,
+    ratingMpaa,
+    descriptionHtml
+  } = details;
+  console.log(details);
   const dispatch = useDispatch();
   const [loadedImg, setLoadedImg] = useState("ghostloader");
   const [loadedText, setLoadedText] = useState("ghostloader");
@@ -36,13 +58,13 @@ export default function Card() {
   };
 
   useEffect(() => {
-    if (details.isInCollection) {
-      return setLoadedText("");
-    }
-    if (details.api_detail_url) {
+    // if (inCollection) {
+    //   return setLoadedText("");
+    // }
+    if (detailUrl) {
       // TODO тут надо сделать лоадер пока нет данных
       setLoadedText("");
-      dispatch(fetchGameInfo(details.api_detail_url));
+      dispatch(getDetails(detailUrl));
     }
   }, []);
 
@@ -50,32 +72,43 @@ export default function Card() {
     "No details...("
   ) : (
     <div className={classes.card}>
-      <div className={classes.title}>{details.name}</div>
+      <div className={classes.title}>{name}</div>
       <div className={classes.card_content}>
         <div className={`${classes.image_wrapper} ${loadedImg}`}>
-          <img
-            src={details?.image?.medium_url}
-            onLoad={() => setLoadedImg("")}
-            alt=""
-          />
+          <img src={imageUrl} onLoad={() => setLoadedImg("")} alt="" />
         </div>
         <div className={classes.description_wrapper}>
           <div className={`${classes.description} ${loadedText}`}>
-            {details.deck}
+            {description}
           </div>
+          <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
           <div className={classes.genres}>
-            {details.themes?.map((e) => (
+            {genres?.map((e) => (
+              <span key={e}>{e + " / "}</span>
+            ))}
+          </div>
+          <div className={classes}>
+            {platforms?.map((e) => (
               <span key={e.name}>{e.name + " / "}</span>
             ))}
           </div>
-          <div className={classes.release}>
-            Release:{" "}
-            {details.original_release_date || details.expected_release_year}
-          </div>
+          <div className={classes.release}>Release: {release}</div>
           <div className={classes.developers}>
             Developers:{" "}
-            {details.developers?.map((e) => (
+            {developers?.map((e) => (
               <div key={e.name}>{e.name}</div>
+            ))}
+          </div>
+          <div className={classes.developers}>
+            Publishers:{" "}
+            {publishers?.map((e) => (
+              <div key={e.name}>{e.name}</div>
+            ))}
+          </div>
+          <div className={classes.developers}>
+            Rating:{" "}
+            {ratingMpaa?.map((e) => (
+              <div key={e}>{e}</div>
             ))}
           </div>
           {details.playedTime ? (
@@ -84,7 +117,7 @@ export default function Card() {
             ""
           )}
           <div className={classes.button_wrapper}>
-            {!details.isInCollection ? (
+            {!inCollection ? (
               <Button
                 onClick={handleAdd}
                 title="Добавить"
@@ -93,7 +126,7 @@ export default function Card() {
             ) : (
               ""
             )}
-            {details.isInCollection ? (
+            {inCollection ? (
               <Button
                 onClick={handleDelete}
                 title="Удалить"
@@ -102,7 +135,7 @@ export default function Card() {
             ) : (
               ""
             )}
-            {details.isInCollection ? (
+            {inCollection ? (
               <Button
                 onClick={handleUpdate}
                 title="Наиграно"

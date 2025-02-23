@@ -1,13 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
 import classes from "./SearchItem.module.scss";
 import { Link } from "react-router-dom";
-import { selectSearchResultType } from "../../../selectors/selectors";
+import { selectDetails, selectSearchResultType } from "../../../selectors/selectors";
 import { ROUTES, SEARCH_TYPE } from "../../../constants/constants";
 import { setItemDetails } from "../../../actions";
+import { setDetails } from "../../../reducers/detailsReducer";
 
 export default function SearchItem({ data }) {
   // if (!data) return;
   const { logoUrl, name, enName, release, InCollection, rating, id } = data;
+  // deleet
+  const details = useSelector(selectDetails);
   const itemType = useSelector(selectSearchResultType);
   const route =
     itemType === SEARCH_TYPE.GAMES
@@ -15,7 +18,8 @@ export default function SearchItem({ data }) {
       : ROUTES.CARDS.FILM + "?" + id;
   const dispatch = useDispatch();
   const handleClick = () => {
-    dispatch(setItemDetails(data));
+    console.log('click');
+    dispatch(setDetails(data));
   };
 
   return (

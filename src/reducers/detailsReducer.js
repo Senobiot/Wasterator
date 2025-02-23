@@ -1,13 +1,19 @@
-import { SET_ITEM_DETAILS } from "../actions/types";
+import { createSlice } from "@reduxjs/toolkit";
 
-const detailsReducer = (state = {}, action) => {
-  switch (action.type) {
-    case SET_ITEM_DETAILS: {
+const detailsSlice = createSlice({
+  name: "details",
+  initialState: {},
+  reducers: {
+    setDetails: (state, action) => {
+      console.log(action);
       return action.payload;
-    }
-    default:
-      return state;
-  }
-};
+    },
+    getDetails: (state, action) => {
+      console.log(action);
+      return action.payload;
+    },
+  },
+});
 
-export default detailsReducer;
+export const { setDetails, getDetails } = detailsSlice.actions;
+export default detailsSlice.reducer;
