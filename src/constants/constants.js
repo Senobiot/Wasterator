@@ -182,7 +182,7 @@ const SERVER_URL = "http://localhost:3000/";
 
 export const SERVER_ENDPOINTS = {
   auth: SERVER_URL + "auth",
-  collections: SERVER_URL + "collections",
+  collection: SERVER_URL + "collection",
   games: SERVER_URL + "games",
   movies: SERVER_URL + "movies",
 };
@@ -193,8 +193,13 @@ export const AUTH_ENDPOINTS = {
   logot: SERVER_ENDPOINTS.auth + "/logout",
   getAllUsers: SERVER_ENDPOINTS.auth + "users", // Probably no need
   refresh: SERVER_ENDPOINTS.auth + "/refresh",
-  addToCollection: SERVER_ENDPOINTS.auth + "/addToCollection",
+
 };
+
+export const COLLECTION_ENDPOINTS = {
+  addToCollection: SERVER_ENDPOINTS.collection + "/addToCollection",
+  deleteFromCollection: SERVER_ENDPOINTS.collection + "/deleteFromCollection",
+}
 
 export const GAMES_ENDPOINTS = {
   search: SERVER_ENDPOINTS.games + "/searchGame?name=",

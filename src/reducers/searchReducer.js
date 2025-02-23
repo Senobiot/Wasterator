@@ -4,22 +4,32 @@ const initialState = {
   currentSearch: [],
   games: [],
   films: [],
-  type: '',
+  type: "",
 };
-
 
 const searchSlice = createSlice({
   name: "search",
   initialState,
   reducers: {
-    save: (state, action) => {
+    getListByName: (state, action) => {
       state.currentSearch = action.payload;
     },
     type: (state, action) => {
       state.type = action.payload;
     },
+    updateCurrentSearchMark: (state, action) => {
+      const { id, value } = action.payload;
+      const updated = state.currentSearch.map((e) => {
+        if (e.id === id) {
+          e.inCollection = value;
+          return e;
+        }
+        return e;
+      });
+      state.currentSearch = updated;
+    },
   },
 });
 
-export const { save, type } = searchSlice.actions;
+export const { getListByName, type, updateCurrentSearchMark } = searchSlice.actions;
 export default searchSlice.reducer;

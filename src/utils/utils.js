@@ -88,3 +88,15 @@ export const unifyFields = data => {
   }
 }
  
+export const setRequestOptions = (body) => {
+
+  return {
+    method: body ? "POST" : "GET",
+    headers: {
+      Authorization: `Bearer ${sessionStorage.accessToken}`,
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify(body),
+  };
+};

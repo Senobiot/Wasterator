@@ -8,9 +8,7 @@ import { setDetails } from "../../../reducers/detailsReducer";
 
 export default function SearchItem({ data }) {
   // if (!data) return;
-  const { logoUrl, name, enName, release, InCollection, rating, id } = data;
-  // deleet
-  const details = useSelector(selectDetails);
+  const { logoUrl, name, enName, release, inCollection, rating, id } = data;
   const itemType = useSelector(selectSearchResultType);
   const route =
     itemType === SEARCH_TYPE.GAMES
@@ -39,7 +37,7 @@ export default function SearchItem({ data }) {
           {release || "In Development"}
         </div>
         <div className={classes.searchResults__item_collection}>
-          {InCollection ? "In Collection" : ""}
+          {inCollection ? "In Collection" : ""}
         </div>
       </div>
     </Link>

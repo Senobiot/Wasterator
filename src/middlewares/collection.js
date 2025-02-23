@@ -1,39 +1,70 @@
 import MovieDto from "../dtos/movieDto";
 import { FILMS } from "../actions/types";
-import { AUTH_ENDPOINTS, TOKEN_NAMES } from "../constants/constants";
+import {
+  COLLECTION_ENDPOINTS,
+} from "../constants/constants";
+import {
+  addItemToCollection,
+  deleteItemFromCollection,
+} from "../reducers/collectionReducer";
+import { setLoading } from "../reducers/statusReducer";
+import { setDetails } from "../reducers/detailsReducer";
+import { updateCurrentSearchMark } from "../reducers/searchReducer";
+import { setRequestOptions } from "../utils/utils";
 
-
-const token = sessionStorage[TOKEN_NAMES.access];
-
-const setOptions = (body) => {
-    return {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(body),
-    };
-  };
-
-
-const collectionMW = () => (next) => async (action) => {
-  const dto = new MovieDto(action.payload);
-
-  if (action.type === FILMS.ADD_TO_COLLECTION) {
+const collection = () => (next) => async (action) => {
+  if (action.type === addItemToCollection.type) {
+    setLoading(true);
     try {
       const response = await fetch(
-        AUTH_ENDPOINTS.addToCollection,
-        setOptions({data: dto})
+        COLLECTION_ENDPOINTS.addToCollection,
+        setRequestOptions({ data: action.payload })
       );
       const data = await response.json();
 
+      next(updateCurrentSearchMark({ id: action.payload.id, value: true }));
+
+      return next(setDetails(data));
     } catch (error) {
       console.log(error);
-    } 
+    } finally {
+      setLoading(false);
+    }
   }
-  return next(action);
-}
 
-export default collectionMW;
+  if (action.type === deleteItemFromCollection.type) {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        COLLECTION_ENDPOINTS.deleteFromCollection,
+        setRequestOptions({ data: action.payload })
+      );
+
+      const data = await response.json();
+
+      next(updateCurrentSearchMark({ id: action.payload.id, value: false }));
+
+      return next(setDetails(data));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // if (action.type === FILMS.ADD_TO_COLLECTION) {
+  //   try {
+  //     const response = await fetch(
+  //       AUTH_ENDPOINTS.addToCollection,
+  //       setOptions({data: dto})
+  //     );
+  //     const data = await response.json();
+
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+  return next(action);
+};
+
+export default collection;

@@ -1,4 +1,3 @@
-// import './Card.css';
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectDetails } from "../../selectors/selectors";
@@ -6,18 +5,18 @@ import Button from "../Button/Button";
 import classes from "./GameCard.module.scss";
 import PlayedTime from "./PlayedTime/PlayedTime";
 import {
-  addGameToCollection,
-  deleteGameFromCollection,
-  fetchGameInfo,
   setItemDetails,
   updatePlayedTime,
 } from "../../actions";
 import { getDetails } from "../../reducers/detailsReducer";
+import Loader from "../Loader/Loader";
+
+import { addItemToCollection, deleteItemFromCollection } from "../../reducers/collectionReducer";
 
 export default function Card() {
   const details = useSelector(selectDetails);
   const {
-    detailUrl,
+    detailsUrl,
     inCollection,
     developers,
     genres,
@@ -28,25 +27,19 @@ export default function Card() {
     description,
     publishers,
     ratingMpaa,
-    descriptionHtml
+    descriptionHtml,
+    id,
   } = details;
-  console.log(details);
+
   const dispatch = useDispatch();
-  const [loadedImg, setLoadedImg] = useState("ghostloader");
-  const [loadedText, setLoadedText] = useState("ghostloader");
+  const [loadedImg, setLoadedImg] = useState(false);
+
   const handleAdd = () => {
-    const newCollectionItem = {
-      ...details,
-      isInCollection: true,
-      playedTime: 0,
-    };
-    dispatch(addGameToCollection(newCollectionItem));
-    dispatch(setItemDetails(newCollectionItem));
+    dispatch(addItemToCollection({ type: "game", id, playedTime: 0 }));
   };
 
   const handleDelete = () => {
-    dispatch(deleteGameFromCollection(details.id));
-    dispatch(setItemDetails({ ...details, isInCollection: false }));
+    dispatch(deleteItemFromCollection({ type: "game", id }));
   };
 
   const handleUpdate = () => {
@@ -58,30 +51,34 @@ export default function Card() {
   };
 
   useEffect(() => {
-    // if (inCollection) {
-    //   return setLoadedText("");
-    // }
-    if (detailUrl) {
-      // TODO тут надо сделать лоадер пока нет данных
-      setLoadedText("");
-      dispatch(getDetails(detailUrl));
+    if (detailsUrl) {
+      dispatch(getDetails(detailsUrl));
     }
   }, []);
 
   return !details.name ? (
     "No details...("
   ) : (
-    <div className={classes.card}>
+    <div className={`${classes.card}`}>
+      {!loadedImg ? (
+        <Loader />
+      ) : (
+        <div
+          className={classes.backDrop}
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
+        url(${imageUrl})`,
+          }}
+        ></div>
+      )}
       <div className={classes.title}>{name}</div>
       <div className={classes.card_content}>
-        <div className={`${classes.image_wrapper} ${loadedImg}`}>
-          <img src={imageUrl} onLoad={() => setLoadedImg("")} alt="" />
+        <div className={`${classes.image_wrapper}`}>
+          <img src={imageUrl} onLoad={() => setLoadedImg(true)} alt="" />
         </div>
         <div className={classes.description_wrapper}>
-          <div className={`${classes.description} ${loadedText}`}>
-            {description}
-          </div>
-          <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
+          <div className={`${classes.description}`}>{description}</div>
+          {/* <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} /> */}
           <div className={classes.genres}>
             {genres?.map((e) => (
               <span key={e}>{e + " / "}</span>
@@ -122,7 +119,7 @@ export default function Card() {
                 onClick={handleAdd}
                 title="Добавить"
                 className={classes.button}
-              ></Button>
+              />
             ) : (
               ""
             )}
@@ -131,7 +128,7 @@ export default function Card() {
                 onClick={handleDelete}
                 title="Удалить"
                 className={`${classes.button} ${classes.red}`}
-              ></Button>
+              />
             ) : (
               ""
             )}
@@ -140,7 +137,7 @@ export default function Card() {
                 onClick={handleUpdate}
                 title="Наиграно"
                 className={`${classes.button} ${classes.yellow}`}
-              ></Button>
+              />
             ) : (
               ""
             )}

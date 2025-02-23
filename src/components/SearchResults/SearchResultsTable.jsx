@@ -8,7 +8,7 @@ import {
 const SearchResultsTable = () => {
   const currentSearch = useSelector(selectSearchResult);
   const loadingstatus = useSelector(selectLoadingStatus);
-
+console.log(currentSearch);
   return !currentSearch.length ? (
     "No such game found...("
   ) : (

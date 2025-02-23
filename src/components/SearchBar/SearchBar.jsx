@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import classes from "./SearchBar.module.scss";
 import { INSCRIPTIONS_KEYS, SEARCH_TYPE } from "../../constants/constants";
 import { fetchGamesListbyName, fetchFilmsListbyName, storeFilmSearchList, storeGameSearchList } from "../../actions";
+import { getListByName } from "../../reducers/searchReducer";
 
 export default function SearchBar() {
   // const gamesSearchHistory = useSelector(selectGamesSearchHistory);
@@ -46,7 +47,7 @@ export default function SearchBar() {
     //   return dispatch(storeGameSearchList(list));
     // }
 
-    dispatch(fetchGamesListbyName(searchItem))
+    dispatch(getListByName(searchItem))
     inputRef.current.disabled = false;
   };
 

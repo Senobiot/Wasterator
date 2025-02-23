@@ -4,12 +4,10 @@ const detailsSlice = createSlice({
   name: "details",
   initialState: {},
   reducers: {
-    setDetails: (state, action) => {
-      console.log(action);
+    setDetails: (state, action) => {;
       return action.payload;
     },
     getDetails: (state, action) => {
-      console.log(action);
       return action.payload;
     },
   },
