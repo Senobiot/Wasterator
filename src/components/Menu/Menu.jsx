@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { ROUTES } from "../../constants/constants";
 
 const menuButtons = [
+  { name: "Домой", link: ROUTES.PAGE.HOME, authRequird: true },
   { name: "Мои игры", link: ROUTES.PAGE.MY_GAMES, authRequird: true },
   { name: "Мои фильмы", link: ROUTES.PAGE.MY_FILMS, authRequird: true  },
   { name: "Статистика", link: ROUTES.PAGE.STATISTIC, authRequird: true  },

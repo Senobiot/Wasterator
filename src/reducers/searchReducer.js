@@ -4,6 +4,7 @@ const initialState = {
   currentSearch: [],
   games: [],
   films: [],
+  topGames: [],
   type: "",
 };
 
@@ -28,8 +29,11 @@ const searchSlice = createSlice({
       });
       state.currentSearch = updated;
     },
+    getTopList: (state, action) => {
+      state.topGames = action.payload;
+    },
   },
 });
 
-export const { getListByName, type, updateCurrentSearchMark } = searchSlice.actions;
+export const { getListByName, type, updateCurrentSearchMark, getTopList } = searchSlice.actions;
 export default searchSlice.reducer;

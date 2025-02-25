@@ -3,7 +3,7 @@ import {
   SEARCH_TYPE,
 } from "../constants/constants";
 import { getDetails } from "../reducers/detailsReducer";
-import { getListByName, type } from "../reducers/searchReducer";
+import { getListByName, type, getTopList } from "../reducers/searchReducer";
 import { setLoading } from "../reducers/statusReducer";
 import { setRequestOptions } from "../utils/utils";
 
@@ -38,6 +38,24 @@ const fetchGames = () => (next) => async (action) => {
       const details = await response.json();
       action.payload = details;
       return next(getDetails(details));
+    } catch (error) {
+
+    } finally {
+      next(setLoading(false));
+    }
+  }
+
+  if (action.type === getTopList.type) {
+    next(setLoading(true));
+
+    try {
+      const response = await fetch(
+        GAMES_ENDPOINTS.getTopGames,
+        setRequestOptions()
+      );
+      const details = await response.json();
+      action.payload = details;
+      // return next(action);
     } catch (error) {
 
     } finally {

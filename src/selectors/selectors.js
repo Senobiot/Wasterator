@@ -1,5 +1,6 @@
 export const selectSearchResult = (state) => state.searchResult.currentSearch;
 export const selectSearchResultType = (state) => state.searchResult.type;
+export const selectTopGames = (state) => state.searchResult.topGames;
 export const selectLoadingStatus = (state) => state.status.loading;
 export const selectDetails = (state) => state.details;
 // export const selectGamesSearchHistory = (state) => state.searchResult.games;
