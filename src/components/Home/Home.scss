@@ -11,7 +11,7 @@
     width: 1440px;
     margin: 0 auto;
 
-    .styled-tile {
+    a {
       &:nth-child(7n + 1) {
         grid-area: auto / 1 / auto / 2;
       }
@@ -49,7 +49,6 @@
     font-size: 18px;
   }
 }
-
 
 @media (max-width: 768px) {
   .collection-wrapper .tiles-grid {

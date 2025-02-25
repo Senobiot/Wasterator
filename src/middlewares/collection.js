@@ -14,7 +14,7 @@ import { setRequestOptions } from "../utils/utils";
 
 const collection = () => (next) => async (action) => {
   if (action.type === addItemToCollection.type) {
-    setLoading(true);
+    // setLoading(true);
     try {
       const response = await fetch(
         COLLECTION_ENDPOINTS.addToCollection,
@@ -28,12 +28,12 @@ const collection = () => (next) => async (action) => {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   }
 
   if (action.type === deleteItemFromCollection.type) {
-    setLoading(true);
+    // setLoading(true);
     try {
       const response = await fetch(
         COLLECTION_ENDPOINTS.deleteFromCollection,
@@ -48,7 +48,7 @@ const collection = () => (next) => async (action) => {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   }
 

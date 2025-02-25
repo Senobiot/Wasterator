@@ -52,6 +52,7 @@ export const ROUTES = {
   CARDS: {
     FILM: "/movie",
     GAME: "/game",
+    gameDetails: "/game/:id"
   },
 };
 
@@ -205,7 +206,9 @@ export const COLLECTION_ENDPOINTS = {
 export const GAMES_ENDPOINTS = {
   search: SERVER_ENDPOINTS.games + "/searchGame?name=",
   getDeatails: SERVER_ENDPOINTS.games + "/getGameDetails?url=",
-  getTopGames: SERVER_ENDPOINTS.games + "/getTopGames",
+  getDeatailsById: SERVER_ENDPOINTS.games + "/getGameDetailsById?id=",
+  getTopGames: SERVER_ENDPOINTS.games + "/getTopGames?page=",
+
 }
 
 export const TOKEN_NAMES = {

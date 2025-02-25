@@ -8,12 +8,13 @@ import {
   setItemDetails,
   updatePlayedTime,
 } from "../../actions";
-import { getDetails } from "../../reducers/detailsReducer";
+import { getDetails, getDetailsById } from "../../reducers/detailsReducer";
 import Loader from "../Loader/Loader";
-
 import { addItemToCollection, deleteItemFromCollection } from "../../reducers/collectionReducer";
+import { useParams } from "react-router-dom";
 
 export default function Card() {
+  const { id: gameId } = useParams();
   const details = useSelector(selectDetails);
   const {
     detailsUrl,
@@ -49,10 +50,13 @@ export default function Card() {
       dispatch(setItemDetails({ ...details, playedTime: +playedTime }));
     }
   };
-
+console.log(gameId);
   useEffect(() => {
     if (detailsUrl) {
       dispatch(getDetails(detailsUrl));
+    }
+    if (gameId) {
+      dispatch(getDetailsById(gameId));
     }
   }, []);
 
