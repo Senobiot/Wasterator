@@ -40,7 +40,8 @@ export const INSCRIPTIONS_KEYS = {
 
 export const ROUTES = {
   PAGE: {
-    MY_GAMES: "/",
+    HOME: "/",
+    MY_GAMES: "/games",
     MY_FILMS: "/films",
     STATISTIC: "/stats",
     SEARCH_RESULTS: "/results",
@@ -51,6 +52,7 @@ export const ROUTES = {
   CARDS: {
     FILM: "/movie",
     GAME: "/game",
+    gameDetails: "/game/:id"
   },
 };
 
@@ -204,6 +206,9 @@ export const COLLECTION_ENDPOINTS = {
 export const GAMES_ENDPOINTS = {
   search: SERVER_ENDPOINTS.games + "/searchGame?name=",
   getDeatails: SERVER_ENDPOINTS.games + "/getGameDetails?url=",
+  getDeatailsById: SERVER_ENDPOINTS.games + "/getGameDetailsById?id=",
+  getTopGames: SERVER_ENDPOINTS.games + "/getTopGames?page=",
+
 }
 
 export const TOKEN_NAMES = {

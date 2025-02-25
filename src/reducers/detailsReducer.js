@@ -10,8 +10,11 @@ const detailsSlice = createSlice({
     getDetails: (state, action) => {
       return action.payload;
     },
+    getDetailsById: (state, action) => {
+      return action.payload;
+    },
   },
 });
 
-export const { setDetails, getDetails } = detailsSlice.actions;
+export const { setDetails, getDetails, getDetailsById } = detailsSlice.actions;
 export default detailsSlice.reducer;

@@ -1,6 +1,7 @@
 import "./App.css";
 import Menu from "./components/Menu/Menu";
 import Home from "./components/Home/Home";
+import Games from "./components/Games/Games";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GameCard from "./components/Card/GameCard";
 import SearchResultsTable from "./components/SearchResults/SearchResultsTable";
@@ -14,10 +15,13 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { checkIsAuth } from "./reducers/authReducer";
 import { ROUTES } from "./constants/constants";
+// import { getTopList } from "./reducers/searchReducer";
 
 function App() {
   const dispatch = useDispatch();
+
   useEffect(() => {
+    // dispatch(getTopList());
     dispatch(checkIsAuth());
   }, []);
 
@@ -26,11 +30,13 @@ function App() {
       <BrowserRouter>
         <Menu />
         <Routes>
-          <Route path={ROUTES.PAGE.MY_GAMES} element={<Home />} />
+          <Route path={ROUTES.PAGE.HOME} element={<Home />} />
+          <Route path={ROUTES.PAGE.MY_GAMES} element={<Games />} />
           <Route path={ROUTES.PAGE.MY_FILMS} element={<Films />} />
           <Route path={ROUTES.PAGE.STATISTIC} element={<StatisticsPage />} />
           <Route path={ROUTES.PAGE.SEARCH_RESULTS} element={<SearchResultsTable />} />
           <Route path={ROUTES.CARDS.GAME} element={<GameCard />} />
+          <Route path={ROUTES.CARDS.gameDetails} element={<GameCard />} />
           <Route path={ROUTES.CARDS.FILM} element={<MovieCard />} />
           <Route path={ROUTES.PAGE.LOGIN} element={<Login />} />
           <Route path={ROUTES.PAGE.REGISTRATION} element={<Registration />} />

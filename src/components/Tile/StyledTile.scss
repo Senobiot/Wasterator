@@ -1,0 +1,116 @@
+.styled-tile {
+  position: relative;
+  background: #1f1f1f;
+  border-radius: 4px;
+  overflow: hidden;
+  height: 320px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-5px);
+    
+    img {
+      transform: scale(1.05);
+    }
+    
+    .tile-content::before {
+      opacity: 1;
+    }
+  }
+
+  .tile-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .rating {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: #ff6b00;
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: bold;
+      z-index: 2;
+    }
+
+    .metacritic {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: bold;
+      color: white;
+    
+      &.metacritic-green {
+        background-color: #6c3;
+      }
+    
+      &.metacritic-yellow {
+        background-color: #fc3;
+      }
+    
+      &.metacritic-orange {
+        background-color: #f93;
+      }
+    
+      &.metacritic-red {
+        background-color: #f00;
+      }
+    }
+    
+  }
+
+  .tile-content {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 70%, rgba(0,0,0,0) 100%);
+    z-index: 1;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 8px;
+      color: #fff;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+
+    .description {
+      font-size: 14px;
+      color: #ccc;
+      margin: 0 0 8px;
+      opacity: 0.8;
+    }
+
+    .release-date {
+      font-size: 13px;
+      color: #ff6b00;
+      font-weight: 500;
+    }
+  }
+}
