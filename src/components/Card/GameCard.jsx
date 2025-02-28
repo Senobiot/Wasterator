@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectDetails } from "../../selectors/selectors";
+import { selectDetails, selectLoadingStatus } from "../../selectors/selectors";
 import Button from "../Button/Button";
 import classes from "./GameCard.module.scss";
 import PlayedTime from "./PlayedTime/PlayedTime";
@@ -34,7 +34,8 @@ export default function Card() {
 
   const dispatch = useDispatch();
   const [loadedImg, setLoadedImg] = useState(false);
-
+   const loading = useSelector(selectLoadingStatus);
+console.log(loading);
   const handleAdd = () => {
     dispatch(addItemToCollection({ type: "game", id, playedTime: 0 }));
   };
@@ -50,13 +51,13 @@ export default function Card() {
       dispatch(setItemDetails({ ...details, playedTime: +playedTime }));
     }
   };
-console.log(gameId);
+
   useEffect(() => {
     if (detailsUrl) {
       dispatch(getDetails(detailsUrl));
     }
     if (gameId) {
-      dispatch(getDetailsById(gameId));
+      dispatch(getDetailsById({ gameId, gameName: name }));
     }
   }, []);
 
@@ -64,7 +65,7 @@ console.log(gameId);
     "No details...("
   ) : (
     <div className={`${classes.card}`}>
-      {!loadedImg ? (
+      {!loadedImg || loading? (
         <Loader />
       ) : (
         <div
@@ -81,8 +82,8 @@ console.log(gameId);
           <img src={imageUrl} onLoad={() => setLoadedImg(true)} alt="" />
         </div>
         <div className={classes.description_wrapper}>
-          <div className={`${classes.description}`}>{description}</div>
-          {/* <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} /> */}
+          {/* <div className={`${classes.description}`}>{description}</div> */}
+          <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
           <div className={classes.genres}>
             {genres?.map((e) => (
               <span key={e}>{e + " / "}</span>

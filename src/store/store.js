@@ -15,8 +15,8 @@ const store = configureStore({
     searchResult: searchReducer,
     collection: collectionReducer,
     auth: authReducer,
+    details: detailsReducer,
     status: statusReducer,
-    details: detailsReducer
   },
   middleware: () => [logger, fetchGames, fecthFilms, auth, collectionMW],
 });
