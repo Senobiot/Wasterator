@@ -5,7 +5,7 @@ import { setLoading } from "../../reducers/statusReducer";
 import { selectLoadingStatus } from "../../selectors/selectors";
 
 export default function StyledTile({ data, last }) {
-  const { imageUrl, name, description, rating, release, ratingMetacritic, loader } = data;
+  const { imageUrl, name, description, rating, release, ratingMetacritic, inCollection, loader } = data;
   const dispatch = useDispatch();
   const loading = useSelector(selectLoadingStatus);
   const handleOnload = () => {
@@ -30,6 +30,7 @@ export default function StyledTile({ data, last }) {
           onLoad={last && handleOnload}
         />
         {rating && <div className="rating">{rating}</div>}
+        {inCollection && <div className="inCollection">{inCollection && '+'}</div>}
         {ratingMetacritic && (
           <div className={`metacritic ${getMetacriticColor(ratingMetacritic)}`}>
             {ratingMetacritic}

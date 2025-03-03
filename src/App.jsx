@@ -15,13 +15,11 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { checkIsAuth } from "./reducers/authReducer";
 import { ROUTES } from "./constants/constants";
-// import { getTopList } from "./reducers/searchReducer";
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // dispatch(getTopList());
     dispatch(checkIsAuth());
   }, []);
 

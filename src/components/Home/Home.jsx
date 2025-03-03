@@ -1,6 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
 import {
+  getScrollPosition,
+  selectCurrentUser,
   selectLoadingStatus,
+  selectLoginingStatus,
   selectTopGames,
   selectTopGamesPage,
 } from "../../selectors/selectors";
@@ -8,18 +11,31 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import StyledTile from "../Tile/Tile";
 import "./Home.scss";
-import { getMoreTopGames } from "../../reducers/searchReducer";
+import { getMoreTopGames, setScrollPosition } from "../../reducers/searchReducer";
 import { setLoading } from "../../reducers/statusReducer";
 import { ROUTES } from "../../constants/constants";
+import LineMessage from "../Modals/LineMessage/LineMessage";
 
 export default function Home() {
   const topGamesList = useSelector(selectTopGames);
   const loading = useSelector(selectLoadingStatus);
+  const loggedUser = useSelector(selectCurrentUser);
+  const loginingStatus = useSelector(selectLoginingStatus);
+  const scrollPosition = useSelector(getScrollPosition);
+  const [loginRequest, setLoginRequest] = useState(false);
   const currentLoadedPages = useSelector(selectTopGamesPage);
-  console.log(currentLoadedPages);
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const observer = useRef();
+
+  const handleClick = (event) => {
+    dispatch(setScrollPosition(window.scrollY));
+    setLoginRequest(false);
+    if (!loggedUser) {
+      setTimeout(() => setLoginRequest(true), 0);
+      event.preventDefault();
+    }
+  };
 
   const lastGameElementRef = (node) => {
     if (loading) return;
@@ -37,25 +53,31 @@ export default function Home() {
   useEffect(() => {
     if (page > 1 && page > currentLoadedPages) {
       dispatch(setLoading(true));
-      dispatch(getMoreTopGames(page));
+      dispatch(getMoreTopGames({ page, loggedUser }));
     }
   }, [page, dispatch]);
 
   useEffect(() => {
-    if (currentLoadedPages < page) {
+    if (currentLoadedPages < page && !loginingStatus) {
       dispatch(setLoading(true));
-      dispatch(getMoreTopGames(page));
+      dispatch(getMoreTopGames({ page, loggedUser }));
     }
-
+    console.log(scrollPosition);
+    window.scrollTo(0, scrollPosition ? scrollPosition : 0);
     return () => {
       if (observer.current) {
         observer.current.disconnect();
       }
     };
-  }, []);
+  }, [loginingStatus]);
 
   return (
     <div className="collection-wrapper ghostloader">
+      <LineMessage
+        message="Pls login"
+        style={{ position: "fixed", bottom: 0 }}
+        show={loginRequest}
+      ></LineMessage>
       {!topGamesList.length ? (
         <div className="empty-state">Your collection is still empty... (</div>
       ) : (
@@ -64,7 +86,10 @@ export default function Home() {
             if (topGamesList.length === index + 1) {
               return (
                 <div ref={lastGameElementRef} key={game.id || game.name}>
-                  <Link to={`${ROUTES.CARDS.GAME}/${game.id}`}>
+                  <Link
+                    to={`${ROUTES.CARDS.GAME}/${game.id}`}
+                    onClick={handleClick}
+                  >
                     <StyledTile data={game} last={true} />
                   </Link>
                 </div>
@@ -72,6 +97,7 @@ export default function Home() {
             } else {
               return (
                 <Link
+                  onClick={handleClick}
                   key={game.id || game.name}
                   to={`${ROUTES.CARDS.GAME}/${game.id}`}
                 >
