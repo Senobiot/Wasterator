@@ -1,136 +1,78 @@
-@use "../../constants/colors.scss";
-
-.search_input{
-  visibility: visible;
-  padding: 0;
-  margin: 0;
-  border: none;
-  background-color: transparent;
-  margin-left: 8px;
-  width: calc(100% - 25px - 8px);
-  outline: none;
-  line-height: 26px;
-  font-size: 14px;
-  margin-top: 1px;
-  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.1);
-  font-family: "Motiva Sans", Sans-serif;
-  font-weight: 300;
-
-  &::placeholder {
-    color: white;
-    font-style: italic;
-  }
-
-  &::-webkit-search-cancel-button {
-    display: none;
-  }
-}
-
-.search_wrapper {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
-  visibility: visible;
-  margin: 0;
-  width: auto;
+.search_container {
   position: relative;
-  z-index: 150;
-  cursor: text;
-  background-image: none;
-  background-color: #316282;
-  border-radius: 3px;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  box-shadow: 1px 1px 0px rgba(255, 255, 255, 0.2);
-  color: #fff;
-  margin-bottom: 0px;
-  outline: none;
-  height: 27px;
-  padding: 0px 6px;
+  display: flex;
+  align-items: center;
+  width: 260px;
+  margin: 10px;
 
-  &:hover {
-    border: 1px solid #4c9acc;
-    box-shadow: 1px 1px 0px rgba(255, 255, 255, 0);
-  }
-
-  .types {
-    display: none;
+  .lense_wrapper {
     position: absolute;
-    width: 100%;
-    left: 0;
-    top: 100%;
-    background-color: colors.$main-bg;
+    left: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 8px 16px;
+    display: flex;
+    transition: transform 0.5s;
 
-    &_games, &_films{
-        display: flex;
-        align-items: center;
-        padding-left: 20px;
-        text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.1);
-        font-family: "Motiva Sans", Sans-serif;
-        font-weight: 300;
-        color: white;
-        font-style: italic;
-        cursor: pointer;
-        border: 1px solid #fff;
-        border-radius: 5px;
-        height: 34px;
-        position: relative;
-        &.active {
-            color: #4c9acc;
-
-            &:after{
-                content: '\221A';
-                position: absolute;
-                color: chartreuse;
-                right: 10px;
-            }
-
-        }
-
-        &:hover {
-            background-color: #316282;
-        }
-
+    &.movies {
+      left: initial;
+      right: 10px;
     }
-        &_films {
-            margin-top: 5px;
-            top: calc(200% + 5px);
-        }
-
-        &.focused {
-            display: block;
-        }
+  
+    &:hover {
+      transform: scale(1.3);
     }
-}
-
-.search_lense {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
-  visibility: visible;
-  padding: 0;
-  margin: 0;
-  text-decoration: none;
-  color: #ffffff;
-  position: absolute;
-  right: 2px;
-  top: 0;
-  cursor: pointer;
-
-  &:active {
-    transform: translate(2px, 2px);
   }
-}
 
-.search_image {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
-  visibility: visible;
-  color: #ffffff;
-  padding: 0;
-  margin: 0;
-  border: none;
-  width: 25px;
-  height: 25px;
-  position: absolute;
-  top: 1px;
-  right: -1px;
-  background: 50% / contain url('/public/lense.png') no-repeat;
+  .search_input {
+    width: 100%;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    transition: all 0.25s ease;
+    padding: 12px 65px;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    &:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  .icon_wrapper {
+    position: absolute;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 18px;
+    transition: transform 0.5s;
+    padding: 8px 16px;
+    display: flex;
+    overflow: hidden;
+
+    &:hover {
+      color: #fff;
+      transform: rotateY(360deg);
+    }
+      
+    svg {
+      font-size: 30px;
+    }
+
+    &.games {
+      right: 7px;
+    }
+
+    &.movies {
+      left: 7px;
+    }
+  }
 }

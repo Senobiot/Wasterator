@@ -1,35 +1,48 @@
 .menu {
-    position: sticky;
-    z-index: 50;
-    top: 0;
-    // margin-bottom: 40px;
+  position: sticky;
+  z-index: 50;
+  top: 0;
 }
 
 nav {
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    background: linear-gradient(90deg,
-        rgba(62, 103, 150, 0.919) 11.38%,
-        rgba(58, 120, 177, 0.8) 25.23%,
-        rgb(15, 33, 110) 100%);
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(
+    90deg,
+    rgba(62, 103, 150, 0.919) 11.38%,
+    rgba(58, 120, 177, 0.8) 25.23%,
+    rgb(15, 33, 110) 100%
+  );
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
 
-    .button:hover {
-        background: linear-gradient(90deg,
-        rgba(33, 162, 255, 0.25) 0%,
-        rgba(33, 162, 255, 0.15) 50%,
-        rgba(50, 50, 51, 0) 100%);
-        text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
-    }
+  .button:hover {
+    background: linear-gradient(
+      90deg,
+      rgba(33, 162, 255, 0.25) 0%,
+      rgba(33, 162, 255, 0.15) 50%,
+      rgba(50, 50, 51, 0) 100%
+    );
+    text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+  }
 }
 
 ul {
-    list-style: none;
-    display: flex;
-    justify-content: space-between;
-    margin: 3px;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  margin: 3px;
 }
 
+.logoWrapper {
+  left: 10px;
+  top: calc(50% - 25px);
+  position: absolute;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
 
-
+  img {
+    height: 50px;
+  }
+}

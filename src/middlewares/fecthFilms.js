@@ -8,6 +8,7 @@ const fecthFilms = () => (next) => async (action) => {
   let modifiedData = { ...action };
 
   if (action.type === API.FILMS.GET_LIST_BY_NAME) {
+    console.log('fetching films....');
     const response = await fetch(API_CONFIG.getByName + action.payload, API_CONFIG.HEADERS);
     const data = await response.json();
     const filteredData = data.docs.map((e) =>
