@@ -2,7 +2,7 @@ import {
   GAMES_ENDPOINTS,
   SEARCH_TYPE,
 } from "../constants/constants";
-import { getDetails, getDetailsById } from "../reducers/detailsReducer";
+import { getDetails, getDetailsById, setDetails } from "../reducers/detailsReducer";
 import { getListByName, type, getMoreTopGames } from "../reducers/searchReducer";
 import { setLoading } from "../reducers/statusReducer";
 import { setRequestOptions } from "../utils/utils";
@@ -40,7 +40,7 @@ const fetchGames = () => (next) => async (action) => {
 
       return next(getDetails(details));
     } catch (error) {
-
+      console.log(error);
     } finally {
       next(setLoading(false));
     }
@@ -51,14 +51,13 @@ const fetchGames = () => (next) => async (action) => {
 
     try {
       const response = await fetch(
-        GAMES_ENDPOINTS.getDeatailsById + action.payload,
-        setRequestOptions()
+        GAMES_ENDPOINTS.getDeatailsById,
+        setRequestOptions(action.payload)
       );
       const details = await response.json();
-      action.payload = details;
-      return
+      return next(setDetails(details));
     } catch (error) {
-
+      console.log(error);
     } finally {
       next(setLoading(false));
     }

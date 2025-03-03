@@ -6,6 +6,7 @@ import {
 import {
   addItemToCollection,
   deleteItemFromCollection,
+  getGamesCollection,
 } from "../reducers/collectionReducer";
 import { setLoading } from "../reducers/statusReducer";
 import { setDetails } from "../reducers/detailsReducer";
@@ -13,6 +14,22 @@ import { updateCurrentSearchMark } from "../reducers/searchReducer";
 import { setRequestOptions } from "../utils/utils";
 
 const collection = () => (next) => async (action) => {
+  if (action.type === getGamesCollection.type) {
+    // setLoading(true);
+    try {
+      const response = await fetch(
+        COLLECTION_ENDPOINTS.getCollection,
+        setRequestOptions()
+      );
+      const data = await response.json();
+      action.payload = data;
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // setLoading(false);
+    }
+  }
+
   if (action.type === addItemToCollection.type) {
     // setLoading(true);
     try {
