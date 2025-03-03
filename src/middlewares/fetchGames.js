@@ -1,9 +1,14 @@
+import { GAMES_ENDPOINTS, SEARCH_TYPE } from "../constants/constants";
 import {
-  GAMES_ENDPOINTS,
-  SEARCH_TYPE,
-} from "../constants/constants";
-import { getDetails, getDetailsById, setDetails } from "../reducers/detailsReducer";
-import { getListByName, type, getMoreTopGames } from "../reducers/searchReducer";
+  getDetails,
+  getDetailsById,
+  setDetails,
+} from "../reducers/detailsReducer";
+import {
+  getListByName,
+  type,
+  getMoreTopGames,
+} from "../reducers/searchReducer";
 import { setLoading } from "../reducers/statusReducer";
 import { setRequestOptions } from "../utils/utils";
 
@@ -22,7 +27,7 @@ const fetchGames = () => (next) => async (action) => {
       return next(getListByName(result));
     } catch (error) {
       console.log(error);
-    } finally{
+    } finally {
       next(setLoading(false));
     }
   }
@@ -61,20 +66,33 @@ const fetchGames = () => (next) => async (action) => {
     } finally {
       next(setLoading(false));
     }
-
   }
 
   if (action.type === getMoreTopGames.type) {
-    try {
-      const response = await fetch(
-        GAMES_ENDPOINTS.getTopGames + action.payload,
-        setRequestOptions()
-      );
-      const details = await response.json();
-      action.payload = details;
-    } catch (error) {
-      console.log(error);
-    } 
+    console.log(action.payload.loggedUser);
+    if (action.payload.loggedUser) {
+      try {
+        const response = await fetch(
+          GAMES_ENDPOINTS.getTopGamesWithAuhorization + action.payload.page,
+          setRequestOptions()
+        );
+        const details = await response.json();
+        action.payload = details;
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        const response = await fetch(
+          GAMES_ENDPOINTS.getTopGames + action.payload.page,
+          setRequestOptions()
+        );
+        const details = await response.json();
+        action.payload = details;
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
   return next(action);

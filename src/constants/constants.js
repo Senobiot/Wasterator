@@ -209,6 +209,7 @@ export const GAMES_ENDPOINTS = {
   getDeatails: SERVER_ENDPOINTS.games + "/getGameDetails?url=",
   getDeatailsById: SERVER_ENDPOINTS.games + "/getGameDetailsById",
   getTopGames: SERVER_ENDPOINTS.games + "/getTopGames?page=",
+  getTopGamesWithAuhorization: SERVER_ENDPOINTS.games + "/getTopGamesWithAuthorization?page=",
 
 }
 

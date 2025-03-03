@@ -93,7 +93,7 @@ export const setRequestOptions = (body) => {
   return {
     method: body ? "POST" : "GET",
     headers: {
-      Authorization: `Bearer ${sessionStorage.accessToken}`,
+      Authorization: `Bearer ${sessionStorage.accessToken ?? ''}`,
       "Content-Type": "application/json",
     },
     credentials: "include",

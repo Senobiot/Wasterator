@@ -10,7 +10,7 @@ import {
 } from "../reducers/collectionReducer";
 import { setLoading } from "../reducers/statusReducer";
 import { setDetails } from "../reducers/detailsReducer";
-import { updateCurrentSearchMark } from "../reducers/searchReducer";
+import { updateCurrentSearchMark, updateCurrentTopGamesCollectionMark } from "../reducers/searchReducer";
 import { setRequestOptions } from "../utils/utils";
 
 const collection = () => (next) => async (action) => {
@@ -31,7 +31,6 @@ const collection = () => (next) => async (action) => {
   }
 
   if (action.type === addItemToCollection.type) {
-    // setLoading(true);
     try {
       const response = await fetch(
         COLLECTION_ENDPOINTS.addToCollection,
@@ -40,17 +39,15 @@ const collection = () => (next) => async (action) => {
       const data = await response.json();
 
       next(updateCurrentSearchMark({ id: action.payload.id, value: true }));
-
+      next(updateCurrentTopGamesCollectionMark({ id: action.payload.id, value: true }));
+    
       return next(setDetails(data));
     } catch (error) {
       console.log(error);
-    } finally {
-      // setLoading(false);
     }
   }
 
   if (action.type === deleteItemFromCollection.type) {
-    // setLoading(true);
     try {
       const response = await fetch(
         COLLECTION_ENDPOINTS.deleteFromCollection,
@@ -60,12 +57,11 @@ const collection = () => (next) => async (action) => {
       const data = await response.json();
 
       next(updateCurrentSearchMark({ id: action.payload.id, value: false }));
+      next(updateCurrentTopGamesCollectionMark({ id: action.payload.id, value: false }));
 
       return next(setDetails(data));
     } catch (error) {
       console.log(error);
-    } finally {
-      // setLoading(false);
     }
   }
 

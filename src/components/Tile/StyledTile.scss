@@ -43,6 +43,18 @@
       z-index: 2;
     }
 
+    .inCollection {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      background: #94f3e0;
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: bold;
+      z-index: 2;
+    }
+
     .metacritic {
       position: absolute;
       top: 16px;
