@@ -15,12 +15,12 @@ const collectionSlice = createSlice({
     deleteItemFromCollection: (state, action) => {
       return state;
     },
-    getCollection: (state, action) => {
-      return state;
+    getGamesCollection: (state, action) => {
+      state.games = action.payload;
     },
   },
 });
 
-export const { addItemToCollection, deleteItemFromCollection } =
+export const { addItemToCollection, deleteItemFromCollection, getGamesCollection } =
   collectionSlice.actions;
 export default collectionSlice.reducer;

@@ -4,13 +4,13 @@ import { selectDetails, selectLoadingStatus } from "../../selectors/selectors";
 import Button from "../Button/Button";
 import classes from "./GameCard.module.scss";
 import PlayedTime from "./PlayedTime/PlayedTime";
-import {
-  setItemDetails,
-  updatePlayedTime,
-} from "../../actions";
+import { setItemDetails, updatePlayedTime } from "../../actions";
 import { getDetails, getDetailsById } from "../../reducers/detailsReducer";
 import Loader from "../Loader/Loader";
-import { addItemToCollection, deleteItemFromCollection } from "../../reducers/collectionReducer";
+import {
+  addItemToCollection,
+  deleteItemFromCollection,
+} from "../../reducers/collectionReducer";
 import { useParams } from "react-router-dom";
 
 export default function Card() {
@@ -34,8 +34,9 @@ export default function Card() {
 
   const dispatch = useDispatch();
   const [loadedImg, setLoadedImg] = useState(false);
-   const loading = useSelector(selectLoadingStatus);
-console.log(loading);
+  const [bgPosition, setBgPosition] = useState(0);
+  const loading = useSelector(selectLoadingStatus);
+
   const handleAdd = () => {
     dispatch(addItemToCollection({ type: "game", id, playedTime: 0 }));
   };
@@ -53,6 +54,7 @@ console.log(loading);
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (detailsUrl) {
       dispatch(getDetails(detailsUrl));
     }
@@ -61,26 +63,36 @@ console.log(loading);
     }
   }, []);
 
+  useEffect(() => {
+    const image = new Image();
+    image.src = imageUrl;
+
+    image.onload = () => {
+      setLoadedImg(true);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleScroll = () => {
+    setBgPosition(-window.scrollY / 4);
+  };
+
   return !details.name ? (
     "No details...("
   ) : (
     <div className={`${classes.card}`}>
-      {!loadedImg || loading? (
-        <Loader />
-      ) : (
-        <div
-          className={classes.backDrop}
-          style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
-        url(${imageUrl})`,
-          }}
-        ></div>
-      )}
+      {!loadedImg || (loading && <Loader />)}
       <div className={classes.title}>{name}</div>
       <div className={classes.card_content}>
-        <div className={`${classes.image_wrapper}`}>
-          <img src={imageUrl} onLoad={() => setLoadedImg(true)} alt="" />
-        </div>
+        <div
+          className={`${classes.image_wrapper}`}
+          style={{
+            backgroundPositionY: bgPosition,
+            backgroundImage: `url("${imageUrl}")`,
+          }}
+        ></div>
         <div className={classes.description_wrapper}>
           {/* <div className={`${classes.description}`}>{description}</div> */}
           <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />

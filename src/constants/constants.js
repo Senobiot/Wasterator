@@ -201,6 +201,7 @@ export const AUTH_ENDPOINTS = {
 export const COLLECTION_ENDPOINTS = {
   addToCollection: SERVER_ENDPOINTS.collection + "/addToCollection",
   deleteFromCollection: SERVER_ENDPOINTS.collection + "/deleteFromCollection",
+  getCollection: SERVER_ENDPOINTS.collection + "/getCollection",
 }
 
 export const GAMES_ENDPOINTS = {

@@ -16,7 +16,6 @@
 body {
   background: 50% 0% / cover url("./assets/gamer-ninja.webp") no-repeat;
   background-attachment: fixed;
-  padding: 10px;
 }
 
 a {
