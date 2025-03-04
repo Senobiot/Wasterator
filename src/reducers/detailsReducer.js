@@ -4,8 +4,11 @@ const detailsSlice = createSlice({
   name: "details",
   initialState: {},
   reducers: {
-    setDetails: (state, action) => {;
+    setDetails: (state, action) => {
       return action.payload;
+    },
+    updatePlayedTime: (state, action) => {
+      state.playedTime = action.payload.playedTime;
     },
     getDetails: (state, action) => {
       return action.payload;
@@ -16,5 +19,6 @@ const detailsSlice = createSlice({
   },
 });
 
-export const { setDetails, getDetails, getDetailsById } = detailsSlice.actions;
+export const { setDetails, getDetails, getDetailsById, updatePlayedTime } =
+  detailsSlice.actions;
 export default detailsSlice.reducer;

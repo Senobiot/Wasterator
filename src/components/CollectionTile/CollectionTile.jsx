@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { setDetails } from "../../reducers/detailsReducer";
 
 const CollectionTile = ({ data, viewVariant, type, pathname }) => {
-  const { name, imageUrl, release, playedTime, poster, movieLength, year } = data;
+  const { name, imageUrl, release, poster, time, movieLength, year, id } = data;
   const inscription =
     type === COLLECTION_TYPES.FILMS
       ? INSCRIPTIONS_KEYS.TITLE_CARDS.DURATION.FILMS
@@ -17,25 +17,22 @@ const CollectionTile = ({ data, viewVariant, type, pathname }) => {
 
   return (
     <Link
-    to={{
-      pathname: pathname,
-      search: `?id=${data.id}`,
-    }}
-    className={viewVariant}
-  >
-    <div onClick={handleClick} className="game-tile">
-      <img
-        src={imageUrl}
-        alt={name}
-        className="game-image"
-      />
-      <div className="game-info">
-        <h2 className="game-title">{name}</h2>
-        <p className="game-description">{data.deck || data.description}</p>
-        <p className="game-played-time">{inscription} {playedTime || movieLength  || "-"} </p>
-        <p className="game-played-year">Год: {release || year}</p>
+      to={{
+        pathname: `${pathname}/${id}`,
+      }}
+      className={viewVariant}
+    >
+      <div onClick={handleClick} className="game-tile">
+        <img src={imageUrl} alt={name} className="game-image" />
+        <div className="game-info">
+          <h2 className="game-title">{name}</h2>
+          <p className="game-description">{data.deck || data.description}</p>
+          <p className="game-played-time">
+            {inscription} {time || movieLength || "-"}{" "}
+          </p>
+          <p className="game-played-year">Год: {release || year}</p>
+        </div>
       </div>
-    </div>
     </Link>
   );
 };

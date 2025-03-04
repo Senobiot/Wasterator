@@ -9,7 +9,7 @@ import {
   getGamesCollection,
 } from "../reducers/collectionReducer";
 import { setLoading } from "../reducers/statusReducer";
-import { setDetails } from "../reducers/detailsReducer";
+import { setDetails, updatePlayedTime } from "../reducers/detailsReducer";
 import { updateCurrentSearchMark, updateCurrentTopGamesCollectionMark } from "../reducers/searchReducer";
 import { setRequestOptions } from "../utils/utils";
 
@@ -65,18 +65,24 @@ const collection = () => (next) => async (action) => {
     }
   }
 
-  // if (action.type === FILMS.ADD_TO_COLLECTION) {
-  //   try {
-  //     const response = await fetch(
-  //       AUTH_ENDPOINTS.addToCollection,
-  //       setOptions({data: dto})
-  //     );
-  //     const data = await response.json();
+  if (action.type === updatePlayedTime.type) {
+    try {
+      const response = await fetch(
+        COLLECTION_ENDPOINTS.updateCollectableTime,
+        setRequestOptions(action.payload)
+      );
 
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+      const data = await response.json();
+      console.log(data);
+      // next(updateCurrentSearchMark({ id: action.payload.id, value: false }));
+      // next(updateCurrentTopGamesCollectionMark({ id: action.payload.id, value: false }));
+
+      // return next(setDetails(data));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return next(action);
 };
 

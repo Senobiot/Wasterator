@@ -4,8 +4,7 @@ import { selectDetails, selectLoadingStatus } from "../../selectors/selectors";
 import Button from "../Button/Button";
 import classes from "./GameCard.module.scss";
 import PlayedTime from "./PlayedTime/PlayedTime";
-import { setItemDetails, updatePlayedTime } from "../../actions";
-import { getDetails, getDetailsById } from "../../reducers/detailsReducer";
+import { getDetails, getDetailsById, updatePlayedTime } from "../../reducers/detailsReducer";
 import Loader from "../Loader/Loader";
 import {
   addItemToCollection,
@@ -29,6 +28,7 @@ export default function Card() {
     publishers,
     ratingMpaa,
     descriptionHtml,
+    playedTime,
     id,
   } = details;
 
@@ -48,8 +48,7 @@ export default function Card() {
   const handleUpdate = () => {
     const playedTime = prompt("Сколько наиграли?");
     if (playedTime || playedTime === 0) {
-      dispatch(updatePlayedTime({ id: details.id, playedTime: +playedTime }));
-      dispatch(setItemDetails({ ...details, playedTime: +playedTime }));
+      dispatch(updatePlayedTime({ id: details.id, playedTime: +playedTime, type: "game" }));
     }
   };
 
@@ -125,8 +124,8 @@ export default function Card() {
               <div key={e}>{e}</div>
             ))}
           </div>
-          {details.playedTime ? (
-            <PlayedTime className={classes.time} time={details.playedTime} />
+          {playedTime ? (
+            <PlayedTime className={classes.time} time={playedTime} />
           ) : (
             ""
           )}
