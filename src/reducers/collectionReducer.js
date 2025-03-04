@@ -21,6 +21,9 @@ const collectionSlice = createSlice({
   },
 });
 
-export const { addItemToCollection, deleteItemFromCollection, getGamesCollection } =
-  collectionSlice.actions;
+export const {
+  addItemToCollection,
+  deleteItemFromCollection,
+  getGamesCollection,
+} = collectionSlice.actions;
 export default collectionSlice.reducer;
