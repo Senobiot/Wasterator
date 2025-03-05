@@ -1,138 +1,128 @@
 .previewRow {
-    display: flex;
+  display: flex;
+  padding: 5px;
+  border: 1px solid;
+  margin-bottom: 5px;
+  text-align: left;
+  background-color: rgba(29, 29, 25, 0.75);
+  cursor: pointer;
+}
+
+.item {
+  background-color: #1b2838;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #c6d4df;
+  font-family: "Motiva Sans", Sans-serif;
+  font-weight: 300;
+  border: 1px solid rgba(139, 185, 224, 0);
+  height: 55px;
+  overflow: hidden;
+  padding: 10px 5px;
+  transition: background-color 0.375s ease-in;
+  text-align: left;
+
+  &:hover {
+    border: 1px solid rgba(139, 185, 224, 0.2);
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .poster {
+    border: 1px solid rgba(139, 185, 224, 0.2);
     padding: 5px;
-    border: 1px solid;
-    margin-bottom: 5px;
-    text-align: left;
-    background-color:rgba(29, 29, 25, 0.75);
-    cursor: pointer;
-}
+    margin-right: 20px;
 
-.searchResults {
-    font-family: Arial, Helvetica, sans-serif;
-    color: #c6d4df;
-    font-size: 12px;
-    padding: 0;
-    margin: 0;
-    max-width: 686px;
-    display: flex;
-
-    &__item {
-        background-color: #1b2838;
-        margin-bottom: 5px;
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-        color: #c6d4df;
-        font-family: "Motiva Sans", Sans-serif;
-        font-weight: 300;
-        border: 1px solid rgba( 139, 185, 224, 0 );
-        height: 55px;
-        overflow: hidden;
-        padding: 10px 5px;
-        transition: background-color 0.375s ease-in; 
-        text-align: left;
-
-        &:hover {
-            border: 1px solid rgba(139, 185, 224, 0.2);
-            background: rgba(0, 0, 0, 0.8);
-        }
-
-        &_poster {
-            border: 1px solid rgba( 139, 185, 224, 0.2 );
-            background: rgba( 0, 0, 0, 0.4 );
-            background-color: rgba(0, 0, 0, 0.2);
-            transition: background-color 1s ease-in;
-            padding: 5px;
-            margin-right: 20px;
-
-            img {
-                min-width: 40px;
-                height: 40px;
-                width: 40px;
-            }
-        }
-
-        &_content {
-            min-width: 500px;
-            text-align: left;
-            .title {
-                text-overflow: ellipsis;
-                overflow: hidden;
-                color: #c7d5e0;
-            }
-
-            .platform {
-                width: 20px;
-                height: 20px;
-                display: inline-block;
-                margin-right: 5px;
-
-                &.pc {
-                    background: url('/public/win.png');
-                }
-                &.xbox {
-                    background: 50% /contain url('/public/xbox.png') #fff;  
-                }
-                &.mac, &.iphone, &.ios, &.ipad {
-                    background: url('/public/mac.png');  
-                }
-                &.playstation {
-                    background: 50% /contain url('/public/ps.png') #fff;  
-                }
-                &.dreamcast {
-                    background: 50% /contain url('/public/sega.png') #fff;  
-                }
-                &.nintendo, &.game {
-                    background: 50% /contain url('/public/nin.png') #fff ;  
-                }
-                &.android {
-                    background: 50% /contain url('/public/android.png') #fff ;  
-                }
-            }
-        }
-
-        &_rating {
-            margin-right: 20px;
-            font-size: 14px;
-            color: rgb(235, 161, 118);
-            width: 30px;
-        }
-
-        &_released {
-            margin-right: 20px;
-            font-family: "Motiva Sans", Sans-serif;
-            font-weight: 700;
-            height: 45px;
-            display: inline-block;
-            vertical-align: top;
-            // width: 120px;
-            color: #87a3be;
-            font-size: 16px;
-            line-height: 45px;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            text-align: left;
-        }
-
-        &_collection {
-            margin-left: 20px;
-            font-weight: 700;
-            text-shadow: 2px 2px 5px #fff;
-            color:chocolate;
-            font-size: 14px;
-        }
-
-        .genres_wrapper {
-            width: 160px;
-            display: block;
-            font-size: 12px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-        }
+    img {
+      min-width: 40px;
+      height: 40px;
+      width: 40px;
     }
-}
+  }
 
+  .content {
+    min-width: 500px;
+    text-align: left;
+    .title {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      color: #c7d5e0;
+    }
+
+    .platform {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      margin-right: 5px;
+
+      &.pc {
+        background: url("/public/win.png");
+      }
+      &.xbox {
+        background: 50% / contain url("/public/xbox.png") #fff;
+      }
+      &.mac,
+      &.iphone,
+      &.ios,
+      &.ipad {
+        background: url("/public/mac.png");
+      }
+      &.playstation {
+        background: 50% / contain url("/public/ps.png") #fff;
+      }
+      &.dreamcast {
+        background: 50% / contain url("/public/sega.png") #fff;
+      }
+      &.nintendo,
+      &.game {
+        background: 50% / contain url("/public/nin.png") #fff;
+      }
+      &.android {
+        background: 50% / contain url("/public/android.png") #fff;
+      }
+    }
+  }
+
+  .rating {
+    margin-right: 20px;
+    font-size: 14px;
+    color: rgb(235, 161, 118);
+    width: 30px;
+  }
+
+  .released {
+    margin-right: 20px;
+    font-family: "Motiva Sans", Sans-serif;
+    font-weight: 700;
+    height: 45px;
+    display: inline-block;
+    vertical-align: top;
+    // width: 120px;
+    color: #87a3be;
+    font-size: 16px;
+    line-height: 45px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: left;
+  }
+
+  .collection {
+    margin-left: 20px;
+    font-weight: 700;
+    text-shadow: 2px 2px 5px #fff;
+    color: chocolate;
+    font-size: 14px;
+  }
+
+  .genres_wrapper {
+    width: 160px;
+    display: block;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}

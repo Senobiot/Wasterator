@@ -7,7 +7,10 @@
   /* img {
     transform: scale(0);
   } */
-   .canGhosted {
+  .canGhosted {
+    > img:only-child {
+      transform: scale(0);
+    }
     background-image: linear-gradient(
       -80deg,
       #516470 20%,
