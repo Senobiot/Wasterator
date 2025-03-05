@@ -9,12 +9,11 @@ import {
   type,
   getMoreTopGames,
 } from "../reducers/searchReducer";
-import { setLoading } from "../reducers/statusReducer";
+import { setLoading } from "../reducers/";
 import { setRequestOptions } from "../utils/utils";
 
 const fetchGames = () => (next) => async (action) => {
   if (action.type === getListByName.type) {
-    next(setLoading(true));
     try {
       const response = await fetch(
         GAMES_ENDPOINTS.search + action.payload,
@@ -28,6 +27,7 @@ const fetchGames = () => (next) => async (action) => {
     } catch (error) {
       console.log(error);
     } finally {
+      console.log("Reached finally block");
       next(setLoading(false));
     }
   }
@@ -69,7 +69,6 @@ const fetchGames = () => (next) => async (action) => {
   }
 
   if (action.type === getMoreTopGames.type) {
-    console.log(action.payload.loggedUser);
     if (action.payload.loggedUser) {
       try {
         const response = await fetch(
@@ -93,6 +92,7 @@ const fetchGames = () => (next) => async (action) => {
         console.log(error);
       }
     }
+    next(setLoading(false));
   }
 
   return next(action);
