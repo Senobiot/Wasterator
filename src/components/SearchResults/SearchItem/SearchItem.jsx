@@ -10,8 +10,8 @@ export default function SearchItem({ data }) {
   const itemType = useSelector(selectSearchResultType);
   const route =
     itemType === SEARCH_TYPE.GAMES
-      ? ROUTES.CARDS.GAME + "?" + id
-      : ROUTES.CARDS.FILM + "?" + id;
+      ? ROUTES.CARDS.GAME + "/" + id
+      : ROUTES.CARDS.FILM + "/" + id;
   const dispatch = useDispatch();
   const handleClick = () => {
     dispatch(setDetails(data));

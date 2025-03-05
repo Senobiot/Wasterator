@@ -4,7 +4,11 @@ import { selectDetails, selectLoadingStatus } from "../../selectors/selectors";
 import Button from "../Button/Button";
 import classes from "./GameCard.module.scss";
 import PlayedTime from "./PlayedTime/PlayedTime";
-import { getDetails, getDetailsById, updatePlayedTime } from "../../reducers/detailsReducer";
+import {
+  getDetails,
+  getDetailsById,
+  updatePlayedTime,
+} from "../../reducers/detailsReducer";
 import Loader from "../Loader/Loader";
 import {
   addItemToCollection,
@@ -48,7 +52,13 @@ export default function Card() {
   const handleUpdate = () => {
     const playedTime = prompt("Сколько наиграли?");
     if (playedTime || playedTime === 0) {
-      dispatch(updatePlayedTime({ id: details.id, playedTime: +playedTime, type: "game" }));
+      dispatch(
+        updatePlayedTime({
+          id: details.id,
+          playedTime: +playedTime,
+          type: "game",
+        })
+      );
     }
   };
 
@@ -78,6 +88,20 @@ export default function Card() {
     setBgPosition(-window.scrollY / 4);
   };
 
+  const sectionCreator = (array, title = "title", separator = "/") => {
+    if (!Array.isArray(array) || array.length < 1) return;
+    return (
+      <div className={classes[title]}>
+        {title.trim().replace(/^./, (letter) => letter.toUpperCase())}:
+        {array.map((e, i) => (
+          <span key={e}>
+            {i === array.length - 1 ? ` ${e}` : ` ${e} ${separator}`}
+          </span>
+        ))}
+      </div>
+    );
+  };
+
   return !details.name ? (
     "No details...("
   ) : (
@@ -95,35 +119,12 @@ export default function Card() {
         <div className={classes.description_wrapper}>
           {/* <div className={`${classes.description}`}>{description}</div> */}
           <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
-          <div className={classes.genres}>
-            {genres?.map((e) => (
-              <span key={e}>{e + " / "}</span>
-            ))}
-          </div>
-          <div className={classes}>
-            {platforms?.map((e) => (
-              <span key={e.name}>{e.name + " / "}</span>
-            ))}
-          </div>
+          {sectionCreator(genres, "genres")}
+          {sectionCreator(platforms, "platforms")}
+          {sectionCreator(developers, "developers")}
+          {sectionCreator(publishers, "publishers")}
+          <div className={classes.rating}>Rating ESRB: {ratingMpaa}</div>
           <div className={classes.release}>Release: {release}</div>
-          <div className={classes.developers}>
-            Developers:{" "}
-            {developers?.map((e) => (
-              <div key={e.name}>{e.name}</div>
-            ))}
-          </div>
-          <div className={classes.developers}>
-            Publishers:{" "}
-            {publishers?.map((e) => (
-              <div key={e.name}>{e.name}</div>
-            ))}
-          </div>
-          <div className={classes.developers}>
-            Rating:{" "}
-            {ratingMpaa?.map((e) => (
-              <div key={e}>{e}</div>
-            ))}
-          </div>
           {playedTime ? (
             <PlayedTime className={classes.time} time={playedTime} />
           ) : (

@@ -1,24 +1,34 @@
 import { useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaGamepad, FaFilm, FaSearch } from "react-icons/fa";
 import classes from "./SearchBar.module.scss";
-import { INSCRIPTIONS_KEYS, SEARCH_TYPE } from "../../constants/constants";
 import {
-  fetchFilmsListbyName,
-} from "../../actions";
-import { getListByName } from "../../reducers/searchReducer";
+  INSCRIPTIONS_KEYS,
+  SEARCH_TYPE,
+  ROUTES,
+} from "../../constants/constants";
+import { fetchFilmsListbyName } from "../../actions";
+import { getListByName, setLoading, setGhostLoading } from "../../reducers/";
 
 export default function SearchBar() {
   const [isMoviesSearch, setisMoviesSearch] = useState(false);
   const inputRef = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const handleSubmit = async (event, useKeyboard) => {
     const searchItem = inputRef.current.value.trim();
 
     if (!searchItem) return event.preventDefault();
+
+    if (location.pathname !== ROUTES.PAGE.SEARCH_RESULTS) {
+      dispatch(setLoading(true));
+    } else {
+      dispatch(setGhostLoading(true));
+    }
+
     if (useKeyboard) navigate("/results");
 
     isMoviesSearch

@@ -12,12 +12,15 @@ import Login from "./components/Auth/Login";
 import Dashboard from "./components/Auth/Dashboard";
 import Registration from "./components/Auth/Registration";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { checkIsAuth } from "./reducers/authReducer";
 import { ROUTES } from "./constants/constants";
+import { selectLoadingStatus } from "./selectors/selectors";
+import Loader from "./components/Loader/Loader";
 
 function App() {
   const dispatch = useDispatch();
+  const isLoading = useSelector(selectLoadingStatus);
 
   useEffect(() => {
     dispatch(checkIsAuth());
@@ -27,12 +30,16 @@ function App() {
     <>
       <BrowserRouter>
         <Menu />
+        {isLoading && <Loader />}
         <Routes>
           <Route path={ROUTES.PAGE.HOME} element={<Home />} />
           <Route path={ROUTES.PAGE.MY_GAMES} element={<Games />} />
           <Route path={ROUTES.PAGE.MY_FILMS} element={<Films />} />
           <Route path={ROUTES.PAGE.STATISTIC} element={<StatisticsPage />} />
-          <Route path={ROUTES.PAGE.SEARCH_RESULTS} element={<SearchResultsTable />} />
+          <Route
+            path={ROUTES.PAGE.SEARCH_RESULTS}
+            element={<SearchResultsTable />}
+          />
           <Route path={ROUTES.CARDS.GAME} element={<GameCard />} />
           <Route path={ROUTES.CARDS.gameDetails} element={<GameCard />} />
           <Route path={ROUTES.CARDS.FILM} element={<MovieCard />} />
