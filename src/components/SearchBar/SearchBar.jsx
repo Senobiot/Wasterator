@@ -8,8 +8,12 @@ import {
   SEARCH_TYPE,
   ROUTES,
 } from "../../constants/constants";
-import { fetchFilmsListbyName } from "../../actions";
-import { getListByName, setLoading, setGhostLoading } from "../../reducers/";
+import {
+  searchGameByName,
+  searchMovieByName,
+  setLoading,
+  setGhostLoading,
+} from "../../reducers/";
 
 export default function SearchBar() {
   const [isMoviesSearch, setisMoviesSearch] = useState(false);
@@ -32,8 +36,8 @@ export default function SearchBar() {
     if (useKeyboard) navigate("/results");
 
     isMoviesSearch
-      ? dispatch(fetchFilmsListbyName(searchItem))
-      : dispatch(getListByName(searchItem));
+      ? dispatch(searchMovieByName(searchItem))
+      : dispatch(searchGameByName(searchItem));
   };
 
   const handleToggleChange = () => {

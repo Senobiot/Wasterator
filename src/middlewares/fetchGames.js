@@ -5,7 +5,7 @@ import {
   setDetails,
 } from "../reducers/detailsReducer";
 import {
-  getListByName,
+  searchGameByName,
   type,
   getMoreTopGames,
 } from "../reducers/searchReducer";
@@ -13,7 +13,7 @@ import { setLoading } from "../reducers/";
 import { setRequestOptions } from "../utils/utils";
 
 const fetchGames = () => (next) => async (action) => {
-  if (action.type === getListByName.type) {
+  if (action.type === searchGameByName.type) {
     try {
       const response = await fetch(
         GAMES_ENDPOINTS.search + action.payload,
@@ -23,7 +23,7 @@ const fetchGames = () => (next) => async (action) => {
       const result = await response.json();
 
       next(type(SEARCH_TYPE.GAMES));
-      return next(getListByName(result));
+      return next(searchGameByName(result));
     } catch (error) {
       console.log(error);
     } finally {
