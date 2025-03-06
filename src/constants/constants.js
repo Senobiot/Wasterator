@@ -52,7 +52,7 @@ export const ROUTES = {
   CARDS: {
     FILM: "/movie",
     GAME: "/game",
-    gameDetails: "/game/:id"
+    gameDetails: "/game/:id",
   },
 };
 
@@ -176,7 +176,7 @@ export const FORM_INPUTS = {
     id: "stayLogged",
     type: "checkbox",
     placeholder: "Remember me",
-  }
+  },
 };
 //TODO Think about separate auth and collectables endpoints
 
@@ -195,7 +195,6 @@ export const AUTH_ENDPOINTS = {
   logot: SERVER_ENDPOINTS.auth + "/logout",
   getAllUsers: SERVER_ENDPOINTS.auth + "users", // Probably no need
   refresh: SERVER_ENDPOINTS.auth + "/refresh",
-
 };
 
 export const COLLECTION_ENDPOINTS = {
@@ -203,18 +202,22 @@ export const COLLECTION_ENDPOINTS = {
   deleteFromCollection: SERVER_ENDPOINTS.collection + "/deleteFromCollection",
   getCollection: SERVER_ENDPOINTS.collection + "/getCollection",
   updateCollectableTime: SERVER_ENDPOINTS.collection + "/updateCollectableTime",
-}
+};
 
 export const GAMES_ENDPOINTS = {
   search: SERVER_ENDPOINTS.games + "/searchGame?name=",
   getDeatails: SERVER_ENDPOINTS.games + "/getGameDetails?url=",
   getDeatailsById: SERVER_ENDPOINTS.games + "/getGameDetailsById",
   getTopGames: SERVER_ENDPOINTS.games + "/getTopGames?page=",
-  getTopGamesWithAuhorization: SERVER_ENDPOINTS.games + "/getTopGamesWithAuthorization?page=",
+  getTopGamesWithAuhorization:
+    SERVER_ENDPOINTS.games + "/getTopGamesWithAuthorization?page=",
+};
 
-}
+export const MOVIES_ENDPOINTS = {
+  search: SERVER_ENDPOINTS.movies + "/searchMovie?name=",
+};
 
 export const TOKEN_NAMES = {
-  access: 'accessToken',
-  refresh: 'refreshToken',
-}
+  access: "accessToken",
+  refresh: "refreshToken",
+};

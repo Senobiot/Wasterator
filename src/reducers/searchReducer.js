@@ -16,7 +16,10 @@ const searchSlice = createSlice({
   name: "search",
   initialState,
   reducers: {
-    getListByName: (state, action) => {
+    searchMovieByName: (state, action) => {
+      state.currentSearch = action.payload;
+    },
+    searchGameByName: (state, action) => {
       state.currentSearch = action.payload;
     },
     type: (state, action) => {
@@ -50,13 +53,13 @@ const searchSlice = createSlice({
     },
     setScrollPosition: (state, action) => {
       state.scrollPosition = action.payload;
-      console.log(state.scrollPosition);
     },
   },
 });
 
 export const {
-  getListByName,
+  searchGameByName,
+  searchMovieByName,
   type,
   updateCurrentSearchMark,
   getTopList,

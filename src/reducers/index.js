@@ -1,6 +1,7 @@
 export { setLoading, setGhostLoading } from "./statusReducer";
 export {
-  getListByName,
+  searchGameByName,
+  searchMovieByName,
   type,
   updateCurrentSearchMark,
   getTopList,

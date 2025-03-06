@@ -6,7 +6,17 @@ import { ROUTES, SEARCH_TYPE } from "../../../constants/constants";
 import { setDetails } from "../../../reducers/detailsReducer";
 
 export default function SearchItem({ data }) {
-  const { imageUrl, name, enName, release, inCollection, rating, id } = data;
+  const {
+    imageUrl,
+    name,
+    originalName,
+    release,
+    inCollection,
+    rating,
+    ratingImdb,
+    ratingKp,
+    id,
+  } = data;
   const itemType = useSelector(selectSearchResultType);
   const route =
     itemType === SEARCH_TYPE.GAMES
@@ -26,12 +36,16 @@ export default function SearchItem({ data }) {
         <div className={classes.content}>
           <div className={classes.title}>
             <div className={"canGhosted"}>{name}</div>
-            <div className={`${classes.entitle} ${"canGhosted"}`}>{enName}</div>
+            <div className={`${classes.originalName} ${"canGhosted"}`}>
+              {originalName}
+            </div>
           </div>
         </div>
-        <div className={classes.rating}>{rating || ""}</div>
+        <div className={classes.rating}>{rating && rating}</div>
+        <div className={classes.rating}>{ratingKp > 0 && ratingKp}</div>
+        <div className={classes.rating}>{ratingImdb > 0 && ratingImdb}</div>
         <div className={`${classes.released} ${"canGhosted"}`}>
-          {release || "In Development"}
+          {release || "SOON"}
         </div>
         <div className={classes.collection}>
           {inCollection ? "In Collection" : ""}
