@@ -22,7 +22,7 @@ const searchSlice = createSlice({
     searchGameByName: (state, action) => {
       state.currentSearch = action.payload;
     },
-    type: (state, action) => {
+    setSearchType: (state, action) => {
       state.type = action.payload;
     },
     updateCurrentSearchMark: (state, action) => {
@@ -60,7 +60,7 @@ const searchSlice = createSlice({
 export const {
   searchGameByName,
   searchMovieByName,
-  type,
+  setSearchType,
   updateCurrentSearchMark,
   getTopList,
   getMoreTopGames,

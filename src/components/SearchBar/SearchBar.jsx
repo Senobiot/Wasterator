@@ -3,11 +3,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaGamepad, FaFilm, FaSearch } from "react-icons/fa";
 import classes from "./SearchBar.module.scss";
-import {
-  INSCRIPTIONS_KEYS,
-  SEARCH_TYPE,
-  ROUTES,
-} from "../../constants/constants";
+import { ROUTES } from "../../constants/constants";
 import {
   searchGameByName,
   searchMovieByName,

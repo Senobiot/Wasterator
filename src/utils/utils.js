@@ -14,11 +14,11 @@ export function spacesToNumbers(value) {
 }
 
 export function getToken() {
-  return JSON.parse(sessionStorage.getItem('accessToken')) || '';
+  return JSON.parse(sessionStorage.getItem("accessToken")) || "";
 }
 
-export function setSessionToken(token = '') {
-  sessionStorage.setItem('accessToken', token);
+export function setSessionToken(token = "") {
+  sessionStorage.setItem("accessToken", token);
 }
 
 export function getStorageItem(item) {
@@ -45,7 +45,7 @@ export function objectSort(field, sortDirection = 1) {
       if (a[field[0]][field[1]] < b[field[0]][field[1]]) {
         return sortDirection;
       }
-      if (a[field[0]][field[1]]> b[field[0]][field[1]]) {
+      if (a[field[0]][field[1]] > b[field[0]][field[1]]) {
         return -sortDirection;
       }
       return 0;
@@ -73,27 +73,30 @@ export const releaseToLocale = (data) => {
   return release.toLocaleDateString("ru-RU", options);
 };
 
-export const unifyFields = data => {
+export const unifyFields = (data) => {
   return {
     name: data.name,
     year: data.year || data.original_release_date || data.expected_release_year,
     enName: data.enName || data.alternativeName,
     description: data.description || data.deck,
-    logo: data.logo?.url || data.poster?.previewUrl || data.poster?.url || data.image?.icon_url,
-    genres: data.genres?.map(e => e.name),
+    logo:
+      data.logo?.url ||
+      data.poster?.previewUrl ||
+      data.poster?.url ||
+      data.image?.icon_url,
+    genres: data.genres?.map((e) => e.name),
     id: data.id,
     api_detail_url: data.api_detail_url,
     platforms: data.platforms,
-    rating: data.rating?.kp ? Number(data.rating?.kp).toFixed(2) : '',
-  }
-}
- 
-export const setRequestOptions = (body) => {
+    rating: data.rating?.kp ? Number(data.rating?.kp).toFixed(2) : "",
+  };
+};
 
+export const setRequestOptions = (body) => {
   return {
     method: body ? "POST" : "GET",
     headers: {
-      Authorization: `Bearer ${sessionStorage.accessToken ?? ''}`,
+      Authorization: `Bearer ${sessionStorage.accessToken ?? ""}`,
       "Content-Type": "application/json",
     },
     credentials: "include",

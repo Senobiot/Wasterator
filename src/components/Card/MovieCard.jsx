@@ -2,7 +2,14 @@ import { styled } from "styled-components";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectDetails } from "../../selectors/selectors";
-import { addFilmToCollection, deleteFilmFromCollection, fetchFilmInfo, setItemDetails } from "../../actions";
+import {
+  addFilmToCollection,
+  deleteFilmFromCollection,
+  setItemDetails,
+} from "../../actions";
+
+import renderDetails from "./renderDetails";
+import { getMovieDetails } from "../../reducers";
 
 const Card = styled.div`
   max-width: 1024px;
@@ -30,8 +37,8 @@ const Title = styled.div`
   margin: 0 auto 20px;
   width: 100%;
   text-align: center;
-    box-shadow: 0px 0px 10px #fff inset;
-    padding: 10px;
+  box-shadow: 0px 0px 10px #fff inset;
+  padding: 10px;
 `;
 const Actors = styled.div`
   color: white;
@@ -80,93 +87,98 @@ const RedSpan = styled.span`
   color: red;
 `;
 const Button = styled.button`
-    padding: 10px 20px;
-    background: linear-gradient(90deg, rgba(62, 103, 150, 0.919) 11.38%, rgba(58, 120, 177, 0.8) 25.23%, rgb(15, 33, 110) 100%);
-    border-radius: 5px;
-    text-shadow: 5px 3px 5px #000;
-    margin-right: 20px;
-    transition: box-shadow 0.375s;
-    user-select: none;
-    cursor: pointer;
-    border: none;
+  padding: 10px 20px;
+  background: linear-gradient(
+    90deg,
+    rgba(62, 103, 150, 0.919) 11.38%,
+    rgba(58, 120, 177, 0.8) 25.23%,
+    rgb(15, 33, 110) 100%
+  );
+  border-radius: 5px;
+  text-shadow: 5px 3px 5px #000;
+  margin-right: 20px;
+  transition: box-shadow 0.375s;
+  user-select: none;
+  cursor: pointer;
+  border: none;
 
-    &:active {
-        transform: translate(2px, 2px);
-    }
+  &:active {
+    transform: translate(2px, 2px);
+  }
 
-    &:hover {
-        box-shadow: 0 0 8px #fff;
-    }
+  &:hover {
+    box-shadow: 0 0 8px #fff;
+  }
 `;
 const ButtonRed = styled(Button)`
   background: red;
-`
+`;
 const SpanYellow = styled.span`
-    color: #d5d58a;
-    font-size: 18px;
-    display: block;
-`
+  color: #d5d58a;
+  font-size: 18px;
+  display: block;
+`;
 
 const MovieCard = () => {
-  const details = useSelector(selectDetails);
-  // const [isImageLoaded, setIsImageLoaded] = useState(null);
+  const {
+    persons,
+    genres,
+    year,
+    ratingImdb,
+    ratingKp,
+    countries,
+    inCollection,
+    id,
+    name,
+    length,
+    originalName,
+    imageUrl,
+    description,
+    trailers,
+  } = useSelector(selectDetails);
   const dispatch = useDispatch();
+
   const addToCollection = () => {
-    // переделать
-    const newCollectionItem = {
-      ...details,
-      isInCollection: true,
-    };
-    dispatch(addFilmToCollection(newCollectionItem));
-    dispatch(setItemDetails(newCollectionItem));
+    dispatch(addFilmToCollection(id));
   };
 
   const deleteFromCollection = () => {
-    dispatch(deleteFilmFromCollection(details.id));
-    dispatch(setItemDetails({ ...details, isInCollection: false }));
+    dispatch(deleteFilmFromCollection(id));
   };
 
   useEffect(() => {
-    console.log(details.isInCollection);
-    if (!details.id || details.isInCollection) return;
-
-    dispatch(fetchFilmInfo(details.id));
+    dispatch(getMovieDetails(id));
   }, []);
 
-  return !details.name ? (
+  return !name && !originalName ? (
     "No details...("
   ) : (
     <Card>
-      <Title>{details.name}<SpanYellow>{details.enName || details.alternativeName}</SpanYellow></Title>
-      <Image className={''} src={details.poster?.url}></Image>
+      <Title>
+        {name}
+        <SpanYellow>{originalName}</SpanYellow>
+      </Title>
+      <Image src={imageUrl}></Image>
       <InfoBlock>
-        <Description >{details.description}</Description>
-        <Actors>В ролях: {details.persons?.map((e,i) => <span key={i}>{e.name + ", "}</span>)}</Actors>
-        <Genres>
-          ЖАНР:
-          {details.genres?.map((e, i) => (
-            <span key={i}> {e.name + ","}</span>
-          ))}
-        </Genres>
-        <Regular>Год: {details.year}</Regular>
-        <Regular>
-          Рейтинг КП: <RedSpan>{details.rating?.kp}</RedSpan>
-        </Regular>
-        <Regular>
-          <SpanYellow>Страны:<br></br></SpanYellow>
-          {details.countries?.map((e) => (
-            <span key={e.name}>{e.name} / </span>
-          ))}
-        </Regular>
+        <Description>{description}</Description>
+        <Actors>{renderDetails(persons, "В ролях")}</Actors>
+        <Genres>{renderDetails(genres, "ЖАНР")}</Genres>
+        <Regular>{renderDetails(year, "Год")}</Regular>
+        <Regular>{renderDetails(length, "Длительность, мин.")}</Regular>
+        <Regular>{renderDetails(ratingKp, "Рейтинг КП")}</Regular>
+        <Regular>{renderDetails(ratingImdb, "Рейтинг IMDB")}</Regular>
+        <Regular>{renderDetails(countries, "Страны")}</Regular>
         <div>
-          {!details.isInCollection ? (
+          {!inCollection ? (
             <Button onClick={addToCollection}>Смотрел</Button>
           ) : (
             <ButtonRed onClick={deleteFromCollection}>Не смотрел</ButtonRed>
           )}
         </div>
       </InfoBlock>
-      {details.videos?.trailers?.map( (video, i) => <iframe key={i} src={video.url}/>)}
+      {trailers?.map((video, i) => (
+        <iframe key={i} src={video} />
+      ))}
     </Card>
   );
 };
