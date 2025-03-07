@@ -4,11 +4,7 @@ import {
   getDetailsById,
   setDetails,
 } from "../reducers/detailsReducer";
-import {
-  searchGameByName,
-  type,
-  getMoreTopGames,
-} from "../reducers/searchReducer";
+import { searchGameByName, setSearchType, getMoreTopGames } from "../reducers";
 import { setLoading } from "../reducers/";
 import { setRequestOptions } from "../utils/utils";
 
@@ -22,7 +18,7 @@ const fetchGames = () => (next) => async (action) => {
 
       const result = await response.json();
 
-      next(type(SEARCH_TYPE.GAMES));
+      next(setSearchType(SEARCH_TYPE.GAMES));
       return next(searchGameByName(result));
     } catch (error) {
       console.log(error);

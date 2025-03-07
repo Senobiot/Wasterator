@@ -15,6 +15,7 @@ import {
   deleteItemFromCollection,
 } from "../../reducers/collectionReducer";
 import { useParams } from "react-router-dom";
+import renderDetails from "./renderDetails";
 
 export default function Card() {
   const { id: gameId } = useParams();
@@ -64,10 +65,11 @@ export default function Card() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (detailsUrl) {
-      dispatch(getDetails(detailsUrl));
-    }
+    // if (detailsUrl) {
+    //   dispatch(getDetails(detailsUrl));
+    // }
     if (gameId) {
+      // TODO Why need to pass gameName ???
       dispatch(getDetailsById({ gameId, gameName: name }));
     }
   }, []);
@@ -88,20 +90,6 @@ export default function Card() {
     setBgPosition(-window.scrollY / 4);
   };
 
-  const sectionCreator = (array, title = "title", separator = "/") => {
-    if (!Array.isArray(array) || array.length < 1) return;
-    return (
-      <div className={classes[title]}>
-        {title.trim().replace(/^./, (letter) => letter.toUpperCase())}:
-        {array.map((e, i) => (
-          <span key={e}>
-            {i === array.length - 1 ? ` ${e}` : ` ${e} ${separator}`}
-          </span>
-        ))}
-      </div>
-    );
-  };
-
   return !details.name ? (
     "No details...("
   ) : (
@@ -117,14 +105,14 @@ export default function Card() {
           }}
         ></div>
         <div className={classes.description_wrapper}>
-          {/* <div className={`${classes.description}`}>{description}</div> */}
-          <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
-          {sectionCreator(genres, "genres")}
-          {sectionCreator(platforms, "platforms")}
-          {sectionCreator(developers, "developers")}
-          {sectionCreator(publishers, "publishers")}
-          <div className={classes.rating}>Rating ESRB: {ratingMpaa}</div>
-          <div className={classes.release}>Release: {release}</div>
+          <div className={`${classes.description}`}>{description}</div>
+          {/* <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} /> */}
+          {renderDetails(genres, "Genres")}
+          {renderDetails(platforms, "Platforms")}
+          {renderDetails(developers, "Developers")}
+          {renderDetails(publishers, "Publishers")}
+          {renderDetails(ratingMpaa, "Rating ESRB")}
+          {renderDetails(release, "Release", classes.release)}
           {playedTime ? (
             <PlayedTime className={classes.time} time={playedTime} />
           ) : (

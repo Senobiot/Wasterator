@@ -53,6 +53,7 @@ export const ROUTES = {
     FILM: "/movie",
     GAME: "/game",
     gameDetails: "/game/:id",
+    movieDetails: "/movie/:id",
   },
 };
 
@@ -215,6 +216,7 @@ export const GAMES_ENDPOINTS = {
 
 export const MOVIES_ENDPOINTS = {
   search: SERVER_ENDPOINTS.movies + "/searchMovie?name=",
+  getDetails: SERVER_ENDPOINTS.movies + "/getDetails?id=",
 };
 
 export const TOKEN_NAMES = {

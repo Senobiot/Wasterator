@@ -40,9 +40,8 @@ function App() {
             path={ROUTES.PAGE.SEARCH_RESULTS}
             element={<SearchResultsTable />}
           />
-          <Route path={ROUTES.CARDS.GAME} element={<GameCard />} />
           <Route path={ROUTES.CARDS.gameDetails} element={<GameCard />} />
-          <Route path={ROUTES.CARDS.FILM} element={<MovieCard />} />
+          <Route path={ROUTES.CARDS.movieDetails} element={<MovieCard />} />
           <Route path={ROUTES.PAGE.LOGIN} element={<Login />} />
           <Route path={ROUTES.PAGE.REGISTRATION} element={<Registration />} />
           <Route path={ROUTES.PAGE.DASHBOARD} element={<Dashboard />} />

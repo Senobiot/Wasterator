@@ -14,11 +14,19 @@ const detailsSlice = createSlice({
       return action.payload;
     },
     getDetailsById: (state, action) => {
-      return action.payload;
+      return state;
+    },
+    getMovieDetails: (state, action) => {
+      return state;
     },
   },
 });
 
-export const { setDetails, getDetails, getDetailsById, updatePlayedTime } =
-  detailsSlice.actions;
+export const {
+  setDetails,
+  getDetails,
+  getDetailsById,
+  updatePlayedTime,
+  getMovieDetails,
+} = detailsSlice.actions;
 export default detailsSlice.reducer;
