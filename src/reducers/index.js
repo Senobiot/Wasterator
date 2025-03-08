@@ -16,3 +16,22 @@ export {
   updatePlayedTime,
   getMovieDetails,
 } from "./detailsReducer";
+export {
+  addItemToCollection,
+  deleteItemFromCollection,
+  getGamesCollection,
+  getMoviesCollection,
+} from "./collectionReducer";
+export {
+  checkIsAuth,
+  loading,
+  authFailed,
+  registerRequest,
+  authStatusReset,
+  registerSuccess,
+  loginRequest,
+  loginSuccess,
+  loginFailure,
+  logOff,
+  refreshToken,
+} from "./authReducer";
