@@ -23,6 +23,8 @@ const collection = () => (next) => async (action) => {
       action.payload = data;
     } catch (error) {
       console.log(error);
+    } finally {
+      next(setLoading(false));
     }
   }
 

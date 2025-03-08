@@ -12,8 +12,6 @@ import {
 const Registration = () => {
   const { message: requestError } = useSelector(selectAuthError);
   const isRegisterSucccess = useSelector(selectisRegisterSucccess);
-
-  console.log(requestError);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [regData, setRegData] = useState({});

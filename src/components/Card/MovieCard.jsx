@@ -2,18 +2,13 @@ import { styled } from "styled-components";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectDetails } from "../../selectors/selectors";
-import {
-  addFilmToCollection,
-  deleteFilmFromCollection,
-  setItemDetails,
-} from "../../actions";
-
 import Detail from "./Detail";
-import { getMovieDetails } from "../../reducers";
+import { getMovieDetails, setLoading } from "../../reducers";
 import {
   addItemToCollection,
   deleteItemFromCollection,
 } from "../../reducers/collectionReducer";
+import { useParams } from "react-router-dom";
 
 const Card = styled.div`
   max-width: 1024px;
@@ -132,7 +127,6 @@ const MovieCard = () => {
     ratingKp,
     countries,
     inCollection,
-    id,
     name,
     length,
     originalName,
@@ -141,7 +135,7 @@ const MovieCard = () => {
     trailers,
   } = useSelector(selectDetails);
   const dispatch = useDispatch();
-
+  const { id } = useParams();
   const addToCollection = () => {
     dispatch(addItemToCollection({ type: "movie", id }));
   };
@@ -151,6 +145,7 @@ const MovieCard = () => {
   };
 
   useEffect(() => {
+    dispatch(setLoading(true));
     dispatch(getMovieDetails(id));
   }, []);
 
@@ -166,7 +161,7 @@ const MovieCard = () => {
       <InfoBlock>
         <Description>{description}</Description>
         <Actors>
-          <Detail details={actors?.map((e) => e.name)} title={"В ролях"} />
+          {/* <Detail details={actors?.map((e) => e.name)} title={"В ролях"} /> */}
         </Actors>
         <Detail details={genres} title={"ЖАНР"} />
         <Detail details={year} title={"Год"} />

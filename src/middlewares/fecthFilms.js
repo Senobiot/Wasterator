@@ -37,6 +37,8 @@ const fecthFilms = () => (next) => async (action) => {
       return next(setDetails(data));
     } catch (error) {
       console.log(error);
+    } finally {
+      next(setLoading(false));
     }
   }
 
