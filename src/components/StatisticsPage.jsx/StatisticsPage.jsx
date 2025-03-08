@@ -1,14 +1,14 @@
 import { useSelector } from "react-redux";
 import {
   selectGamesCollection,
-  selectFilmsCollection,
+  selectMoviesCollection,
 } from "../../selectors/selectors";
 import StatisticCollection from "./StatisticCollection.jsx";
 import { INSCRIPTIONS_KEYS, ROUTES } from "../../constants/constants.js";
 
 export default function StatisticPage() {
   const gameCollection = [...useSelector(selectGamesCollection)];
-  const filmsCollection = [...useSelector(selectFilmsCollection)];
+  const filmsCollection = [...useSelector(selectMoviesCollection)];
 
   return (
     <div>

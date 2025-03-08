@@ -1,24 +1,35 @@
-import MovieDto from "../dtos/movieDto";
-import { FILMS } from "../actions/types";
-import {
-  COLLECTION_ENDPOINTS,
-} from "../constants/constants";
+import { COLLECTION_ENDPOINTS } from "../constants/constants";
 import {
   addItemToCollection,
   deleteItemFromCollection,
   getGamesCollection,
-} from "../reducers/collectionReducer";
-import { setLoading } from "../reducers/statusReducer";
-import { setDetails, updatePlayedTime } from "../reducers/detailsReducer";
-import { updateCurrentSearchMark, updateCurrentTopGamesCollectionMark } from "../reducers/searchReducer";
+  getMoviesCollection,
+  setLoading,
+  setDetails,
+  updatePlayedTime,
+  updateCurrentSearchMark,
+  updateCurrentTopGamesCollectionMark,
+} from "../reducers";
 import { setRequestOptions } from "../utils/utils";
 
 const collection = () => (next) => async (action) => {
   if (action.type === getGamesCollection.type) {
-    // setLoading(true);
     try {
       const response = await fetch(
-        COLLECTION_ENDPOINTS.getCollection,
+        COLLECTION_ENDPOINTS.getCollection + "game",
+        setRequestOptions()
+      );
+      const data = await response.json();
+      action.payload = data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  if (action.type === getMoviesCollection.type) {
+    try {
+      const response = await fetch(
+        COLLECTION_ENDPOINTS.getCollection + "movie",
         setRequestOptions()
       );
       const data = await response.json();
@@ -26,7 +37,7 @@ const collection = () => (next) => async (action) => {
     } catch (error) {
       console.log(error);
     } finally {
-      // setLoading(false);
+      next(setLoading(false));
     }
   }
 
@@ -39,11 +50,18 @@ const collection = () => (next) => async (action) => {
       const data = await response.json();
 
       next(updateCurrentSearchMark({ id: action.payload.id, value: true }));
-      next(updateCurrentTopGamesCollectionMark({ id: action.payload.id, value: true }));
-    
+      next(
+        updateCurrentTopGamesCollectionMark({
+          id: action.payload.id,
+          value: true,
+        })
+      );
+
       return next(setDetails(data));
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -57,7 +75,12 @@ const collection = () => (next) => async (action) => {
       const data = await response.json();
 
       next(updateCurrentSearchMark({ id: action.payload.id, value: false }));
-      next(updateCurrentTopGamesCollectionMark({ id: action.payload.id, value: false }));
+      next(
+        updateCurrentTopGamesCollectionMark({
+          id: action.payload.id,
+          value: false,
+        })
+      );
 
       return next(setDetails(data));
     } catch (error) {
@@ -73,11 +96,6 @@ const collection = () => (next) => async (action) => {
       );
 
       const data = await response.json();
-      console.log(data);
-      // next(updateCurrentSearchMark({ id: action.payload.id, value: false }));
-      // next(updateCurrentTopGamesCollectionMark({ id: action.payload.id, value: false }));
-
-      // return next(setDetails(data));
     } catch (error) {
       console.log(error);
     }

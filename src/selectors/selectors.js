@@ -6,7 +6,7 @@ export const selectLoadingStatus = (state) => state.status.loading;
 export const selectGhostLoadingStatus = (state) => state.status.ghostLoading;
 export const selectDetails = (state) => state.details;
 export const selectGamesCollection = (state) => state.collection.games;
-export const selectFilmsCollection = (state) => state.collection.films;
+export const selectMoviesCollection = (state) => state.collection.movies;
 export const selectSearchType = (state) => state.seacrhType;
 export const selectCurrentUser = (state) => state.auth.user;
 export const selectLoginStatus = (state) => state.auth.isLoggedIn;

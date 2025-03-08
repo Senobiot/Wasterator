@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   games: [],
-  films: [],
+  movies: [],
 };
 
 const collectionSlice = createSlice({
@@ -18,6 +18,9 @@ const collectionSlice = createSlice({
     getGamesCollection: (state, action) => {
       state.games = action.payload;
     },
+    getMoviesCollection: (state, action) => {
+      state.movies = action.payload;
+    },
   },
 });
 
@@ -25,5 +28,6 @@ export const {
   addItemToCollection,
   deleteItemFromCollection,
   getGamesCollection,
+  getMoviesCollection,
 } = collectionSlice.actions;
 export default collectionSlice.reducer;
