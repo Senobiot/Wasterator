@@ -1,9 +1,11 @@
-const renderDetails = (
-  details,
-  title = "Details",
-  styleClass = "",
-  separator = "/"
-) => {
+const Detail = (props) => {
+  const {
+    details,
+    title = "Details",
+    styleClass = "",
+    separator = "/",
+  } = props;
+
   if (!details) return;
   if (!Array.isArray(details) || !details.length)
     return <div className={styleClass}>{`${title}: ${details}`}</div>;
@@ -20,4 +22,4 @@ const renderDetails = (
   );
 };
 
-export default renderDetails;
+export default Detail;

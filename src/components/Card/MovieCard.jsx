@@ -8,8 +8,12 @@ import {
   setItemDetails,
 } from "../../actions";
 
-import renderDetails from "./renderDetails";
+import Detail from "./Detail";
 import { getMovieDetails } from "../../reducers";
+import {
+  addItemToCollection,
+  deleteItemFromCollection,
+} from "../../reducers/collectionReducer";
 
 const Card = styled.div`
   max-width: 1024px;
@@ -121,7 +125,7 @@ const SpanYellow = styled.span`
 
 const MovieCard = () => {
   const {
-    persons,
+    actors,
     genres,
     year,
     ratingImdb,
@@ -139,11 +143,11 @@ const MovieCard = () => {
   const dispatch = useDispatch();
 
   const addToCollection = () => {
-    dispatch(addFilmToCollection(id));
+    dispatch(addItemToCollection({ type: "movie", id }));
   };
 
   const deleteFromCollection = () => {
-    dispatch(deleteFilmFromCollection(id));
+    dispatch(deleteItemFromCollection({ type: "movie", id }));
   };
 
   useEffect(() => {
@@ -161,13 +165,15 @@ const MovieCard = () => {
       <Image src={imageUrl}></Image>
       <InfoBlock>
         <Description>{description}</Description>
-        <Actors>{renderDetails(persons, "В ролях")}</Actors>
-        <Genres>{renderDetails(genres, "ЖАНР")}</Genres>
-        <Regular>{renderDetails(year, "Год")}</Regular>
-        <Regular>{renderDetails(length, "Длительность, мин.")}</Regular>
-        <Regular>{renderDetails(ratingKp, "Рейтинг КП")}</Regular>
-        <Regular>{renderDetails(ratingImdb, "Рейтинг IMDB")}</Regular>
-        <Regular>{renderDetails(countries, "Страны")}</Regular>
+        <Actors>
+          <Detail details={actors?.map((e) => e.name)} title={"В ролях"} />
+        </Actors>
+        <Detail details={genres} title={"ЖАНР"} />
+        <Detail details={year} title={"Год"} />
+        <Detail details={length} title={"Длительность, мин."} />
+        <Detail details={ratingKp} title={"Рейтинг КП"} />
+        <Detail details={ratingImdb} title={"Рейтинг IMDB"} />
+        <Detail details={countries} title={"Страны"} />
         <div>
           {!inCollection ? (
             <Button onClick={addToCollection}>Смотрел</Button>
