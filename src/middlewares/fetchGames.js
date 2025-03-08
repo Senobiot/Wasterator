@@ -23,7 +23,6 @@ const fetchGames = () => (next) => async (action) => {
     } catch (error) {
       console.log(error);
     } finally {
-      console.log("Reached finally block");
       next(setLoading(false));
     }
   }

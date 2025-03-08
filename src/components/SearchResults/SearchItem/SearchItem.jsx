@@ -3,7 +3,7 @@ import classes from "./SearchItem.module.scss";
 import { Link } from "react-router-dom";
 import { selectSearchResultType } from "../../../selectors/selectors";
 import { ROUTES, SEARCH_TYPE } from "../../../constants/constants";
-import { setDetails } from "../../../reducers/detailsReducer";
+import { setDetails, setLoading } from "../../../reducers";
 
 export default function SearchItem({ data }) {
   const {
@@ -24,6 +24,7 @@ export default function SearchItem({ data }) {
       : ROUTES.CARDS.FILM + "/" + id;
   const dispatch = useDispatch();
   const handleClick = () => {
+    dispatch(setLoading(true));
     dispatch(setDetails(data));
   };
 

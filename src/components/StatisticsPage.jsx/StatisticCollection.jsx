@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { objectSort, spacesToNumbers } from "../../utils/utils";
 import classes from "./StatisticsPage.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { INSCRIPTIONS_KEYS } from "../../constants/constants";
 import { setItemDetails } from "../../actions";
@@ -13,40 +13,41 @@ export default function StatisticCollection({
 }) {
   const dispatch = useDispatch();
   const [collapsed, setCollapsed] = useState(false);
+  const [sortDirection, setSortDirection] = useState({});
   const [collection, setCollection] = useState(storedCollection);
 
-  const handleClick = (data) =>
-    dispatch(setItemDetails(data));
+  useEffect(() => {
+    setCollection(storedCollection);
+  }, [storedCollection]);
 
-  const [sortDirection, setSortDirection] = useState(1);
-  const sortByTime = () => {
-    const key = collectionName === INSCRIPTIONS_KEYS.STATISTIC_PAGE.COLLECTION_NAMES.GAMES ? 'playedTime' : 'movieLength';
-    const sortedCollection = [
-      ...collection.sort(objectSort(key, sortDirection)),
-    ];
-    setSortDirection(-sortDirection);
+  const handleClick = (data) => {
+    dispatch(setItemDetails(data));
+  };
+
+  const handleSort = (column) => {
+    const newDirection = sortDirection[column] ? -sortDirection[column] : 1;
+    setSortDirection({ [column]: newDirection });
+
+    const sortedCollection = [...collection].sort(
+      objectSort(column, newDirection)
+    );
     setCollection(sortedCollection);
   };
+
   const collapse = () => setCollapsed(!collapsed);
-  const sortByTitle = () => {
-    const sortedCollection = [
-      ...collection.sort(objectSort("name", sortDirection)),
-    ];
-    setSortDirection(-sortDirection);
-    setCollection(sortedCollection);
-  };
+
   const unifyTime = (element) => {
-    if (element.playedTime) {
-      return element.playedTime;
+    if (
+      collectionName === INSCRIPTIONS_KEYS.STATISTIC_PAGE.COLLECTION_NAMES.GAMES
+    ) {
+      return element.time;
     }
-    if (element.movieLength || element.totalSeriesLength) {
-      return +((element.movieLength || element.totalSeriesLength) / 60).toFixed(
-        2
-      );
-    }
-    return 0;
+
+    return +(element.time / 60).toFixed(2);
   };
-  const totalPlayedTime = collection.reduce((acc, e) => acc + unifyTime(e), 0).toFixed(2);
+  const totalPlayedTime = collection
+    .reduce((acc, e) => acc + unifyTime(e), 0)
+    .toFixed(2);
 
   if (!collection.length) {
     return <>{"StatisticPage... Your Collection still empty"}</>;
@@ -64,15 +65,25 @@ export default function StatisticCollection({
         className={`${classes.collection} ${collapsed ? classes.collapsed : ""}`}
       >
         <div className={classes.header}>
-          <div className={classes.header_title} onClick={sortByTitle}>
+          <div
+            className={classes.header_title}
+            onClick={() => handleSort("name")}
+          >
             {INSCRIPTIONS_KEYS.STATISTIC_PAGE.HEADER_SORT_TILES.BY_TITLE}
           </div>
-          <div className={classes.header_time} onClick={sortByTime}>
+          <div
+            className={classes.header_time}
+            onClick={() => handleSort("time")}
+          >
             {INSCRIPTIONS_KEYS.STATISTIC_PAGE.HEADER_SORT_TILES.BY_TIME}
           </div>
         </div>
         {collection.map((e, i) => (
-          <Link to={route} onClick={() => handleClick(e)} key={e.name}>
+          <Link
+            to={route + "/" + e.id}
+            onClick={() => handleClick(e)}
+            key={e.name}
+          >
             <div className={classes.game}>
               <div className={classes.game_position}>{i + 1} </div>
               <div className={classes.game_title}>{e.name} </div>

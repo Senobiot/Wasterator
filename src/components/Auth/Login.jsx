@@ -39,7 +39,6 @@ const Login = () => {
   };
 
   const handleChange = (event) => {
-    console.log();
     const id = event.target.id;
     const value = event.target.value;
 
