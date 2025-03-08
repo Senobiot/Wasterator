@@ -15,11 +15,10 @@ import {
   deleteItemFromCollection,
 } from "../../reducers/collectionReducer";
 import { useParams } from "react-router-dom";
-import renderDetails from "./renderDetails";
+import Detail from "./Detail";
 
 export default function Card() {
   const { id: gameId } = useParams();
-  const details = useSelector(selectDetails);
   const {
     detailsUrl,
     inCollection,
@@ -35,7 +34,7 @@ export default function Card() {
     descriptionHtml,
     playedTime,
     id,
-  } = details;
+  } = useSelector(selectDetails);
 
   const dispatch = useDispatch();
   const [loadedImg, setLoadedImg] = useState(false);
@@ -55,7 +54,7 @@ export default function Card() {
     if (playedTime || playedTime === 0) {
       dispatch(
         updatePlayedTime({
-          id: details.id,
+          id,
           playedTime: +playedTime,
           type: "game",
         })
@@ -90,7 +89,7 @@ export default function Card() {
     setBgPosition(-window.scrollY / 4);
   };
 
-  return !details.name ? (
+  return !name ? (
     "No details...("
   ) : (
     <div className={`${classes.card}`}>
@@ -105,14 +104,35 @@ export default function Card() {
           }}
         ></div>
         <div className={classes.description_wrapper}>
-          <div className={`${classes.description}`}>{description}</div>
+          <Detail details={description} styleClass={classes.description} />
+          <Detail
+            details={platforms}
+            title="Platforms"
+            styleClass={classes.platforms}
+          />
+          <Detail details={genres} title="Genres" styleClass={classes.genres} />
+          <Detail
+            details={developers}
+            title="Developers"
+            styleClass={classes.developers}
+          />
+          <Detail
+            details={publishers}
+            title="Publishers"
+            styleClass={classes.publishers}
+          />
+          <Detail
+            details={ratingMpaa}
+            title="Rating ESRB"
+            styleClass={classes.ratingMpaa}
+          />
+          <Detail
+            details={release}
+            title="Release"
+            styleClass={classes.release}
+          />
           {/* <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} /> */}
-          {renderDetails(genres, "Genres")}
-          {renderDetails(platforms, "Platforms")}
-          {renderDetails(developers, "Developers")}
-          {renderDetails(publishers, "Publishers")}
-          {renderDetails(ratingMpaa, "Rating ESRB")}
-          {renderDetails(release, "Release", classes.release)}
+
           {playedTime ? (
             <PlayedTime className={classes.time} time={playedTime} />
           ) : (
