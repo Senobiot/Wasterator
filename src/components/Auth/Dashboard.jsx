@@ -41,12 +41,13 @@ const Dashboard = () => {
 // TODO Move to css
 const styles = {
   container: {
-    margin: "20px",
     padding: "20px",
     borderRadius: "8px",
     backgroundColor: "#242429",
     boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
     textAlign: "center",
+    maxWidth: "1280px",
+    margin: "0 auto",
   },
   title: {
     marginBottom: "20px",

@@ -27,7 +27,7 @@ export default function Menu() {
   return (
     <div className={classes.menu}>
       <div className={classes.logoWrapper}>
-        <img src="public/logo2.png" alt="" />
+        <img src="/logo.png" alt="" />
       </div>
       <nav>
         <ul>

@@ -11,7 +11,6 @@ import {
 import { useParams } from "react-router-dom";
 
 const Card = styled.div`
-  max-width: 1024px;
   background-color: rgba(32, 48, 71, 0.8);
   box-sizing: border-box;
   padding: 20px;
@@ -19,10 +18,11 @@ const Card = styled.div`
   display: flex;
   flex-wrap: wrap;
   text-align: left;
+  max-width: 1280px;
+  margin: 0 auto;
 `;
 const InfoBlock = styled.div`
   width: 65%;
-  margin-bottom: 20px;
 `;
 const Title = styled.div`
   color: rgb(175, 175, 175);
@@ -57,6 +57,7 @@ const Image = styled.img`
   padding: 5px;
   margin-right: 20px;
   position: relative;
+  margin-bottom: 40px;
 `;
 const Description = styled.div`
   overflow: hidden;

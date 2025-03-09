@@ -59,32 +59,6 @@
       height: 20px;
       display: inline-block;
       margin-right: 5px;
-
-      &.pc {
-        background: url("/public/win.png");
-      }
-      &.xbox {
-        background: 50% / contain url("/public/xbox.png") #fff;
-      }
-      &.mac,
-      &.iphone,
-      &.ios,
-      &.ipad {
-        background: url("/public/mac.png");
-      }
-      &.playstation {
-        background: 50% / contain url("/public/ps.png") #fff;
-      }
-      &.dreamcast {
-        background: 50% / contain url("/public/sega.png") #fff;
-      }
-      &.nintendo,
-      &.game {
-        background: 50% / contain url("/public/nin.png") #fff;
-      }
-      &.android {
-        background: 50% / contain url("/public/android.png") #fff;
-      }
     }
   }
 

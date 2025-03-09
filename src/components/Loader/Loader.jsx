@@ -6,7 +6,7 @@ const styles = {
     width: "100vw",
     height: "100vh",
     zIndex: 49,
-    background: "#5c5c65 url(/public/gear-spinner.svg) no-repeat center / 20%",
+    background: "#5c5c65 url(/gear-spinner.svg) no-repeat center / 20%",
   },
 };
 
