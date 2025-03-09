@@ -24,7 +24,7 @@ export default function StatisticPage() {
   }, []);
 
   return (
-    <div>
+    <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
       <StatisticCollection
         route={ROUTES.CARDS.GAME}
         storedCollection={gameCollection}

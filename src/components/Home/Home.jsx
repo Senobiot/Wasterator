@@ -10,7 +10,7 @@ import {
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import StyledTile from "../Tile/Tile";
-import "./Home.scss";
+import styles from "./Home.module.scss";
 import {
   getMoreTopGames,
   setScrollPosition,
@@ -76,16 +76,16 @@ export default function Home() {
   }, [loginingStatus]);
 
   return (
-    <div className="collection-wrapper ghostloader">
+    <div className={styles.wrapper}>
       <LineMessage
         message="Pls login"
         style={{ position: "fixed", bottom: 0 }}
         show={loginRequest}
       ></LineMessage>
       {!topGamesList.length ? (
-        <div className="empty-state">Your collection is still empty... (</div>
+        <div className={styles.empty}>Your collection is still empty... (</div>
       ) : (
-        <div className="tiles-grid">
+        <div className={styles.grid}>
           {topGamesList.map((game, index) => {
             if (topGamesList.length === index + 1) {
               return (

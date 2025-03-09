@@ -4,6 +4,8 @@
   flex-wrap: wrap;
   justify-content: space-between;
   align-content: flex-start;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 .game {
   &-tile {
@@ -23,9 +25,8 @@
   }
 
   &-image {
-    min-height: 240px;
-    height: 240px;
-    max-width: 100%;
+    height: auto;
+    max-width: 290px;
   }
 
   &-title,

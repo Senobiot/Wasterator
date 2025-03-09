@@ -20,7 +20,7 @@ const Variant = styled.div`
 
   ${VIEW_TYPES.VARIANTS.map(
     (e) =>
-      `&.${e} {background: 50% / contain url("/public/view-variant-${e}.svg") no-repeat;}`
+      `&.${e} {background: 50% / contain url("/view-variant-${e}.svg") no-repeat;}`
   )}
 
   &.active {

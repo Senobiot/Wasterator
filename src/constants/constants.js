@@ -180,8 +180,7 @@ export const FORM_INPUTS = {
   },
 };
 
-const SERVER_URL = "https://wasteratorapi.onrender.com/";
-// const SERVER_URL = "http://localhost:3000/";
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 export const SERVER_ENDPOINTS = {
   auth: SERVER_URL + "auth",
