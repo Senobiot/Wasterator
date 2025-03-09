@@ -11,7 +11,10 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import StyledTile from "../Tile/Tile";
 import "./Home.scss";
-import { getMoreTopGames, setScrollPosition } from "../../reducers/searchReducer";
+import {
+  getMoreTopGames,
+  setScrollPosition,
+} from "../../reducers/searchReducer";
 import { setLoading } from "../../reducers/statusReducer";
 import { ROUTES } from "../../constants/constants";
 import LineMessage from "../Modals/LineMessage/LineMessage";
@@ -53,6 +56,7 @@ export default function Home() {
   useEffect(() => {
     if (page > 1 && page > currentLoadedPages) {
       dispatch(setLoading(true));
+
       dispatch(getMoreTopGames({ page, loggedUser }));
     }
   }, [page, dispatch]);

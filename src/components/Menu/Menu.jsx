@@ -8,11 +8,11 @@ import { useEffect, useState } from "react";
 import { ROUTES } from "../../constants/constants";
 
 const menuButtons = [
-  { name: "Домой", link: ROUTES.PAGE.HOME },
-  { name: "Мои игры", link: ROUTES.PAGE.MY_GAMES, authRequird: true },
-  { name: "Мои фильмы", link: ROUTES.PAGE.MY_FILMS, authRequird: true },
-  { name: "Статистика", link: ROUTES.PAGE.STATISTIC, authRequird: true },
-  { name: "Войти", link: ROUTES.PAGE.LOGIN },
+  { name: "Home", link: ROUTES.PAGE.HOME },
+  { name: "My games", link: ROUTES.PAGE.MY_GAMES, authRequird: true },
+  { name: "My movies", link: ROUTES.PAGE.MY_FILMS, authRequird: true },
+  { name: "Statistic", link: ROUTES.PAGE.STATISTIC, authRequird: true },
+  { name: "Login", link: ROUTES.PAGE.LOGIN },
 ];
 
 export default function Menu() {
@@ -31,7 +31,7 @@ export default function Menu() {
       </div>
       <nav>
         <ul>
-          <SearchBar />
+          {loggedUser && <SearchBar />}
           {menuButtons.map((button) => {
             const navButtonData = { ...button };
             if (button.authRequird && !loggedUser) return;

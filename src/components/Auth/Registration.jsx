@@ -10,7 +10,7 @@ import {
 } from "../../selectors/selectors";
 
 const Registration = () => {
-  const { message: requestError } = useSelector(selectAuthError);
+  const { message: requestError } = useSelector(selectAuthError) || {};
   const isRegisterSucccess = useSelector(selectisRegisterSucccess);
   const dispatch = useDispatch();
   const navigate = useNavigate();

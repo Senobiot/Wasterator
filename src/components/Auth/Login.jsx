@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser, selectAuthError } from "../../selectors/selectors";
 
 const Login = () => {
-  const { message: requestError } = useSelector(selectAuthError);
+  const { message: requestError } = useSelector(selectAuthError) || {};
   const logged = useSelector(selectCurrentUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -20,9 +20,19 @@ const Login = () => {
     }
   }, [logged]);
 
+  useEffect(() => {
+    return () => dispatch(authStatusReset());
+  }, []);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (Object.values(invalid).some((e) => e)) return;
+
+    if (
+      Object.values(invalid).some((e) => e) ||
+      !credentials.email.trim() ||
+      !credentials.password.trim()
+    )
+      return;
 
     dispatch(authStatusReset());
     dispatch(loginRequest(credentials));
@@ -101,13 +111,11 @@ const Login = () => {
             </label>
           </div>
         </div>
-        <div>
-          <a href="#">Forgot password?</a>
-        </div>
+        <div>{/* <a href="#">Forgot password?</a> */}</div>
       </div>
       <button
         type="submit"
-        className="submit"
+        className={styles.submit}
         style={{
           backgroundColor: "rgb(59 113 202)",
         }}
