@@ -179,9 +179,9 @@ export const FORM_INPUTS = {
     placeholder: "Remember me",
   },
 };
-//TODO Think about separate auth and collectables endpoints
 
-const SERVER_URL = "http://localhost:3000/";
+const SERVER_URL = "https://wasteratorapi.onrender.com/";
+// const SERVER_URL = "http://localhost:3000/";
 
 export const SERVER_ENDPOINTS = {
   auth: SERVER_URL + "auth",

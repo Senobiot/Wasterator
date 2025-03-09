@@ -71,7 +71,6 @@ const auth = () => (next) => async (action) => {
   }
 
   if (action.type === "auth/logOff") {
-    
     sessionStorage.clear();
     localStorage.removeItem(TOKEN_NAMES.access);
   }
@@ -89,6 +88,7 @@ const auth = () => (next) => async (action) => {
         const data = await response.json();
 
         if (!response.ok) {
+          next(loginFailure());
           return next(action);
         }
 
@@ -100,6 +100,8 @@ const auth = () => (next) => async (action) => {
       } catch (error) {
         console.log(error);
       }
+    } else {
+      next(loginFailure());
     }
   }
 

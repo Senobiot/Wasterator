@@ -51,4 +51,21 @@
       color: antiquewhite;
     }
   }
+
+  .submit {
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    margin: 20px auto;
+    padding: 20px;
+    height: 40px;
+    text-transform: uppercase;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform 0.15s linear;
+
+    &:hover {
+      transform: scale(1.085);
+    }
+  }
 }

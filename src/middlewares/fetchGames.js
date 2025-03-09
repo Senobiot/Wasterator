@@ -70,10 +70,19 @@ const fetchGames = () => (next) => async (action) => {
           GAMES_ENDPOINTS.getTopGamesWithAuhorization + action.payload.page,
           setRequestOptions()
         );
+
+        if (!response.ok) {
+          action.payload = [];
+          next(setLoading(false));
+          return next(action);
+        }
         const details = await response.json();
+
         action.payload = details;
       } catch (error) {
         console.log(error);
+      } finally {
+        next(setLoading(false));
       }
     } else {
       try {
@@ -81,10 +90,19 @@ const fetchGames = () => (next) => async (action) => {
           GAMES_ENDPOINTS.getTopGames + action.payload.page,
           setRequestOptions()
         );
+
+        if (!response.ok) {
+          action.payload = [];
+          next(setLoading(false));
+          return next(action);
+        }
+
         const details = await response.json();
         action.payload = details;
       } catch (error) {
         console.log(error);
+      } finally {
+        next(setLoading(false));
       }
     }
     next(setLoading(false));
