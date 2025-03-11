@@ -33,7 +33,6 @@ const fecthFilms = () => (next) => async (action) => {
       );
 
       const data = await response.json();
-      console.log(data);
       return next(setDetails(data));
     } catch (error) {
       console.log(error);
