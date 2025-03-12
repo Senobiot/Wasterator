@@ -4,10 +4,15 @@
   background: linear-gradient(135deg, #6a11cb, #2575fc);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   text-align: center;
-  max-width: 1280px;
+  max-width: 1024px;
   margin: 20px auto;
   color: white;
   animation: fadeIn 0.5s ease-in-out;
+}
+
+.avatar img {
+  width: 100px;
+  height: 100px;
 }
 
 @keyframes fadeIn {
