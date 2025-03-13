@@ -46,6 +46,7 @@ const authSlice = createSlice({
       state.registerSuccess = false;
     },
     checkIsAuth: (state) => state,
+    uploadAvatar: (state) => state,
   },
 });
 
@@ -61,6 +62,7 @@ export const {
   loginFailure,
   logOff,
   refreshToken,
+  uploadAvatar,
 } = authSlice.actions;
 
 export default authSlice.reducer;

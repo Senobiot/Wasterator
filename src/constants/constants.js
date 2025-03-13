@@ -193,8 +193,9 @@ export const AUTH_ENDPOINTS = {
   registartion: SERVER_ENDPOINTS.auth + "/registration",
   login: SERVER_ENDPOINTS.auth + "/login",
   logot: SERVER_ENDPOINTS.auth + "/logout",
-  getAllUsers: SERVER_ENDPOINTS.auth + "users", // Probably no need
+  getAllUsers: SERVER_ENDPOINTS.auth + "/users", // Probably no need
   refresh: SERVER_ENDPOINTS.auth + "/refresh",
+  uploadAvatar: SERVER_ENDPOINTS.auth + "/avatar",
 };
 
 export const COLLECTION_ENDPOINTS = {

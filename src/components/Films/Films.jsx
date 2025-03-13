@@ -24,11 +24,11 @@ export default function Films() {
       <ViewSwitcher changeVariant={(e) => setCurrentViewVariant(e)} />
       {!collection?.length
         ? "Your collection is still empty... ("
-        : collection.map((movie) => {
+        : collection.map((movie, i) => {
             return (
               <CollectionTile
                 data={movie}
-                key={movie.name}
+                key={movie.id}
                 pathname="/movie"
                 type={COLLECTION_TYPES.FILMS}
                 viewVariant={currentViewVariant}
