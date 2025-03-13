@@ -11,6 +11,7 @@ import DashboardFields from "../../dtos/dashbord-fields";
 
 const Dashboard = () => {
   const loggedUser = useSelector(selectCurrentUser);
+  console.log(loggedUser);
   const fields = Object.entries(new DashboardFields(loggedUser));
   const [avatar, setAvatar] = useState(null);
   const [isDragging, setIsDragging] = useState(false);

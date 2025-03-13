@@ -1,5 +1,6 @@
 export default class DashboardFields {
-  constructor(data = {}) {
+  constructor(data) {
+    data = data || {};
     this["Birthday"] = data.birthday;
     this["Email"] = data.email;
     this["Activated accaount"] = data.hasActivated ? "Yes" : "No";
