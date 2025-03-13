@@ -1,32 +1,76 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser } from "../../selectors/selectors";
-import { logOff } from "../../reducers/authReducer";
+import { logOff, uploadAvatar } from "../../reducers";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { ROUTES } from "../../constants/constants";
 import styles from "./Dashboard.module.scss";
+import { bufferToBase64Url, processImage } from "../../utils/utils";
+import DashboardFields from "../../dtos/dashbord-fields";
 
 const Dashboard = () => {
+  const loggedUser = useSelector(selectCurrentUser);
+  const fields = Object.entries(new DashboardFields(loggedUser));
   const [avatar, setAvatar] = useState(null);
-  const [preview, setPreview] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const loggedUser = useSelector(selectCurrentUser);
-  const fields = Object.entries(loggedUser || {});
 
-  const handleAvatarChange = (event) => {
-    const file = event.target.files[0];
-    setAvatar(file);
-    setPreview(URL.createObjectURL(file));
+  const handleAvatarChange = async (file) => {
+    if (file && file.type.startsWith("image/")) {
+      try {
+        const processedImage = await processImage(file);
+        dispatch(uploadAvatar(processedImage));
+      } catch (error) {
+        console.error("Error processing image:", error);
+      }
+    }
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith("image/")) {
+      handleAvatarChange(file);
+    }
   };
 
   const handleClick = () => dispatch(logOff());
 
+  const handleAvatarClick = () => {
+    fileInputRef.current.click();
+  };
+
   useEffect(() => {
     if (!loggedUser) {
-      navigate(ROUTES.PAGE.LOGIN);
+      return navigate(ROUTES.PAGE.LOGIN);
     }
+
+    setAvatar(bufferToBase64Url(loggedUser.avatar));
+    console.log("setAvatar");
   }, [loggedUser, navigate]);
 
   return !loggedUser ? (
@@ -35,16 +79,34 @@ const Dashboard = () => {
     <div className={styles.container}>
       <h2 className={styles.title}>Добро пожаловать, {loggedUser.name}!</h2>
 
-      <div className={styles.avatar}>
+      <div
+        className={styles.avatar}
+        onClick={handleAvatarClick}
+        onDragEnter={handleDragEnter}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+      >
         <img
-          src={preview || loggedUser.avatar || "default-avatar.png"}
+          src={avatar || `/avatar-${loggedUser.gender || "male"}.svg`}
           alt="Avatar"
           className={styles.avatarImage}
         />
+        <div className={styles.avatarOverlay}>
+          <span>Change Avatar</span>
+        </div>
+        {isDragging && (
+          <div
+            className={`${styles.dropZone} ${isDragging ? styles.dragActive : ""}`}
+          >
+            Drop image here
+          </div>
+        )}
         <input
+          ref={fileInputRef}
           type="file"
           accept="image/*"
-          onChange={handleAvatarChange}
+          onChange={(e) => handleAvatarChange(e.target.files[0])}
           className={styles.avatarInput}
         />
       </div>
@@ -52,7 +114,9 @@ const Dashboard = () => {
       <div className={styles.fields}>
         {fields.map(([key, value]) => (
           <div key={key} className={styles.field}>
-            <strong>{key}:</strong> {value}
+            <strong>{key}:</strong>
+            <br />
+            {value}
           </div>
         ))}
       </div>

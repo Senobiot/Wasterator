@@ -103,3 +103,76 @@ export const setRequestOptions = (body) => {
     body: JSON.stringify(body),
   };
 };
+
+export const processImage = (file) => {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+
+    img.onload = () => {
+      // First canvas for cropping
+      const cropCanvas = document.createElement("canvas");
+      const cropCtx = cropCanvas.getContext("2d");
+
+      // Calculate dimensions for square crop
+      const size = Math.min(img.width, img.height);
+      const x = (img.width - size) / 2;
+      const y = (img.height - size) / 2;
+
+      // Set crop canvas size to the square size
+      cropCanvas.width = size;
+      cropCanvas.height = size;
+
+      // Draw cropped image
+      cropCtx.drawImage(img, x, y, size, size, 0, 0, size, size);
+
+      // Second canvas for resizing
+      const resizeCanvas = document.createElement("canvas");
+      const resizeCtx = resizeCanvas.getContext("2d");
+
+      // Set final dimensions
+      const finalSize = 100;
+      resizeCanvas.width = finalSize;
+      resizeCanvas.height = finalSize;
+
+      // Enable smooth resizing
+      resizeCtx.imageSmoothingEnabled = true;
+      resizeCtx.imageSmoothingQuality = "high";
+
+      // Draw resized image
+      resizeCtx.drawImage(cropCanvas, 0, 0, finalSize, finalSize);
+
+      // Convert to blob
+      resizeCanvas.toBlob(
+        (blob) => {
+          resolve(blob);
+        },
+        file.type,
+        0.9
+      ); // 0.9 is quality parameter
+
+      URL.revokeObjectURL(img.src);
+    };
+  });
+};
+
+export const bufferToBase64Url = (avatar) => {
+  if (!avatar || !avatar.data || !avatar.contentType) {
+    return null;
+  }
+
+  try {
+    const bytes = new Uint8Array(avatar.data.data);
+    let binary = "";
+    const chunk = 8192; // Process 8KB chunks
+
+    for (let i = 0; i < bytes.length; i += chunk) {
+      binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
+    }
+
+    return `data:${avatar.contentType};base64,${btoa(binary)}`;
+  } catch (error) {
+    console.error("Error converting avatar:", error);
+    return null;
+  }
+};

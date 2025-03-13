@@ -82,7 +82,7 @@ export default function StatisticCollection({
           <Link
             to={route + "/" + e.id}
             onClick={() => handleClick(e)}
-            key={e.name}
+            key={e.id}
           >
             <div className={classes.game}>
               <div className={classes.game_position}>{i + 1} </div>

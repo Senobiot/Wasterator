@@ -4,12 +4,15 @@ import {
   TOKEN_NAMES,
 } from "../constants/constants";
 import {
+  setLoading,
   loginSuccess,
   loginFailure,
   authFailed,
   loading,
-} from "../reducers/authReducer";
+  uploadAvatar,
+} from "../reducers";
 import { getToken, setSessionToken, setStorageItem } from "../utils/utils";
+import { setRequestOptions } from "../utils/utils";
 
 const setOptions = (body) => {
   return {
@@ -56,7 +59,6 @@ const auth = () => (next) => async (action) => {
       if (!response.ok) {
         return next(authFailed(data));
       }
-
       const { user, accessToken } = data;
 
       if (action.payload[FORM_INPUTS.stayLogged.id]) {
@@ -64,6 +66,7 @@ const auth = () => (next) => async (action) => {
       }
 
       setSessionToken(accessToken);
+
       return next(loginSuccess(user));
     } catch (error) {
       return next(loginFailure(error));
@@ -88,6 +91,7 @@ const auth = () => (next) => async (action) => {
         const data = await response.json();
 
         if (!response.ok) {
+          next(setLoading(false));
           next(loginFailure());
           return next(action);
         }
@@ -96,17 +100,41 @@ const auth = () => (next) => async (action) => {
 
         setStorageItem(TOKEN_NAMES.access, accessToken);
         setSessionToken(accessToken);
-        return next(loginSuccess(user));
+
+        next(loginSuccess(user));
+        return next(setLoading(false));
       } catch (error) {
         console.log(error);
       }
     } else {
-      next(loginFailure());
+      next(setLoading(false));
+      return next(loginFailure());
     }
   }
 
   if (action.type === "auth/refreshToken") {
     try {
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  if (action.type === "auth/uploadAvatar") {
+    try {
+      const formData = new FormData();
+      formData.append("file", action.payload);
+
+      const response = await fetch(AUTH_ENDPOINTS.uploadAvatar, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${sessionStorage.accessToken ?? ""}`,
+        },
+        credentials: "include",
+        body: formData,
+      });
+
+      const data = await response.json();
+      next(loginSuccess(data));
     } catch (error) {
       console.log(error);
     }
