@@ -55,18 +55,16 @@ const auth = () => (next) => async (action) => {
         setOptions(action.payload)
       );
       const data = await response.json();
-
       if (!response.ok) {
         return next(authFailed(data));
       }
       const { user, accessToken } = data;
 
-      if (action.payload[FORM_INPUTS.stayLogged.id]) {
+      if (action.payload[FORM_INPUTS.checkbox.type]) {
         setStorageItem(TOKEN_NAMES.access, accessToken);
       }
 
       setSessionToken(accessToken);
-
       return next(loginSuccess(user));
     } catch (error) {
       return next(loginFailure(error));

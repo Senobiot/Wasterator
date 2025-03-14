@@ -176,3 +176,41 @@ export const bufferToBase64Url = (avatar) => {
     return null;
   }
 };
+
+export const inputDateformatter = (value, prevValue = "") => {
+  if (prevValue && value.length < prevValue.length) {
+    const digitsOnly = value.replace(/\D/g, "");
+    return digitsOnly;
+  }
+
+  const digitsOnly = value.replace(/\D/g, "");
+
+  let formattedDate = digitsOnly;
+  if (digitsOnly.length >= 4) {
+    formattedDate = digitsOnly.slice(0, 4) + "-" + digitsOnly.slice(4);
+  }
+  if (digitsOnly.length >= 6) {
+    formattedDate = formattedDate.slice(0, 7) + "-" + formattedDate.slice(7);
+  }
+
+  return formattedDate.slice(0, 10);
+};
+
+export const inputPhoneFormatter = (value, prevValue = "") => {
+  if (prevValue && value.length < prevValue.length) {
+    const digitsOnly = value.replace(/\D/g, "");
+    return digitsOnly;
+  }
+
+  const digitsOnly = value.replace(/\D/g, "");
+  let formattedPhone = digitsOnly;
+
+  if (digitsOnly.length >= 3) {
+    formattedPhone = digitsOnly.slice(0, 3) + "-" + digitsOnly.slice(3);
+  }
+  if (digitsOnly.length >= 5) {
+    formattedPhone = formattedPhone.slice(0, 7) + "-" + formattedPhone.slice(7);
+  }
+
+  return formattedPhone.slice(0, 12);
+};
