@@ -112,6 +112,7 @@ export const VIEW_TYPES = {
 
 export const FORM_INPUTS = {
   name: {
+    name: "name",
     type: "text",
     id: "name",
     placeholder: "First Name",
@@ -121,13 +122,16 @@ export const FORM_INPUTS = {
   email: {
     type: "email",
     id: "email",
+    name: "email",
     placeholder: "Email Address",
+    errorText: "Invalid email adress",
     validationPattern: /^\S+@\S+\.\S+$/,
   },
 
   lastName: {
     type: "text",
     id: "lastName",
+    name: "lastName",
     placeholder: "Last Name",
     validationPattern: /^[a-zA-Z]+$/,
   },
@@ -135,6 +139,7 @@ export const FORM_INPUTS = {
   birthday: {
     type: "text",
     id: "birthday",
+    name: "birthday",
     placeholder: "Birthday YYYY-MM-DD",
     validationPattern: /^\d{4}-\d{2}-\d{2}$/,
   },
@@ -142,13 +147,26 @@ export const FORM_INPUTS = {
   password: {
     type: "password",
     id: "password",
+    name: "password",
     placeholder: "Password",
+    errorText: "Min 8 symbols: at least 1 digit, 1 uppercase letter",
+    validationPattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+  },
+
+  passwordCheck: {
+    type: "password",
+    id: "passwordCheck",
+    name: "passwordCheck",
+    placeholder: "Repeat password",
+    errorText: "Min 8 symbols: at least 1 digit, 1 uppercase letter",
+    errorTextMatch: "Passwords didn't match",
     validationPattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
   },
 
   phone: {
     type: "tel",
     id: "phone",
+    name: "phone",
     placeholder: "Phone Number",
     validationPattern: /\d{9}/,
   },
@@ -156,6 +174,7 @@ export const FORM_INPUTS = {
   gender: {
     name: "gender",
     type: "radio",
+    placeholder: "Choose your gender",
     variants: [
       {
         id: "femaleGender",
@@ -173,10 +192,26 @@ export const FORM_INPUTS = {
     placeholder: "Send",
   },
 
-  stayLogged: {
-    id: "stayLogged",
+  register: {
+    type: "submit",
+    placeholder: "register",
+  },
+
+  titles: {
+    register: "Please fill form fields to register:",
+    login: "Please signIn:",
+  },
+
+  checkbox: {
+    id: "checkbox",
     type: "checkbox",
+    name: "checkbox",
     placeholder: "Remember me",
+  },
+
+  registerLink: {
+    text: "Not register yet? ",
+    linkText: "Register",
   },
 };
 

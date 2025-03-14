@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../selectors/selectors";
 import { useEffect, useState } from "react";
 import { ROUTES } from "../../constants/constants";
+import Avatar from "@mui/material/Avatar";
+import { bufferToBase64Url } from "../../utils/utils";
 
 const menuButtons = [
   { name: "Home", link: ROUTES.PAGE.HOME },
@@ -17,6 +19,7 @@ const menuButtons = [
 
 export default function Menu() {
   const loggedUser = useSelector(selectCurrentUser);
+  const avatar = loggedUser && bufferToBase64Url(loggedUser.avatar);
   const location = useLocation();
   const [activePath, setActivePath] = useState(location.pathname);
 
@@ -38,6 +41,7 @@ export default function Menu() {
             if (loggedUser && button.link === ROUTES.PAGE.LOGIN) {
               navButtonData.link = ROUTES.PAGE.DASHBOARD;
               navButtonData.name = loggedUser.name;
+              // <Avatar alt={loggedUser.name} src={avatar} />;
             }
             return (
               <Link
