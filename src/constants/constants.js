@@ -258,3 +258,9 @@ export const TOKEN_NAMES = {
   access: "accessToken",
   refresh: "refreshToken",
 };
+
+export const VIEW_VARIANTS = {
+  default: "triple",
+  list: "list",
+  thumb: "thumb",
+};

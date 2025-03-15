@@ -21,6 +21,7 @@ export {
   deleteItemFromCollection,
   getGamesCollection,
   getMoviesCollection,
+  setViewVariant,
 } from "./collectionReducer";
 export {
   checkIsAuth,
