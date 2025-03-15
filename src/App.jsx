@@ -3,7 +3,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "./App.css";
-import Menu from "./components/Menu/Menu";
+import NavigationMenu from "./components/Menu/Menu";
 import Home from "./components/Home/Home";
 import Games from "./components/Games/Games";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -33,7 +33,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Menu />
+        <NavigationMenu />
         {isLoading && <Loader />}
         <Routes>
           <Route path={ROUTES.PAGE.HOME} element={<Home />} />

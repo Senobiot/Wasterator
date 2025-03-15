@@ -14,8 +14,9 @@
 }
 
 body {
-  background: 50% 0% / cover url("./assets/gamer-ninja.webp") no-repeat;
-  background-attachment: fixed;
+  /* background: 50% 0% / cover url("./assets/gamer-ninja.webp") no-repeat; */
+  /* background-attachment: fixed; */
+  background-color: #263238;
 }
 
 a {
