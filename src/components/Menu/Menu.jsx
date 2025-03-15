@@ -21,21 +21,19 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { main as mainColor } from "../../themes/palettes";
 import { logOff } from "../../reducers";
 
-const pages = ["Products", "Pricing", "Blog"];
-
 const menuButtons = [
   { name: "Home", link: ROUTES.PAGE.HOME },
   { name: "My games", link: ROUTES.PAGE.MY_GAMES, authRequired: true },
   { name: "My movies", link: ROUTES.PAGE.MY_FILMS, authRequired: true },
   { name: "Statistic", link: ROUTES.PAGE.STATISTIC, authRequired: true },
 ];
-const login = { name: "Login", link: ROUTES.PAGE.LOGIN };
+
+const userMenu = [
+  { name: "Profile", link: ROUTES.PAGE.DASHBOARD },
+  { name: "Logout", link: ROUTES.PAGE.LOGIN },
+];
 
 export default function NavigationMenu() {
-  const userMenu = [
-    { name: "Profile", link: ROUTES.PAGE.DASHBOARD },
-    { name: "Logout", link: ROUTES.PAGE.LOGIN },
-  ];
   const signInMenu = { name: "Sign In", link: ROUTES.PAGE.LOGIN };
   const dispatch = useDispatch();
   const location = useLocation();
@@ -122,13 +120,13 @@ export default function NavigationMenu() {
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: "block", md: "none" } }}
             >
-              {pages.map((page) => (
+              {/* {pages.map((page) => (
                 <MenuItem key={page.name} onClick={handleCloseNavMenu}>
                   <Typography sx={{ textAlign: "center" }}>
                     {page.name}
                   </Typography>
                 </MenuItem>
-              ))}
+              ))} */}
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
@@ -226,48 +224,3 @@ export default function NavigationMenu() {
     </AppBar>
   );
 }
-
-// export default function Menu() {
-//   const loggedUser = useSelector(selectCurrentUser);
-//   const avatar = loggedUser && bufferToBase64Url(loggedUser.avatar);
-//   const location = useLocation();
-//   const [activePath, setActivePath] = useState(location.pathname);
-
-//   useEffect(() => {
-//     setActivePath(location.pathname);
-//   }, [location]);
-
-//   return (
-//     <div className={classes.menu}>
-//       <div className={classes.logoWrapper}>
-//         <img src="/logo.png" alt="" />
-//       </div>
-//       <nav>
-//         <ul>
-//           {loggedUser && <SearchBar />}
-//           {menuButtons.map((button) => {
-//             const navButtonData = { ...button };
-//             if (button.authRequird && !loggedUser) return;
-//             if (loggedUser && button.link === ROUTES.PAGE.LOGIN) {
-//               navButtonData.link = ROUTES.PAGE.DASHBOARD;
-//               navButtonData.name = loggedUser.name;
-//               // <Avatar alt={loggedUser.name} src={avatar} />;
-//             }
-//             return (
-//               <Link
-//                 style={{ display: "flex" }}
-//                 to={navButtonData.link}
-//                 key={navButtonData.link}
-//               >
-//                 <Button
-//                   title={navButtonData.name}
-//                   color={activePath === navButtonData.link ? "red" : ""}
-//                 ></Button>
-//               </Link>
-//             );
-//           })}
-//         </ul>
-//       </nav>
-//     </div>
-//   );
-// }

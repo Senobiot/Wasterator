@@ -164,7 +164,7 @@ export const bufferToBase64Url = (avatar) => {
   try {
     const bytes = new Uint8Array(avatar.data.data);
     let binary = "";
-    const chunk = 8192; // Process 8KB chunks
+    const chunk = 8192;
 
     for (let i = 0; i < bytes.length; i += chunk) {
       binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
@@ -177,6 +177,7 @@ export const bufferToBase64Url = (avatar) => {
   }
 };
 
+// TODO Need to complete
 export const inputDateformatter = (value, prevValue = "") => {
   if (prevValue && value.length < prevValue.length) {
     const digitsOnly = value.replace(/\D/g, "");
