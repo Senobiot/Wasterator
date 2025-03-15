@@ -1,6 +1,9 @@
-import { useState } from "react";
 import { styled } from "styled-components";
-import { VIEW_TYPES } from "../../constants/constants";
+import { VIEW_VARIANTS } from "../../constants/constants";
+import { setViewVariant } from "../../reducers";
+import { getViewVariant } from "../../selectors/selectors";
+import { useDispatch, useSelector } from "react-redux";
+const variants = Object.values(VIEW_VARIANTS);
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,11 +19,10 @@ const Variant = styled.div`
   width: 25px;
   height: 25px;
   margin-right: 5px;
-  opacity: 0.5;
+  opacity: 0.4;
 
-  ${VIEW_TYPES.VARIANTS.map(
-    (e) =>
-      `&.${e} {background: 50% / contain url("/view-variant-${e}.svg") no-repeat;}`
+  ${variants.map(
+    (e) => `&.${e} {background: 50% / contain url("/view-${e}.svg") no-repeat;}`
   )}
 
   &.active {
@@ -29,36 +31,24 @@ const Variant = styled.div`
   }
 `;
 
-const ViewSwitcher = ({ changeVariant }) => {
-  const activeClass = " active";
-  const initialVariants = VIEW_TYPES.VARIANTS.map((e) =>
-    e === VIEW_TYPES.DEFAULT ? e + activeClass : e
-  );
-  const [variants, setActiveVariant] = useState(initialVariants);
-  const handleClick = (e) => {
-    const type = e.target.getAttribute("data");
-    const newVariantState = variants.map((e) => {
-      if (e === type) {
-        return e + activeClass;
-      }
-
-      return e.replace(new RegExp(activeClass), "");
-    });
-    setActiveVariant(newVariantState);
-    changeVariant(type);
-  };
+const ViewSwitcher = () => {
+  const dispatch = useDispatch();
+  const active = useSelector(getViewVariant);
+  const handleClick = (e) =>
+    dispatch(setViewVariant(e.target.getAttribute("data")));
 
   return (
     <Wrapper>
       {variants.map((variant) => (
         <Variant
-          onClick={(e) => handleClick(e)}
+          onClick={handleClick}
           key={variant}
           data={variant}
-          className={variant}
+          className={variant === active ? `${variant} active` : variant}
         />
       ))}
     </Wrapper>
   );
 };
+
 export default ViewSwitcher;

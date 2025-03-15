@@ -1,18 +1,20 @@
-import CollectionTile from "../CollectionTile/CollectionTile";
 import { useDispatch, useSelector } from "react-redux";
-import { selectMoviesCollection } from "../../selectors/selectors";
-import { COLLECTION_TYPES, VIEW_TYPES } from "../../constants/constants";
+import {
+  getViewVariant,
+  selectMoviesCollection,
+} from "../../selectors/selectors";
+import { ROUTES } from "../../constants/constants";
 import { useEffect, useState } from "react";
-import ViewSwitcher from "../ViewSwitcher/ViewSwitcher";
 import { getMoviesCollection, setLoading } from "../../reducers";
+import Grid from "@mui/material/Grid2";
+import Container from "@mui/material/Container";
+import { CollectionCard, EmptyCollectionCard } from "../Card/CollectionCard";
+import ViewSwitcher from "../ViewSwitcher/ViewSwitcher";
 
 export default function Films() {
   const dispatch = useDispatch();
   const collection = useSelector(selectMoviesCollection);
-  // TODO Perhaps it needs to be moved to the store
-  const [currentViewVariant, setCurrentViewVariant] = useState(
-    VIEW_TYPES.DEFAULT
-  );
+  const viewVariant = useSelector(getViewVariant);
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -20,21 +22,36 @@ export default function Films() {
   }, []);
 
   return (
-    <div className="collection-wrapper">
-      <ViewSwitcher changeVariant={(e) => setCurrentViewVariant(e)} />
-      {!collection?.length
-        ? "Your collection is still empty... ("
-        : collection.map((movie, i) => {
-            return (
-              <CollectionTile
-                data={movie}
-                key={movie.id}
-                pathname="/movie"
-                type={COLLECTION_TYPES.FILMS}
-                viewVariant={currentViewVariant}
-              ></CollectionTile>
-            );
-          })}
+    <div>
+      <Container maxWidth="lg">
+        <ViewSwitcher />
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            justifyContent: {
+              xs: "center",
+              lg: !collection?.length ? "center" : "flex-start",
+            },
+          }}
+        >
+          {!collection?.length ? (
+            <EmptyCollectionCard
+              collectionName="movie"
+              imgUrl="/movie-card.svg"
+            />
+          ) : (
+            collection.map((movie) => (
+              <CollectionCard
+                key={movie.name}
+                pathname={ROUTES.CARDS.FILM}
+                collectable={movie}
+                variant={viewVariant}
+              />
+            ))
+          )}
+        </Grid>
+      </Container>
     </div>
   );
 }

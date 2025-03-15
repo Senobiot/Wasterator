@@ -215,3 +215,5 @@ export const inputPhoneFormatter = (value, prevValue = "") => {
 
   return formattedPhone.slice(0, 12);
 };
+
+export const minToHour = (min) => min && `${Math.floor(min / 60)}:${min % 60}`;

@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { VIEW_VARIANTS } from "../constants/constants";
 
 const initialState = {
   games: [],
   movies: [],
+  viewVariant: VIEW_VARIANTS.default,
 };
 
 const collectionSlice = createSlice({
@@ -21,6 +23,9 @@ const collectionSlice = createSlice({
     getMoviesCollection: (state, action) => {
       state.movies = action.payload;
     },
+    setViewVariant: (state, action) => {
+      state.viewVariant = action.payload;
+    },
   },
 });
 
@@ -29,5 +34,6 @@ export const {
   deleteItemFromCollection,
   getGamesCollection,
   getMoviesCollection,
+  setViewVariant,
 } = collectionSlice.actions;
 export default collectionSlice.reducer;
