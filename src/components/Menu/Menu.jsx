@@ -79,7 +79,6 @@ export default function NavigationMenu() {
           <Typography
             color="info"
             variant="h6"
-            noWrap
             href="#app-bar-with-responsive-menu"
             sx={{
               m: 2,
@@ -132,7 +131,6 @@ export default function NavigationMenu() {
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
-            noWrap
             component="a"
             href="#app-bar-with-responsive-menu"
             sx={{
@@ -152,27 +150,25 @@ export default function NavigationMenu() {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {menuButtons.map((page) => {
               if (page.authRequired && !loggedUser) return;
-
               return (
-                <Link to={page.link}>
-                  <Button
-                    noWrap
-                    variant="contained"
-                    key={page.name}
-                    sx={{
-                      my: 2,
-                      color: "white",
-                      display: "block",
-                      mr: 1,
-                      backgroundColor:
-                        activePath === page.link
-                          ? mainColor.light
-                          : mainColor.dark,
-                    }}
-                  >
-                    {page.name}
-                  </Button>
-                </Link>
+                <Button
+                  component={Link}
+                  to={page.link}
+                  variant="contained"
+                  key={page.name}
+                  sx={{
+                    my: 2,
+                    color: "white",
+                    display: "block",
+                    mr: 1,
+                    backgroundColor:
+                      activePath === page.link
+                        ? mainColor.light
+                        : mainColor.dark,
+                  }}
+                >
+                  {page.name}
+                </Button>
               );
             })}
           </Box>
@@ -208,7 +204,7 @@ export default function NavigationMenu() {
                 </Link>
               ) : (
                 userMenu.map((route) => (
-                  <Link to={route.link}>
+                  <Link key={route.name} to={route.link}>
                     <MenuItem key={route.name} onClick={handleCloseUserMenu}>
                       <Typography sx={{ textAlign: "center" }}>
                         {route.name}

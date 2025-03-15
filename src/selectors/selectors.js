@@ -14,3 +14,4 @@ export const selectLoginingStatus = (state) => state.auth.isLoggingIn;
 export const selectAuthError = (state) => state.auth.error;
 export const selectisRegisterSucccess = (state) => state.auth.registerSuccess;
 export const getScrollPosition = (state) => state.searchResult.scrollPosition;
+export const getViewVariant = (state) => state.collection.viewVariant;
