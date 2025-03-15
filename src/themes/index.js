@@ -1,4 +1,5 @@
 import { createTheme } from "@mui/material";
+
 export const NAV_BAR = {
   height: 60,
 };
