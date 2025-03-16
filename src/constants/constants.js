@@ -264,3 +264,9 @@ export const VIEW_VARIANTS = {
   list: "list",
   thumb: "thumb",
 };
+
+export const AVATAR_VARIANTS = {
+  default: "square",
+  round: "round",
+  square: "square",
+};

@@ -18,7 +18,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { main as mainColor } from "../../themes/palettes";
+import { colorMain } from "../../themes/palettes";
 import { logOff } from "../../reducers";
 
 const menuButtons = [
@@ -70,7 +70,7 @@ export default function NavigationMenu() {
     <AppBar
       position="sticky"
       sx={{
-        backgroundColor: mainColor.medium,
+        backgroundColor: colorMain.medium,
       }}
     >
       <Container maxWidth="xl">
@@ -163,8 +163,8 @@ export default function NavigationMenu() {
                     mr: 1,
                     backgroundColor:
                       activePath === page.link
-                        ? mainColor.light
-                        : mainColor.dark,
+                        ? colorMain.light
+                        : colorMain.dark,
                   }}
                 >
                   {page.name}
