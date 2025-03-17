@@ -47,6 +47,9 @@ const authSlice = createSlice({
     },
     checkIsAuth: (state) => state,
     uploadAvatar: (state) => state,
+    changeAvatar: (state, action) => {
+      state.user.avatar = action.payload;
+    },
   },
 });
 
@@ -63,6 +66,7 @@ export const {
   logOff,
   refreshToken,
   uploadAvatar,
+  changeAvatar,
 } = authSlice.actions;
 
 export default authSlice.reducer;

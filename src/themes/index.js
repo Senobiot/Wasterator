@@ -65,3 +65,17 @@ export const darkForm = createTheme({
     },
   },
 });
+
+export const pseudoMask = {
+  content: '"drop image here"',
+  position: "absolute",
+  display: "flex",
+  alignItems: "center",
+  textTransform: "uppercase",
+  justifyContent: "center",
+  zIndex: 10,
+  width: "100%",
+  height: "100%",
+  background: "rgba(0,0,0,0.5)",
+  color: "white",
+};

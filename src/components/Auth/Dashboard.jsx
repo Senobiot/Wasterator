@@ -4,127 +4,133 @@ import { selectCurrentUser } from "../../selectors/selectors";
 import { logOff, uploadAvatar } from "../../reducers";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { ROUTES } from "../../constants/constants";
+import { ROUTES, AVATAR_VARIANTS } from "../../constants/constants";
 import styles from "./Dashboard.module.scss";
-import { bufferToBase64Url, processImage } from "../../utils/utils";
 import DashboardFields from "../../dtos/dashbord-fields";
+import { Avatar } from "@mui/material";
+import Card from "@mui/material/Card";
+import Box from "@mui/material/Box";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import AvatarEditor from "./AvatarEditor";
+import Container from "@mui/material/Container";
+import { colorMain } from "../../themes/palettes";
 
 const Dashboard = () => {
-  const loggedUser = useSelector(selectCurrentUser);
-  console.log(loggedUser);
+  const loggedUser = useSelector(selectCurrentUser) || {};
+  const {
+    name,
+    avatar: {
+      variant: avatarVariant = AVATAR_VARIANTS.default,
+      url: avatarUrl,
+    } = {},
+  } = loggedUser;
   const fields = Object.entries(new DashboardFields(loggedUser));
   const [avatar, setAvatar] = useState(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const fileInputRef = useRef(null);
+  const [updating, setUpdating] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleAvatarChange = async (file) => {
-    if (file && file.type.startsWith("image/")) {
-      try {
-        const processedImage = await processImage(file);
-        dispatch(uploadAvatar(processedImage));
-      } catch (error) {
-        console.error("Error processing image:", error);
-      }
-    }
-  };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(true);
-  };
-
-  const handleDragEnter = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false);
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false);
-
-    const file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith("image/")) {
-      handleAvatarChange(file);
-    }
-  };
-
   const handleClick = () => dispatch(logOff());
 
-  const handleAvatarClick = () => {
-    fileInputRef.current.click();
+  const handleChangeAvatar = () => {
+    setUpdating(!updating);
   };
 
   useEffect(() => {
     if (!loggedUser) {
       return navigate(ROUTES.PAGE.LOGIN);
     }
-
-    setAvatar(bufferToBase64Url(loggedUser.avatar));
-    console.log("setAvatar");
+    if (avatarUrl) {
+      setAvatar(avatarUrl);
+    }
   }, [loggedUser, navigate]);
 
   return !loggedUser ? (
     <div>Загрузка данных...</div>
   ) : (
-    <div className={styles.container}>
-      <h2 className={styles.title}>Добро пожаловать, {loggedUser.name}!</h2>
-
-      <div
-        className={styles.avatar}
-        onClick={handleAvatarClick}
-        onDragEnter={handleDragEnter}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
+    <Container maxWidth="md">
+      <Container
+        sx={{
+          marginBottom: "8px",
+          "*": {
+            color: "white",
+          },
+        }}
       >
-        <img
-          src={avatar || `/avatar-${loggedUser.gender || "male"}.svg`}
-          alt="Avatar"
-          className={styles.avatarImage}
-        />
-        <div className={styles.avatarOverlay}>
-          <span>Change Avatar</span>
-        </div>
-        {isDragging && (
-          <div
-            className={`${styles.dropZone} ${isDragging ? styles.dragActive : ""}`}
+        {updating ? (
+          <AvatarEditor
+            exit={handleChangeAvatar}
+            avatar={avatar}
+            variant={avatarVariant}
+          />
+        ) : (
+          <Card
+            sx={{
+              display: "flex",
+              color: "white",
+              backgroundColor: colorMain.medium,
+            }}
           >
-            Drop image here
-          </div>
+            <Avatar
+              sx={{
+                width: 170,
+                height: 170,
+              }}
+              variant={avatarVariant}
+              alt={name}
+              src={avatar}
+            />
+            <Box
+              sx={{
+                textAlign: "left",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <CardContent
+                sx={{
+                  "&:last-child": { paddingBottom: 1 },
+                }}
+              >
+                <Typography component="div" variant="h5">
+                  {name}
+                </Typography>
+                <Typography>From:</Typography>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    color: "white",
+                    border: "2px solid white",
+                    marginTop: 2,
+                  }}
+                  onClick={handleChangeAvatar}
+                  size="small"
+                >
+                  Change avatar
+                </Button>
+              </CardContent>
+            </Box>
+          </Card>
         )}
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          onChange={(e) => handleAvatarChange(e.target.files[0])}
-          className={styles.avatarInput}
-        />
-      </div>
-
-      <div className={styles.fields}>
-        {fields.map(([key, value]) => (
-          <div key={key} className={styles.field}>
-            <strong>{key}:</strong>
-            <br />
-            {value}
-          </div>
-        ))}
-      </div>
-      <button className={styles.button} onClick={handleClick}>
-        Выйти
-      </button>
-    </div>
+      </Container>
+      <Container>
+        <div className={styles.fields}>
+          {fields.map(([key, value]) => (
+            <div key={key} className={styles.field}>
+              <strong>{key}:</strong>
+              <br />
+              {value}
+            </div>
+          ))}
+        </div>
+        <button className={styles.button} onClick={handleClick}>
+          Выйти
+        </button>
+      </Container>
+    </Container>
   );
 };
 
