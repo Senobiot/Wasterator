@@ -119,17 +119,10 @@ const auth = () => (next) => async (action) => {
 
   if (action.type === "auth/uploadAvatar") {
     try {
-      const formData = new FormData();
-      formData.append("file", action.payload);
-
-      const response = await fetch(AUTH_ENDPOINTS.uploadAvatar, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${sessionStorage.accessToken ?? ""}`,
-        },
-        credentials: "include",
-        body: formData,
-      });
+      const response = await fetch(
+        AUTH_ENDPOINTS.uploadAvatar,
+        setRequestOptions(action.payload)
+      );
 
       const data = await response.json();
       next(loginSuccess(data));

@@ -36,4 +36,5 @@ export {
   logOff,
   refreshToken,
   uploadAvatar,
+  changeAvatar,
 } from "./authReducer";
