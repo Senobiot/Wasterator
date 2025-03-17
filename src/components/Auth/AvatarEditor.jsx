@@ -18,8 +18,9 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { colorMain } from "../../themes/palettes";
 import { AVATAR_VARIANTS } from "../../constants/constants";
+import { pseudoMask } from "../../themes";
 
-export default function AvatarEditor({ avatar, variant, handleChange }) {
+export default function AvatarEditor({ avatar, variant, exit }) {
   const { default: initial, round, square } = AVATAR_VARIANTS;
   const [isDragging, setIsDragging] = useState(false);
   const [newAvatar, setNewAvatar] = useState(avatar);
@@ -28,41 +29,40 @@ export default function AvatarEditor({ avatar, variant, handleChange }) {
   const dispatch = useDispatch();
 
   const handleAvatarChange = async (file) => {
-    console.log("asdasd");
     if (file?.type.startsWith("image/")) {
       try {
+        const processedImage = await processImage(file);
         const reader = new FileReader();
         reader.onload = () => setNewAvatar(reader.result);
-        reader.readAsDataURL(file);
-
-        const processedImage = await processImage(file);
-
-        //dispatch(changeAvatar);
-        // dispatch(uploadAvatar(processedImage));
+        reader.readAsDataURL(processedImage);
       } catch (error) {
         console.error("Error processing image:", error);
       }
     }
   };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(true);
-  };
-
-  const handleDragEnter = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!isDragging) {
-      setIsDragging(true);
+  const handleSave = async () => {
+    try {
+      dispatch(
+        uploadAvatar({ avatar: { url: newAvatar, variant: newVariant } })
+      );
+      exit();
+    } catch (error) {
+      console.error("Error updating avatar:", error);
     }
   };
 
-  const handleDragLeave = (e) => {
+  const handleDragOver = (e) => {
     e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false);
+  };
+
+  const handleDragEnter = (e) => {
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+    if (e.target === e.currentTarget) {
+      setIsDragging(false);
+    }
   };
 
   const handleCancel = () => {
@@ -70,57 +70,46 @@ export default function AvatarEditor({ avatar, variant, handleChange }) {
     setNewVariant(variant);
   };
 
+  const handleDelete = () => {
+    setNewAvatar("");
+  };
+
   const handleDrop = (e) => {
     e.preventDefault();
-    e.stopPropagation();
     setIsDragging(false);
 
     const file = e.dataTransfer.files[0];
-    console.log(file);
     if (file && file.type.startsWith("image/")) {
       console.log(file.type);
       handleAvatarChange(file);
     }
   };
 
-  const handleAvatarClick = () => {
-    fileInputRef.current.click();
-  };
-
   return (
     <Card
-      className={isDragging ? "mask" : ""}
       sx={{
         display: "flex",
         backgroundColor: colorMain.medium,
         position: "relative",
-        "&.mask:before": {
-          content: '"drop image here"',
-          position: "absolute",
-          display: "flex",
-          alignItems: "center",
-          textTransform: "uppercase",
-          justifyContent: "center",
-          zIndex: 10,
-          width: "100%",
-          height: "100%",
-          background: "rgba(0,0,0,0.5)",
-          color: "white",
-        },
       }}
-      onDragEnter={handleDragEnter}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      onDrop={handleDrop}
     >
       <Avatar
+        onDragEnter={handleDragEnter}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        className={isDragging ? "mask" : ""}
         sx={{
           width: 170,
           height: 170,
+          userDrag: "none",
+          position: "relative",
+          "&.mask:before": pseudoMask,
+          ":hover:before": pseudoMask,
         }}
         variant={newVariant}
         alt=""
-        src={newAvatar || avatar}
+        src={newAvatar}
       />
       <Box
         sx={{
@@ -135,7 +124,6 @@ export default function AvatarEditor({ avatar, variant, handleChange }) {
           }}
         >
           <FormControl
-            // defaultValue={variant}
             onChange={(e) => {
               setNewVariant(e.target.value);
             }}
@@ -164,16 +152,26 @@ export default function AvatarEditor({ avatar, variant, handleChange }) {
                 ref={fileInputRef}
               />
             </Button>
-            <Button
-              variant="contained"
-              sx={{ backgroundColor: colorMain.dark }}
-              onClick={handleChange}
-            >
-              {newAvatar !== avatar || newVariant !== variant ? "Save" : "Exit"}
-            </Button>
+            {newAvatar !== avatar || newVariant !== variant ? (
+              <Button
+                variant="contained"
+                sx={{ backgroundColor: colorMain.dark }}
+                onClick={handleSave}
+              >
+                Save
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                sx={{ backgroundColor: colorMain.dark }}
+                onClick={exit}
+              >
+                Exit
+              </Button>
+            )}
           </CardActions>
           <Typography component="div" variant="caption">
-            Select FILE or DRAG here
+            Select FILE or DRAG to avatar
           </Typography>
           <CardActions sx={{ padding: "2px 0 0" }}>
             <Button
@@ -188,6 +186,7 @@ export default function AvatarEditor({ avatar, variant, handleChange }) {
               size="small"
               variant="contained"
               sx={{ backgroundColor: colorMain.dark }}
+              onClick={handleDelete}
             >
               Delete
             </Button>

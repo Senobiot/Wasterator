@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { ROUTES, AVATAR_VARIANTS } from "../../constants/constants";
 import styles from "./Dashboard.module.scss";
-import { bufferToBase64Url, processImage } from "../../utils/utils";
 import DashboardFields from "../../dtos/dashbord-fields";
 import { Avatar } from "@mui/material";
 import Card from "@mui/material/Card";
@@ -23,9 +22,10 @@ const Dashboard = () => {
   const loggedUser = useSelector(selectCurrentUser) || {};
   const {
     name,
-    gender,
-    avatar: savedAvatar,
-    avatarVariant = AVATAR_VARIANTS.default,
+    avatar: {
+      variant: avatarVariant = AVATAR_VARIANTS.default,
+      url: avatarUrl,
+    } = {},
   } = loggedUser;
   const fields = Object.entries(new DashboardFields(loggedUser));
   const [avatar, setAvatar] = useState(null);
@@ -43,21 +43,18 @@ const Dashboard = () => {
     if (!loggedUser) {
       return navigate(ROUTES.PAGE.LOGIN);
     }
-    if (savedAvatar) {
-      setAvatar(bufferToBase64Url(savedAvatar));
-    } else {
-      setAvatar("/avatar.svg");
+    if (avatarUrl) {
+      setAvatar(avatarUrl);
     }
-
-    console.log("setAvatar");
   }, [loggedUser, navigate]);
 
   return !loggedUser ? (
     <div>Загрузка данных...</div>
   ) : (
-    <div className={styles.container}>
+    <Container maxWidth="md">
       <Container
         sx={{
+          marginBottom: "8px",
           "*": {
             color: "white",
           },
@@ -65,7 +62,7 @@ const Dashboard = () => {
       >
         {updating ? (
           <AvatarEditor
-            handleChange={handleChangeAvatar}
+            exit={handleChangeAvatar}
             avatar={avatar}
             variant={avatarVariant}
           />
@@ -78,7 +75,10 @@ const Dashboard = () => {
             }}
           >
             <Avatar
-              sx={{ width: 170, height: 170 }}
+              sx={{
+                width: 170,
+                height: 170,
+              }}
               variant={avatarVariant}
               alt={name}
               src={avatar}
@@ -116,20 +116,21 @@ const Dashboard = () => {
           </Card>
         )}
       </Container>
-
-      <div className={styles.fields}>
-        {fields.map(([key, value]) => (
-          <div key={key} className={styles.field}>
-            <strong>{key}:</strong>
-            <br />
-            {value}
-          </div>
-        ))}
-      </div>
-      <button className={styles.button} onClick={handleClick}>
-        Выйти
-      </button>
-    </div>
+      <Container>
+        <div className={styles.fields}>
+          {fields.map(([key, value]) => (
+            <div key={key} className={styles.field}>
+              <strong>{key}:</strong>
+              <br />
+              {value}
+            </div>
+          ))}
+        </div>
+        <button className={styles.button} onClick={handleClick}>
+          Выйти
+        </button>
+      </Container>
+    </Container>
   );
 };
 
